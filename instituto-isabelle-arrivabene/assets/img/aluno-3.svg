@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Aluno 3 — fotografia a definir">
+  <title>Aluno 3 — fotografia a definir</title>
+  <desc>Placeholder autoral. Fotografia real deve mostrar: Retrato quadrado, enquadramento no rosto</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#2C2419"/>
+      <stop offset="1" stop-color="#1A150F"/>
+    </linearGradient>
+    <radialGradient id="brasa" cx="0.62" cy="1" r="0.75">
+      <stop offset="0" stop-color="#B29A6E" stop-opacity="0.26"/>
+      <stop offset="0.55" stop-color="#B29A6E" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#B29A6E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="aresta" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#B29A6E" stop-opacity="0"/>
+      <stop offset="0.2" stop-color="#C9B48E" stop-opacity="0.85"/>
+      <stop offset="0.5" stop-color="#E6DCC8" stop-opacity="0.95"/>
+      <stop offset="0.8" stop-color="#C9B48E" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#B29A6E" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="400" fill="url(#g)"/>
+  <rect width="400" height="400" fill="url(#brasa)"/>
+
+  <!-- Os arcos de estratificação: dentina, esmalte, halo incisal -->
+  <g fill="none" stroke="#B29A6E" stroke-linecap="round">
+    <path d="M-48.0 344.0 a 248.0 248.0 0 0 1 496.0 0" stroke-opacity="0.30" stroke-width="1.68"/>
+    <path d="M32.0 344.0 a 168.0 168.0 0 0 1 336.0 0" stroke-opacity="0.22" stroke-width="1.68"/>
+    <path d="M112.0 344.0 a 88.0 88.0 0 0 1 176.0 0" stroke-opacity="0.16" stroke-width="1.68"/>
+  </g>
+
+  <!-- A aresta incisal -->
+  <rect x="0" y="0" width="400" height="2" fill="url(#aresta)"/>
+
+  <text x="200" y="200.0" text-anchor="middle" fill="#E6DCC8"
+        font-family="Georgia, 'Times New Roman', serif" font-size="25" font-style="italic">Aluno 3</text>
+  <text x="200" y="238.8" text-anchor="middle" fill="#B29A6E"
+        font-family="Helvetica, Arial, sans-serif" font-size="10" letter-spacing="1.8"
+        font-weight="600">FOTOGRAFIA A DEFINIR</text>
+</svg>

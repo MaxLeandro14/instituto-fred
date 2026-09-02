@@ -1,0 +1,1513 @@
+/* ==========================================================================
+   COMPONENTES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Ícones — SVG desenhado, traço 1.5 constante. Nunca emoji, nunca glifo.
+   -------------------------------------------------------------------------- */
+.ico {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ico--g {
+  width: 2.25rem;
+  height: 2.25rem;
+  stroke-width: 1.25;
+}
+.ico--p {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+.ico--cheio {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* --------------------------------------------------------------------------
+   MARCA — o lockup oficial: símbolo da borboleta + wordmark empilhado.
+
+   O símbolo (borboleta formada por dois perfis faciais espelhados) é o ativo
+   mais forte da identidade e NÃO foi redesenhado aqui: o slot abaixo espera
+   assets/img/logo-borboleta.svg. Até o vetor chegar, o lockup roda apenas
+   tipográfico — fiel na hierarquia e no tracking, sem símbolo aproximado.
+   -------------------------------------------------------------------------- */
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s4);
+  text-decoration: none;
+  color: var(--txt);
+}
+
+.marca__glifo {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  object-fit: contain;
+  background: none;
+}
+
+/* Sem o vetor, o slot não deixa buraco nem desenha um símbolo falso. */
+.marca__glifo:not([src]),
+.marca__glifo[src=""] {
+  display: none;
+}
+
+.marca__nome {
+  display: flex;
+  flex-direction: column;
+  gap: 0.16em;
+  color: var(--ouro-marca);
+}
+
+/* Sobre campo escuro o ouro da logo precisa subir para manter leitura. */
+.campo-escuro .marca__nome,
+.campo-queima .marca__nome,
+.header:not(.header--fixo):not(.header--claro) .marca__nome,
+.header--fixo .marca__nome,
+.menu-movel .marca__nome {
+  color: var(--ouro-2);
+}
+
+.marca__instituto {
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: var(--tr-caps-larga);
+  text-transform: uppercase;
+  line-height: 1;
+  padding-left: 0.12em;
+}
+
+.marca__nome b {
+  font-family: var(--fonte-display);
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 0.98;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-variation-settings: "opsz" 24;
+}
+
+.marca--g .marca__glifo {
+  width: 5.5rem;
+  height: 5.5rem;
+}
+
+.marca--g .marca__instituto {
+  font-size: 0.75rem;
+}
+
+.marca--g .marca__nome b {
+  font-size: 1.875rem;
+}
+
+/* Empilhado e centrado — usado no rodapé e no menu móvel. */
+.marca--pilha {
+  flex-direction: column;
+  gap: var(--s4);
+  text-align: center;
+}
+
+.marca--pilha .marca__nome {
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Botões — .btn--acesa é a única coisa da página que tem permissão de acender
+   -------------------------------------------------------------------------- */
+.btn {
+  --btn-alt: 3.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s3);
+  min-height: var(--btn-alt);
+  padding: 0 var(--s6);
+  border: 1px solid transparent;
+  border-radius: var(--r2);
+  font-family: var(--fonte-texto);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  transition: background-color var(--t-rapido) var(--ease-suave),
+    border-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave),
+    box-shadow var(--t-medio) var(--ease-suave),
+    transform var(--t-rapido) var(--ease-suave);
+}
+
+.btn .ico {
+  width: 1.125rem;
+  height: 1.125rem;
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.btn:hover .ico--seta {
+  transform: translateX(3px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Acesa: luz transmitida. Fundo champanhe, texto em espresso. */
+.btn--acesa {
+  background-color: var(--ouro);
+  color: var(--campo);
+  box-shadow: 0 1px 2px rgba(32, 26, 20, 0.14),
+    0 10px 26px -8px rgba(178, 154, 110, 0.55);
+}
+
+.btn--acesa:hover {
+  background-color: var(--ouro-2);
+  box-shadow: 0 2px 4px rgba(32, 26, 20, 0.16),
+    0 16px 38px -10px rgba(178, 154, 110, 0.7);
+}
+
+/* Contorno: assenta sobre qualquer campo, herda a linha do campo. */
+.btn--contorno {
+  border-color: var(--linha-forte);
+  color: var(--txt);
+}
+
+.btn--contorno:hover {
+  border-color: var(--txt);
+  background-color: color-mix(in srgb, var(--txt) 6%, transparent);
+}
+
+/* Sólida: espresso sobre campo claro. */
+.btn--solida {
+  background-color: var(--sombra);
+  color: var(--perola);
+}
+
+.btn--solida:hover {
+  background-color: var(--sombra-2);
+  box-shadow: var(--sh2);
+}
+
+.btn--g {
+  --btn-alt: 3.75rem;
+  padding: 0 var(--s7);
+  font-size: var(--fs-corpo);
+}
+
+.btn--p {
+  --btn-alt: 2.625rem;
+  padding: 0 var(--s5);
+  font-size: var(--fs-xs);
+}
+
+.btn--bloco {
+  width: 100%;
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+/* Elo de texto com seta */
+.elo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--txt);
+  border-bottom: 1px solid var(--linha-forte);
+  padding-bottom: 2px;
+  transition: border-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave);
+}
+
+.elo:hover {
+  border-color: currentColor;
+}
+
+.elo .ico {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.elo:hover .ico {
+  transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------------------
+   Selo de estado — a leitura de matrícula.
+   Champanhe sólido = últimas vagas. Halo em véu = matrículas abertas.
+   -------------------------------------------------------------------------- */
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 0.3rem var(--s3) 0.3rem var(--s2);
+  border-radius: 99px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.selo__ponto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+  background: currentColor;
+  margin-left: var(--s1);
+}
+
+.selo--ultimas {
+  background-color: var(--ouro);
+  color: var(--campo);
+}
+
+.selo--ultimas .selo__ponto {
+  animation: pulso-brasa 2.6s var(--ease-suave) infinite;
+}
+
+@keyframes pulso-brasa {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(32, 26, 20, 0.5);
+  }
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 4px rgba(32, 26, 20, 0);
+  }
+}
+
+.selo--abertas {
+  background-color: var(--halo-veu);
+  color: var(--halo-forte);
+  border-color: rgba(203, 189, 166, 0.4);
+}
+
+/* Em campo claro o selo frio precisa de contraste próprio. */
+.selo--abertas-claro {
+  background-color: color-mix(in srgb, var(--sombra) 10%, transparent);
+  color: var(--sombra);
+  border-color: color-mix(in srgb, var(--sombra) 30%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   HEADER — transparente no topo, campo de queima ao rolar
+   -------------------------------------------------------------------------- */
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-header);
+  transition: background-color var(--t-medio) var(--ease-suave),
+    box-shadow var(--t-medio) var(--ease-suave),
+    border-color var(--t-medio) var(--ease-suave);
+  border-bottom: 1px solid transparent;
+}
+
+/* Sobre o hero escuro, o header nasce transparente e claro. */
+.header:not(.header--fixo) {
+  --txt: var(--perola);
+  --txt-2: var(--halo);
+  --linha: rgba(203, 189, 166, 0.2);
+  --linha-forte: rgba(203, 189, 166, 0.42);
+  color: var(--perola);
+}
+
+.header--fixo {
+  background-color: rgba(32, 26, 20, 0.92);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom-color: rgba(203, 189, 166, 0.16);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 32px rgba(0, 0, 0, 0.28);
+}
+
+/* Páginas que abrem em campo claro pedem header claro desde o topo. */
+.header--claro:not(.header--fixo) {
+  --txt: var(--tinta);
+  --txt-2: var(--cinza-quente);
+  --linha: rgba(107, 100, 92, 0.22);
+  --linha-forte: rgba(107, 100, 92, 0.38);
+  color: var(--tinta);
+}
+
+.header__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+  min-height: 5rem;
+}
+
+
+.header__nav {
+  margin-left: auto;
+}
+
+.header__lista {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--s4), 2vw, var(--s6));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__lista li {
+  margin: 0;
+}
+
+.header__elo {
+  position: relative;
+  display: block;
+  padding: var(--s2) 0;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--txt);
+  white-space: nowrap;
+}
+
+/* O sublinhado ativo é a aresta incisal em miniatura. */
+.header__elo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: var(--ouro-2);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.header__elo:hover::after,
+.header__elo[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.header__acoes {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+/* Botão de menu móvel — três camadas que colapsam em duas */
+.menu-btn {
+  display: none;
+  flex-direction: column;
+  width: 2.875rem;
+  height: 2.875rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--r2);
+  background: none;
+  cursor: pointer;
+  color: var(--txt);
+}
+
+.menu-btn__traco {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform var(--t-medio) var(--ease),
+    opacity var(--t-rapido) var(--ease-suave);
+}
+
+.menu-btn__traco + .menu-btn__traco {
+  margin-top: 5px;
+}
+
+.menu-btn[aria-expanded="true"] .menu-btn__traco:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.menu-btn[aria-expanded="true"] .menu-btn__traco:nth-child(2) {
+  opacity: 0;
+}
+.menu-btn[aria-expanded="true"] .menu-btn__traco:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   MENU MÓVEL — a camada que desce sobre o campo
+   -------------------------------------------------------------------------- */
+.menu-movel {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu);
+  background-color: var(--campo);
+  color: var(--perola);
+  display: flex;
+  flex-direction: column;
+  padding: 6rem var(--gutter) var(--s7);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-1.5rem);
+  transition: opacity var(--t-medio) var(--ease-suave),
+    transform var(--t-medio) var(--ease), visibility var(--t-medio);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.menu-movel[data-aberto="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.menu-movel__lista {
+  list-style: none;
+  margin: 0 0 auto;
+  padding: 0;
+  border-top: 1px solid rgba(203, 189, 166, 0.18);
+}
+
+.menu-movel__lista li {
+  margin: 0;
+  border-bottom: 1px solid rgba(203, 189, 166, 0.18);
+}
+
+.menu-movel__elo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s5) 0;
+  font-family: var(--fonte-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: var(--perola);
+}
+
+.menu-movel__elo .ico {
+  color: var(--halo);
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.menu-movel__elo[aria-current="page"] {
+  color: var(--ouro-2);
+}
+
+.menu-movel__pe {
+  display: grid;
+  gap: var(--s3);
+  padding-top: var(--s7);
+}
+
+/* --------------------------------------------------------------------------
+   FICHA DE CURSO — o sistema de estado por luz transmitida
+   -------------------------------------------------------------------------- */
+.ficha {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--r3);
+  overflow: hidden;
+  background-color: var(--sup-3);
+  border: 1px solid var(--linha);
+  isolation: isolate;
+  transition: transform var(--t-medio) var(--ease),
+    border-color var(--t-medio) var(--ease-suave),
+    box-shadow var(--t-medio) var(--ease-suave);
+}
+
+/* A brasa: a luz que sobe por dentro da ficha. Estado, não decoração. */
+.ficha::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 62%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 100% at 50% 100%,
+    var(--ouro-brasa),
+    transparent 68%
+  );
+  opacity: 0;
+  transition: opacity var(--t-lento) var(--ease-suave);
+}
+
+.ficha:hover,
+.ficha:focus-within {
+  transform: translateY(-4px);
+  border-color: rgba(203, 189, 166, 0.42);
+  box-shadow: var(--sh-escuro);
+}
+
+.ficha:hover::after,
+.ficha:focus-within::after {
+  opacity: 1;
+}
+
+/* A aresta incisal da ficha */
+.ficha__aresta {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 3;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--halo-forte) 20%,
+    var(--halo-forte) 80%,
+    transparent
+  );
+  opacity: 0.32;
+  transition: opacity var(--t-medio) var(--ease-suave),
+    background var(--t-medio) var(--ease-suave);
+}
+
+.ficha:hover .ficha__aresta,
+.ficha:focus-within .ficha__aresta {
+  opacity: 0.85;
+}
+
+/* Últimas vagas: o halo já vem aceso, e sobe mais no hover. */
+.ficha[data-estado="ultimas"] .ficha__aresta {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ouro-2) 18%,
+    var(--ouro-3) 50%,
+    var(--ouro-2) 82%,
+    transparent
+  );
+  opacity: 0.8;
+}
+
+.ficha[data-estado="ultimas"]::after {
+  opacity: 0.55;
+}
+
+.ficha[data-estado="ultimas"]:hover::after,
+.ficha[data-estado="ultimas"]:focus-within::after {
+  opacity: 1;
+}
+
+.ficha__figura {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: var(--campo-2);
+}
+
+.ficha__figura img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease), filter var(--t-lento) var(--ease-suave);
+  filter: saturate(0.85) contrast(1.02);
+}
+
+.ficha:hover .ficha__figura img,
+.ficha:focus-within .ficha__figura img {
+  transform: scale(1.045);
+  filter: saturate(1) contrast(1.05);
+}
+
+/* Véu de dentina sobre a foto: a imagem assenta no campo, não flutua nele. */
+.ficha__figura::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--sup-3) 2%,
+    rgba(44, 36, 25, 0.35) 45%,
+    rgba(44, 36, 25, 0.08)
+  );
+}
+
+.ficha__selo {
+  position: absolute;
+  z-index: 2;
+  top: var(--s4);
+  left: var(--s4);
+}
+
+.ficha__corpo {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  padding: var(--s5) var(--s5) var(--s6);
+  flex: 1;
+}
+
+.ficha__nivel {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--txt-2);
+}
+
+.ficha__titulo {
+  font-family: var(--fonte-display);
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.ficha__titulo a {
+  text-decoration: none;
+}
+
+/* A área de clique cobre a ficha inteira, mas o alvo real é o título. */
+.ficha__titulo a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+
+.ficha__resumo {
+  color: var(--txt-2);
+  font-size: var(--fs-sm);
+  margin: 0;
+  max-width: none;
+}
+
+.ficha__pe {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: auto;
+  padding-top: var(--s4);
+  color: var(--txt);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.ficha__pe .ico {
+  width: 1rem;
+  height: 1rem;
+  color: var(--ouro-2);
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.ficha:hover .ficha__pe .ico {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   FILTRO — os botões de recorte do catálogo
+   -------------------------------------------------------------------------- */
+.filtro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  padding: var(--s2);
+  border: 1px solid var(--linha);
+  border-radius: 99px;
+  background-color: color-mix(in srgb, var(--txt) 4%, transparent);
+}
+
+.filtro__btn {
+  padding: var(--s3) var(--s5);
+  border: 0;
+  border-radius: 99px;
+  background: none;
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--txt-2);
+  transition: background-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave);
+}
+
+.filtro__btn:hover {
+  color: var(--txt);
+}
+
+.filtro__btn[aria-pressed="true"] {
+  background-color: var(--ouro);
+  color: var(--campo);
+}
+
+/* --------------------------------------------------------------------------
+   ACORDEÃO — FAQ e grade curricular
+   -------------------------------------------------------------------------- */
+.acordeao {
+  border-top: 1px solid var(--linha);
+}
+
+.acordeao__item {
+  border-bottom: 1px solid var(--linha);
+}
+
+.acordeao__gatilho {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+  width: 100%;
+  padding: var(--s5) 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--fonte-texto);
+  font-size: var(--fs-corpo-g);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--txt);
+  transition: color var(--t-rapido) var(--ease-suave);
+}
+
+.acordeao__gatilho:hover {
+  color: var(--ouro);
+}
+
+.campo-escuro .acordeao__gatilho:hover,
+.campo-queima .acordeao__gatilho:hover {
+  color: var(--ouro-2);
+}
+
+.acordeao__sinal {
+  position: relative;
+  flex: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-left: auto;
+  margin-top: 0.2rem;
+}
+
+.acordeao__sinal::before,
+.acordeao__sinal::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform var(--t-medio) var(--ease),
+    opacity var(--t-rapido) var(--ease-suave);
+}
+
+.acordeao__sinal::after {
+  transform: rotate(90deg);
+}
+
+.acordeao__gatilho[aria-expanded="true"] .acordeao__sinal::after {
+  transform: rotate(0deg);
+  opacity: 0;
+}
+
+.acordeao__painel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--t-medio) var(--ease-suave);
+}
+
+.acordeao__painel[data-aberto="true"] {
+  grid-template-rows: 1fr;
+}
+
+.acordeao__interior {
+  overflow: hidden;
+}
+
+.acordeao__interior > div {
+  padding-bottom: var(--s6);
+  color: var(--txt-2);
+}
+
+/* Sem JS, todo painel fica aberto — o conteúdo nunca depende de script. */
+html:not(.js) .acordeao__painel {
+  grid-template-rows: 1fr;
+}
+
+/* --------------------------------------------------------------------------
+   DEPOIMENTOS — carrossel escrito à mão
+   -------------------------------------------------------------------------- */
+.carrossel {
+  position: relative;
+}
+
+.carrossel__trilha {
+  display: flex;
+  gap: var(--s5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: var(--s5);
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+
+.carrossel__trilha::-webkit-scrollbar {
+  display: none;
+}
+
+.carrossel__item {
+  flex: 0 0 min(30rem, 84vw);
+  scroll-snap-align: start;
+}
+
+.carrossel__controles {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: var(--s5);
+}
+
+.carrossel__btn {
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--linha-forte);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  color: var(--txt);
+  transition: border-color var(--t-rapido) var(--ease-suave),
+    background-color var(--t-rapido) var(--ease-suave),
+    opacity var(--t-rapido) var(--ease-suave);
+}
+
+.carrossel__btn:hover:not([disabled]) {
+  border-color: var(--txt);
+  background-color: color-mix(in srgb, var(--txt) 8%, transparent);
+}
+
+.carrossel__btn[disabled] {
+  opacity: 0.32;
+  cursor: default;
+}
+
+.carrossel__progresso {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  color: var(--txt-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.depoimento {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  height: 100%;
+  padding: var(--s6);
+  border-radius: var(--r3);
+  border: 1px solid var(--linha);
+  background-color: color-mix(in srgb, var(--txt) 3%, transparent);
+}
+
+.depoimento__estrelas {
+  display: flex;
+  gap: 2px;
+  color: var(--ouro);
+}
+
+.depoimento__estrelas .ico {
+  width: 1rem;
+  height: 1rem;
+}
+
+.depoimento__texto {
+  font-family: var(--fonte-display);
+  font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+  line-height: 1.5;
+  font-weight: 500;
+  margin: 0;
+  max-width: none;
+}
+
+.depoimento__quem {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: auto;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--linha);
+}
+
+.depoimento__quem img {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+}
+
+.depoimento__quem b {
+  display: block;
+  font-size: var(--fs-sm);
+}
+
+.depoimento__quem span {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--txt-2);
+}
+
+/* Rótulo obrigatório: este conteúdo é exemplo, não depoimento verificado. */
+.rotulo-exemplo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--txt-2);
+  border: 1px dashed var(--linha-forte);
+  border-radius: var(--r1);
+  padding: 0.2rem var(--s2);
+}
+
+/* --------------------------------------------------------------------------
+   FORMULÁRIOS
+   -------------------------------------------------------------------------- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.campo > label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.campo > label .req {
+  color: var(--ouro);
+  margin-left: 2px;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: var(--s3) var(--s4);
+  font-family: var(--fonte-texto);
+  font-size: var(--fs-corpo);
+  color: var(--txt);
+  background-color: color-mix(in srgb, var(--txt) 4%, transparent);
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--r2);
+  transition: border-color var(--t-rapido) var(--ease-suave),
+    background-color var(--t-rapido) var(--ease-suave),
+    box-shadow var(--t-rapido) var(--ease-suave);
+}
+
+.campo textarea {
+  min-height: 8rem;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.campo select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 1.25rem) 1.4rem, calc(100% - 1rem) 1.4rem;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: var(--s8);
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+  color: var(--txt-2);
+  opacity: 1;
+}
+
+.campo input:hover,
+.campo select:hover,
+.campo textarea:hover {
+  border-color: var(--txt-2);
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--ouro);
+  background-color: color-mix(in srgb, var(--txt) 2%, transparent);
+  box-shadow: 0 0 0 3px var(--ouro-brasa);
+}
+
+.campo__erro {
+  display: none;
+  align-items: center;
+  gap: var(--s2);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ouro);
+}
+
+.campo[data-invalido="true"] .campo__erro {
+  display: flex;
+}
+
+.campo[data-invalido="true"] input,
+.campo[data-invalido="true"] select,
+.campo[data-invalido="true"] textarea {
+  border-color: var(--ouro);
+}
+
+.form__grade {
+  display: grid;
+  gap: var(--s5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form__grade > .campo--cheio {
+  grid-column: 1 / -1;
+}
+
+.form__aviso {
+  display: flex;
+  gap: var(--s3);
+  font-size: var(--fs-xs);
+  color: var(--txt-2);
+  line-height: 1.5;
+}
+
+.form__aviso .ico {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 2px;
+  flex: none;
+}
+
+.form__estado {
+  display: none;
+  gap: var(--s3);
+  align-items: flex-start;
+  padding: var(--s4) var(--s5);
+  border-radius: var(--r2);
+  border: 1px solid var(--linha-forte);
+  background-color: color-mix(in srgb, var(--ouro) 12%, transparent);
+  font-size: var(--fs-sm);
+}
+
+.form__estado[data-visivel="true"] {
+  display: flex;
+}
+
+.form__estado .ico {
+  color: var(--ouro);
+  flex: none;
+}
+
+/* --------------------------------------------------------------------------
+   CTA FLUTUANTE — sempre alcançável
+   -------------------------------------------------------------------------- */
+.flutuante {
+  position: fixed;
+  right: var(--s4);
+  bottom: var(--s4);
+  z-index: var(--z-flutuante);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s3);
+}
+
+.flutuante__zap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  height: 3.5rem;
+  padding: 0 var(--s5);
+  border-radius: 99px;
+  background-color: var(--ouro);
+  color: var(--campo);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(32, 26, 20, 0.2),
+    0 14px 34px -10px rgba(178, 154, 110, 0.6);
+  transition: background-color var(--t-rapido) var(--ease-suave),
+    box-shadow var(--t-medio) var(--ease-suave),
+    transform var(--t-rapido) var(--ease-suave);
+}
+
+.flutuante__zap:hover {
+  background-color: var(--ouro-2);
+  transform: translateY(-2px);
+}
+
+.flutuante__zap .ico {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.ao-topo {
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(203, 189, 166, 0.34);
+  background-color: rgba(32, 26, 20, 0.86);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--perola);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity var(--t-medio) var(--ease-suave),
+    transform var(--t-medio) var(--ease), visibility var(--t-medio),
+    border-color var(--t-rapido) var(--ease-suave);
+}
+
+.ao-topo[data-visivel="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.ao-topo:hover {
+  border-color: var(--ouro-2);
+}
+
+.ao-topo .ico {
+  transform: rotate(-90deg);
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+.rodape {
+  padding-block: var(--s10) var(--s6);
+}
+
+.rodape__grade {
+  display: grid;
+  gap: var(--s8);
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  padding-bottom: var(--s8);
+  border-bottom: 1px solid var(--linha);
+}
+
+.rodape h4 {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--txt-2);
+  margin-bottom: var(--s4);
+}
+
+.rodape__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s3);
+}
+
+.rodape__lista li {
+  margin: 0;
+}
+
+.rodape__lista a {
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  color: var(--txt);
+}
+
+.rodape__lista a:hover {
+  color: var(--ouro-2);
+}
+
+.rodape__contato {
+  display: grid;
+  gap: var(--s4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rodape__contato li {
+  display: flex;
+  gap: var(--s3);
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.rodape__contato .ico {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--halo);
+  margin-top: 3px;
+  flex: none;
+}
+
+.rodape__contato a {
+  text-decoration: none;
+}
+
+.rodape__contato a:hover {
+  color: var(--ouro-2);
+}
+
+.rodape__sociais {
+  display: flex;
+  gap: var(--s3);
+  margin-top: var(--s5);
+}
+
+.rodape__social {
+  width: 2.625rem;
+  height: 2.625rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--linha-forte);
+  border-radius: 50%;
+  color: var(--txt);
+  transition: border-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave),
+    background-color var(--t-rapido) var(--ease-suave);
+}
+
+.rodape__social:hover {
+  border-color: var(--ouro-2);
+  color: var(--ouro-2);
+  background-color: color-mix(in srgb, var(--ouro) 10%, transparent);
+}
+
+.rodape__mapa {
+  margin-top: var(--s8);
+  border-radius: var(--r3);
+  overflow: hidden;
+  border: 1px solid var(--linha);
+  aspect-ratio: 21 / 8;
+  background-color: var(--campo-2);
+}
+
+.rodape__mapa iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  filter: grayscale(0.4) contrast(1.05);
+}
+
+.news {
+  display: flex;
+  gap: var(--s3);
+  margin-top: var(--s4);
+  flex-wrap: wrap;
+}
+
+.news input {
+  flex: 1 1 12rem;
+  min-height: 3.25rem;
+  padding: 0 var(--s4);
+  font-family: var(--fonte-texto);
+  font-size: var(--fs-sm);
+  color: var(--txt);
+  background-color: color-mix(in srgb, var(--txt) 6%, transparent);
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--r2);
+}
+
+.news input:focus {
+  outline: none;
+  border-color: var(--ouro);
+  box-shadow: 0 0 0 3px var(--ouro-brasa);
+}
+
+.rodape__base {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4);
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--s6);
+  font-size: var(--fs-xs);
+  color: var(--txt-2);
+}
+
+.rodape__base p {
+  margin: 0;
+  max-width: none;
+}
+
+.rodape__base nav {
+  display: flex;
+  gap: var(--s5);
+}
+
+.rodape__base a {
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   MODAL — usado só onde foco protegido é real (ficha de professor)
+   -------------------------------------------------------------------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--s5);
+  background-color: rgba(32, 26, 20, 0.78);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--t-medio) var(--ease-suave), visibility var(--t-medio);
+}
+
+.modal[data-aberto="true"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal__caixa {
+  position: relative;
+  width: min(44rem, 100%);
+  max-height: min(88vh, 46rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--perola);
+  color: var(--tinta);
+  border-radius: var(--r3);
+  box-shadow: var(--sh3);
+  transform: translateY(14px) scale(0.985);
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.modal[data-aberto="true"] .modal__caixa {
+  transform: none;
+}
+
+.modal__fechar {
+  position: absolute;
+  top: var(--s4);
+  right: var(--s4);
+  z-index: 2;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(107, 100, 92, 0.3);
+  border-radius: 50%;
+  background-color: var(--perola);
+  cursor: pointer;
+  color: var(--tinta);
+}
+
+.modal__fechar:hover {
+  background-color: var(--perola-2);
+}
+
+/* --------------------------------------------------------------------------
+   Respostas de tela
+   -------------------------------------------------------------------------- */
+@media (max-width: 62rem) {
+  .rodape__grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 54rem) {
+  .header__nav,
+  .header__acoes .btn {
+    display: none;
+  }
+  .menu-btn {
+    display: flex;
+    margin-left: auto;
+  }
+  .form__grade {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 34rem) {
+  .rodape__grade {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s7);
+  }
+  .flutuante {
+    right: var(--s3);
+    bottom: var(--s3);
+  }
+  .flutuante__zap {
+    height: 3.25rem;
+    padding: 0 var(--s4);
+  }
+  .flutuante__zap span {
+    display: none;
+  }
+  .btn {
+    width: 100%;
+  }
+  .btn--auto {
+    width: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   SEM JAVASCRIPT — a navegação nunca depende de script.
+   No mobile, o menu em camada é substituído pela lista inline e o botão
+   hambúrguer desaparece: sem JS não haveria quem o abrisse.
+   -------------------------------------------------------------------------- */
+html:not(.js) .menu-btn {
+  display: none !important;
+}
+
+html:not(.js) .menu-movel {
+  display: none !important;
+}
+
+@media (max-width: 54rem) {
+  html:not(.js) .header__nav {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  html:not(.js) .header__barra {
+    flex-wrap: wrap;
+    padding-block: var(--s4);
+  }
+
+  html:not(.js) .header__lista {
+    flex-wrap: wrap;
+    gap: var(--s4) var(--s5);
+  }
+
+  html:not(.js) .header__acoes .btn {
+    display: inline-flex;
+  }
+}

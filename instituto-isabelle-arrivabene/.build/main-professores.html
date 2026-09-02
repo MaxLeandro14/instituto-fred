@@ -1,0 +1,283 @@
+<!-- WP: Banner -->
+<section class="banner campo-queima" aria-labelledby="banner-titulo">
+  <figure class="banner__fundo" aria-hidden="true">
+    <img src="assets/img/banner-professores.svg" alt="" width="2000" height="700" fetchpriority="high" decoding="async">
+  </figure>
+
+  <div class="env">
+    <nav class="trilha" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="index.html">Home</a></li>
+        <li><span aria-current="page">Professores</span></li>
+      </ol>
+    </nav>
+
+    <h1 class="banner__titulo" id="banner-titulo">Aprenda com quem vive a <em>prática clínica</em>.</h1>
+
+    <p class="banner__linha">
+      Critério único na seleção do corpo docente: quem ensina o protocolo precisa
+      executá-lo na própria semana.
+    </p>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     BUSCA + GRADE — WP: Docentes Loop (CPT 'professor')
+     ========================================================================== -->
+<section class="secao" id="corpo-docente" aria-labelledby="doc-titulo">
+  <div class="env">
+
+    <div class="cabeca cabeca--larga" data-revelar>
+      <hr class="regua">
+      <h2 id="doc-titulo">Corpo docente</h2>
+      <p>Busque por nome ou por especialidade. Clique em qualquer professor para ver o currículo e os cursos que ministra.</p>
+    </div>
+
+    <p class="nota-provisoria" style="margin-bottom:var(--s7)" data-revelar>
+      <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
+      <span><b>Conteúdo de exemplo.</b> Os seis perfis abaixo são exemplos de
+      preenchimento em alta fidelidade. Nomes, especialidades e currículos não
+      correspondem a professores reais do Instituto. Substituir pelo corpo docente
+      verdadeiro, com fotografia própria, antes de publicar.</span>
+    </p>
+
+    <div class="busca" data-revelar data-atraso="1">
+      <svg class="ico" aria-hidden="true"><use href="#i-busca"></use></svg>
+      <label class="vis-oculto" for="busca-doc">Buscar professor por nome ou especialidade</label>
+      <input id="busca-doc" type="search" data-busca placeholder="Buscar por nome ou especialidade…" autocomplete="off">
+    </div>
+
+    <ul class="docentes" style="margin-top:var(--s7)" data-revelar data-atraso="2">
+
+      <li data-busca-item="professor um harmonizacao orofacial protocolos faciais anatomia">
+        <button class="docente" type="button" data-modal-abrir="ficha-1" aria-haspopup="dialog">
+          <figure class="docente__figura"><img src="assets/img/docente-1.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
+          <div class="docente__corpo">
+            <span class="docente__area">Harmonização Orofacial</span>
+            <h3 class="docente__nome">Professor Um</h3>
+            <p class="docente__bio">Coordena o programa de Harmonização Orofacial e os módulos de anatomia facial aplicada.</p>
+            <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
+          </div>
+        </button>
+      </li>
+
+      <li data-busca-item="professor dois ortodontia ortopedia facial cefalometria documentacao">
+        <button class="docente" type="button" data-modal-abrir="ficha-2" aria-haspopup="dialog">
+          <figure class="docente__figura"><img src="assets/img/docente-2.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
+          <div class="docente__corpo">
+            <span class="docente__area">Ortodontia</span>
+            <h3 class="docente__nome">Professor Dois</h3>
+            <p class="docente__bio">Atua em diagnóstico e planejamento ortodôntico, com ênfase em documentação e mecânica.</p>
+            <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
+          </div>
+        </button>
+      </li>
+
+      <li data-busca-item="professor tres implantodontia cirurgia guiada reabilitacao enxerto">
+        <button class="docente" type="button" data-modal-abrir="ficha-3" aria-haspopup="dialog">
+          <figure class="docente__figura"><img src="assets/img/docente-3.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
+          <div class="docente__corpo">
+            <span class="docente__area">Implantodontia</span>
+            <h3 class="docente__nome">Professor Três</h3>
+            <p class="docente__bio">Cirurgia guiada e reabilitação. Conduz as sessões de planejamento caso a caso.</p>
+            <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
+          </div>
+        </button>
+      </li>
+
+      <li data-busca-item="professor quatro protese dentaria dentistica ceramica cor estratificacao">
+        <button class="docente" type="button" data-modal-abrir="ficha-4" aria-haspopup="dialog">
+          <figure class="docente__figura"><img src="assets/img/docente-4.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
+          <div class="docente__corpo">
+            <span class="docente__area">Prótese e Dentística</span>
+            <h3 class="docente__nome">Professor Quatro</h3>
+            <p class="docente__bio">Trabalha cor, forma e estratificação, do laboratório à prova clínica.</p>
+            <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
+          </div>
+        </button>
+      </li>
+
+      <li data-busca-item="professor cinco intercorrencias complicacoes urgencia manejo harmonizacao">
+        <button class="docente" type="button" data-modal-abrir="ficha-5" aria-haspopup="dialog">
+          <figure class="docente__figura"><img src="assets/img/docente-5.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
+          <div class="docente__corpo">
+            <span class="docente__area">Intercorrências</span>
+            <h3 class="docente__nome">Professor Cinco</h3>
+            <p class="docente__bio">Responsável pelos módulos de complicações, conduta imediata e protocolo de resgate.</p>
+            <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
+          </div>
+        </button>
+      </li>
+
+      <li data-busca-item="professor seis etica gestao documentacao clinica prontuario legislacao">
+        <button class="docente" type="button" data-modal-abrir="ficha-6" aria-haspopup="dialog">
+          <figure class="docente__figura"><img src="assets/img/docente-6.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
+          <div class="docente__corpo">
+            <span class="docente__area">Ética e Gestão</span>
+            <h3 class="docente__nome">Professor Seis</h3>
+            <p class="docente__bio">Trata limites de atuação, prontuário, consentimento e apresentação do serviço na clínica.</p>
+            <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
+          </div>
+        </button>
+      </li>
+
+    </ul>
+
+    <div class="vazio" data-busca-vazio data-visivel="false" style="margin-top:var(--s7)">
+      <svg class="ico ico--g" aria-hidden="true"><use href="#i-busca"></use></svg>
+      <div>
+        <h3 style="margin-bottom:var(--s2)">Nenhum professor encontrado para “<span data-busca-termo></span>”.</h3>
+        <p style="margin:0">Tente buscar pela especialidade (<em>harmonização</em>, <em>ortodontia</em>, <em>implantodontia</em>, <em>prótese</em>) ou limpe o campo para ver o corpo docente completo.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==========================================================================
+     FICHAS COMPLETAS — fonte de conteúdo do modal.
+     Ficam no HTML para existirem sem JS e serem indexáveis.
+     ========================================================================== -->
+<div hidden>
+  <div id="ficha-1">
+    <div class="ficha-doc">
+      <figure class="ficha-doc__figura"><img src="assets/img/docente-1.svg" alt="Retrato do Professor Um" width="800" height="1000"></figure>
+      <div class="ficha-doc__corpo">
+        <span class="docente__area">Harmonização Orofacial</span>
+        <h3>Professor Um</h3>
+        <p class="apoio-sm">Coordenação do programa de Harmonização Orofacial.</p>
+        <h4>Mini currículo</h4>
+        <p class="apoio-sm">Cirurgião-dentista com atuação clínica em protocolos faciais. Responsável pelo desenho do programa e pela condução dos módulos de anatomia facial aplicada e planejamento.</p>
+        <h4>Cursos que ministra</h4>
+        <ul>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Harmonização Orofacial &middot; anatomia facial aplicada</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Harmonização Orofacial &middot; diagnóstico e planejamento</li>
+        </ul>
+        <p class="rotulo-exemplo" style="margin-top:var(--s6)">Conteúdo de exemplo</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="ficha-2">
+    <div class="ficha-doc">
+      <figure class="ficha-doc__figura"><img src="assets/img/docente-2.svg" alt="Retrato do Professor Dois" width="800" height="1000"></figure>
+      <div class="ficha-doc__corpo">
+        <span class="docente__area">Ortodontia</span>
+        <h3>Professor Dois</h3>
+        <p class="apoio-sm">Ortodontia e Ortopedia Facial.</p>
+        <h4>Mini currículo</h4>
+        <p class="apoio-sm">Atua em diagnóstico e planejamento ortodôntico, com ênfase em documentação, cefalometria e mecânica. Conduz as sessões de discussão de caso do programa.</p>
+        <h4>Cursos que ministra</h4>
+        <ul>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Ortodontia &middot; documentação e cefalometria</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Ortodontia &middot; biomecânica</li>
+        </ul>
+        <p class="rotulo-exemplo" style="margin-top:var(--s6)">Conteúdo de exemplo</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="ficha-3">
+    <div class="ficha-doc">
+      <figure class="ficha-doc__figura"><img src="assets/img/docente-3.svg" alt="Retrato do Professor Três" width="800" height="1000"></figure>
+      <div class="ficha-doc__corpo">
+        <span class="docente__area">Implantodontia</span>
+        <h3>Professor Três</h3>
+        <p class="apoio-sm">Cirurgia guiada e reabilitação.</p>
+        <h4>Mini currículo</h4>
+        <p class="apoio-sm">Conduz o planejamento digital dos casos, do exame à guia cirúrgica, e as sessões dedicadas a complicações e resgate.</p>
+        <h4>Cursos que ministra</h4>
+        <ul>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Implantodontia &middot; imagem e planejamento digital</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Implantodontia &middot; técnica cirúrgica</li>
+        </ul>
+        <p class="rotulo-exemplo" style="margin-top:var(--s6)">Conteúdo de exemplo</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="ficha-4">
+    <div class="ficha-doc">
+      <figure class="ficha-doc__figura"><img src="assets/img/docente-4.svg" alt="Retrato do Professor Quatro" width="800" height="1000"></figure>
+      <div class="ficha-doc__corpo">
+        <span class="docente__area">Prótese e Dentística</span>
+        <h3>Professor Quatro</h3>
+        <p class="apoio-sm">Cerâmica, cor e estratificação.</p>
+        <h4>Mini currículo</h4>
+        <p class="apoio-sm">Trabalha seleção de material, leitura de cor e estratificação, acompanhando o caso do laboratório até a prova clínica.</p>
+        <h4>Cursos que ministra</h4>
+        <ul>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Prótese Dentária &middot; cerâmica: cor, forma e camada</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Dentística Restauradora &middot; estratificação anterior</li>
+        </ul>
+        <p class="rotulo-exemplo" style="margin-top:var(--s6)">Conteúdo de exemplo</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="ficha-5">
+    <div class="ficha-doc">
+      <figure class="ficha-doc__figura"><img src="assets/img/docente-5.svg" alt="Retrato do Professor Cinco" width="800" height="1000"></figure>
+      <div class="ficha-doc__corpo">
+        <span class="docente__area">Intercorrências</span>
+        <h3>Professor Cinco</h3>
+        <p class="apoio-sm">Complicações e conduta imediata.</p>
+        <h4>Mini currículo</h4>
+        <p class="apoio-sm">Responsável pelo reconhecimento precoce de complicações, protocolo de resgate e comunicação com o paciente na intercorrência.</p>
+        <h4>Cursos que ministra</h4>
+        <ul>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Harmonização Orofacial &middot; manejo de intercorrências</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Implantodontia &middot; complicações e manutenção</li>
+        </ul>
+        <p class="rotulo-exemplo" style="margin-top:var(--s6)">Conteúdo de exemplo</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="ficha-6">
+    <div class="ficha-doc">
+      <figure class="ficha-doc__figura"><img src="assets/img/docente-6.svg" alt="Retrato do Professor Seis" width="800" height="1000"></figure>
+      <div class="ficha-doc__corpo">
+        <span class="docente__area">Ética e Gestão</span>
+        <h3>Professor Seis</h3>
+        <p class="apoio-sm">Limites de atuação, documentação e gestão.</p>
+        <h4>Mini currículo</h4>
+        <p class="apoio-sm">Trata limites de atuação do cirurgião-dentista, prontuário, consentimento, responsabilidade profissional e apresentação do serviço na clínica.</p>
+        <h4>Cursos que ministra</h4>
+        <ul>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-camada"></use></svg>Harmonização Orofacial &middot; ética e gestão do serviço</li>
+        </ul>
+        <p class="rotulo-exemplo" style="margin-top:var(--s6)">Conteúdo de exemplo</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: foco protegido sobre um item da grade, com volta à mesma posição -->
+<div class="modal" data-modal data-aberto="false" role="dialog" aria-modal="true" aria-label="Ficha do professor">
+  <div class="modal__caixa" data-modal-caixa>
+    <button class="modal__fechar" type="button" data-modal-fechar aria-label="Fechar ficha">
+      <svg class="ico" aria-hidden="true"><use href="#i-fechar"></use></svg>
+    </button>
+    <div data-modal-conteudo></div>
+  </div>
+</div>
+
+<!-- WP: CTA -->
+<section class="cta-final campo-champanhe" aria-labelledby="cta-titulo">
+  <div class="env cta-final__interior">
+    <div class="cta-final__texto">
+      <h2 id="cta-titulo" class="cta-final__titulo" data-revelar>Estude com quem está na cadeira.</h2>
+      <p class="cta-final__linha" data-revelar data-atraso="1">
+        Escolha o programa e fale com um consultor sobre a próxima entrada.
+      </p>
+    </div>
+    <div class="cta-final__acoes" data-revelar data-atraso="2">
+      <a class="btn btn--escura btn--g" href="cursos.html">
+        Ver os cursos
+        <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
+      </a>
+      <a class="btn btn--contorno btn--g" href="contato.html#inscricao">Falar com um consultor</a>
+    </div>
+  </div>
+</section>

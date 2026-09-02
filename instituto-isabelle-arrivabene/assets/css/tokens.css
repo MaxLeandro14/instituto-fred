@@ -1,0 +1,182 @@
+/* ==========================================================================
+   TOKENS — Instituto Isabelle Arrivabene
+   Mundo visual: Camada Cerâmica (seed d3bb9c1b)
+   Paleta: FIXADA PELA MARCA, amostrada da peça oficial e da logo.
+
+   A estrutura é a estratificação de uma cerâmica dental — núcleo de dentina
+   opaco, camada translúcida por cima, luz atravessando as duas. A paleta é a
+   da identidade: champanhe/ouro morno, pérola greige, cinza quente, espresso
+   profundo para contraste.
+
+   Regra de estado: o OURO é luz transmitida, e é o único elemento da página
+   com permissão de acender. Nada mais brilha, em nenhum lugar.
+
+   Registro: luxo discreto, público seleto. Contraste real, não suavidade —
+   uma página pálida inteira com um detalhe dourado é a versão fraca disto.
+   ========================================================================== */
+
+:root {
+  /* --- Campo profundo: espresso, o escuro que dá o luxo ----------------- */
+  --campo: #201a14;
+  --campo-2: #2c2419;
+
+  /* --- Sombra: os marrons mornos de corpo ------------------------------- */
+  --sombra: #3a3128;
+  --sombra-2: #4a4036;
+  --sombra-3: #5d5145;
+
+  /* --- Halo: a translucidez de esmalte, em registro morno --------------- */
+  --halo: #cbbda6;
+  --halo-forte: #e6dcc8;
+  --halo-veu: rgba(203, 189, 166, 0.14);
+
+  /* --- Ouro / champanhe: luz transmitida (o único acento ativo) --------- */
+  --ouro: #b29a6e; /* a barra champanhe da peça oficial */
+  --ouro-2: #c9b48e;
+  --ouro-3: #e2d5bc;
+  --ouro-marca: #a98a57; /* o ouro da logo */
+  --ouro-fundo: #8a6e42; /* o único ouro escuro o bastante p/ texto branco */
+  --ouro-brasa: rgba(178, 154, 110, 0.26);
+
+  /* --- Pérola: o greige claro, o campo dominante ------------------------ */
+  --perola: #f3f0ec;
+  --perola-2: #eae4db;
+  --perola-3: #dcd3c7;
+
+  /* --- Tinta e cinza quente -------------------------------------------- */
+  --tinta: #2a2420;
+  --cinza-quente: #6b645c;
+  --cinza-quente-2: #8a8278;
+
+  /* --- Papéis semânticos: campo claro (padrão) ------------------------- */
+  --sup: var(--perola);
+  --sup-2: #fbf9f6;
+  --sup-3: var(--perola-2);
+  --txt: var(--tinta);
+  --txt-2: var(--cinza-quente);
+  --linha: rgba(107, 100, 92, 0.2);
+  --linha-forte: rgba(107, 100, 92, 0.36);
+
+  /* --- Tipografia ------------------------------------------------------- */
+  /* Bodoni Moda: a didone de luxo. O contraste hairline/haste é o mesmo
+     contraste esmalte/dentina, e é a letra que a logo já sugere.
+     Jost: geométrica, registro de moda/luxo, excelente em caps espaçadas —
+     que a identidade da marca usa como assinatura. */
+  --fonte-display: "Bodoni Moda", "Bodoni MT", "Didot", "Times New Roman", serif;
+  --fonte-texto: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --fs-display: clamp(2.125rem, 5.6vw, 4.5rem);
+  --fs-h1: clamp(2.125rem, 5vw, 3.625rem);
+  --fs-h2: clamp(1.75rem, 3.4vw, 2.625rem);
+  --fs-h3: clamp(1.1875rem, 1.8vw, 1.5rem);
+  --fs-h4: clamp(1.0625rem, 1.2vw, 1.1875rem);
+  --fs-corpo: clamp(1.0625rem, 0.35vw + 0.98rem, 1.1875rem);
+  --fs-corpo-g: clamp(1.125rem, 0.6vw + 1rem, 1.375rem);
+  --fs-sm: 0.9375rem;
+  --fs-xs: 0.8125rem;
+
+  --lh-display: 0.98;
+  --lh-titulo: 1.12;
+  --lh-corpo: 1.7;
+
+  /* Piso de tracking do sistema: -0.04em. Nunca mais apertado que isso. */
+  --tr-display: -0.03em;
+  --tr-titulo: -0.018em;
+  --tr-caps: 0.14em; /* a assinatura da marca é a caps larga */
+  --tr-caps-larga: 0.24em;
+
+  /* --- Ritmo de espaço: uma escala só, em toda a superfície ------------- */
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s5: 1.5rem;
+  --s6: 2rem;
+  --s7: 2.5rem;
+  --s8: 3rem;
+  --s9: 4rem;
+  --s10: 5rem;
+  --s11: 6.5rem;
+  --s12: 8rem;
+
+  /* Respiro de seção: mais espaço acima de um título do que abaixo. */
+  --secao-y: clamp(4.5rem, 10vw, 9rem);
+  --acima-titulo: clamp(2rem, 4vw, 3.5rem);
+  --abaixo-titulo: clamp(1rem, 1.6vw, 1.5rem);
+
+  /* --- Medida de leitura: 65–75ch --------------------------------------- */
+  --medida: 68ch;
+  --medida-curta: 54ch;
+
+  /* --- Contêiner -------------------------------------------------------- */
+  --largura: 78rem;
+  --largura-estreita: 60rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+
+  /* --- Linguagem de canto: cerâmica é esculpida, não arredondada -------- */
+  --r1: 2px;
+  --r2: 4px;
+  --r3: 10px;
+  --r-camada: 12px 12px 2px 2px; /* a camada de esmalte assenta por cima */
+
+  /* --- Profundidade: sempre deslocamento + desfoque suave --------------- */
+  --sh1: 0 1px 2px rgba(32, 26, 20, 0.06), 0 2px 8px rgba(32, 26, 20, 0.05);
+  --sh2: 0 2px 6px rgba(32, 26, 20, 0.08), 0 12px 28px rgba(32, 26, 20, 0.1);
+  --sh3: 0 4px 12px rgba(32, 26, 20, 0.1), 0 24px 56px rgba(32, 26, 20, 0.16);
+  --sh-escuro: 0 2px 8px rgba(0, 0, 0, 0.3), 0 18px 48px rgba(0, 0, 0, 0.38);
+
+  /* --- Movimento: ease-out exponencial, a partir do já visível ---------- */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-suave: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-rapido: 180ms;
+  --t-medio: 340ms;
+  --t-lento: 720ms;
+
+  --z-header: 100;
+  --z-menu: 200;
+  --z-flutuante: 90;
+  --z-modal: 300;
+}
+
+/* ==========================================================================
+   Campo escuro — a inversão de papéis.
+   Aplicada a regiões inteiras, nunca a um card solto. A alternância entre
+   campo escuro e campo de pérola É a estratificação.
+   ========================================================================== */
+.campo-escuro {
+  --sup: var(--sombra);
+  --sup-2: var(--sombra-2);
+  --sup-3: var(--campo-2);
+  --txt: var(--perola);
+  --txt-2: var(--halo);
+  --linha: rgba(203, 189, 166, 0.2);
+  --linha-forte: rgba(203, 189, 166, 0.38);
+  background-color: var(--sombra);
+  color: var(--txt);
+}
+
+.campo-queima {
+  --sup: var(--campo);
+  --sup-2: var(--campo-2);
+  --sup-3: var(--sombra);
+  --txt: var(--perola);
+  --txt-2: var(--halo);
+  --linha: rgba(203, 189, 166, 0.16);
+  --linha-forte: rgba(203, 189, 166, 0.32);
+  background-color: var(--campo);
+  color: var(--txt);
+}
+
+/* Campo champanhe — a barra da peça oficial, promovida a região.
+   Texto sempre em espresso: branco sobre champanhe não passa de 2,7:1. */
+.campo-champanhe {
+  --sup: var(--ouro);
+  --sup-2: var(--ouro-2);
+  --sup-3: var(--ouro-3);
+  --txt: var(--campo);
+  --txt-2: rgba(32, 26, 20, 0.72);
+  --linha: rgba(32, 26, 20, 0.2);
+  --linha-forte: rgba(32, 26, 20, 0.38);
+  background-color: var(--ouro);
+  color: var(--txt);
+}

@@ -1,0 +1,84 @@
+<!-- ==========================================================================
+     HEADER — Instituto Isabelle Arrivabene
+
+     WP: este arquivo vira header.php, chamado por get_header().
+     O <ul> vira wp_nav_menu(['theme_location' => 'principal']).
+     O botão de destaque vira um campo do Customizer (cta_principal).
+
+     Uso nas páginas estáticas: colar este bloco após <body> e marcar o item
+     ativo com aria-current="page".
+     ========================================================================== -->
+
+<!-- WP: Header -->
+<header class="header" id="header" data-header>
+  <div class="env header__barra">
+
+    <!-- WP: Logo (custom_logo) -->
+    <a class="marca" href="index.html" aria-label="Instituto Isabelle Arrivabene — página inicial">
+      <!-- SUBSTITUIR: aguardando o vetor oficial da borboleta.
+           Salvar como assets/img/logo-borboleta.svg e preencher o src abaixo.
+           Enquanto o src estiver vazio o símbolo não é renderizado — o lockup
+           roda apenas tipográfico, sem símbolo aproximado. -->
+      <!-- Descomente esta linha ao salvar o vetor oficial em assets/img/logo-borboleta.svg:
+           <img class="marca__glifo" src="assets/img/logo-borboleta.svg" alt="" width="44" height="44" aria-hidden="true">
+      -->
+      <span class="marca__nome">
+        <span class="marca__instituto">Instituto</span>
+        <b>Isabelle</b>
+        <b>Arrivabene</b>
+      </span>
+    </a>
+
+    <!-- WP: Menu principal -->
+    <nav class="header__nav" aria-label="Navegação principal">
+      <ul class="header__lista">
+        <li><a class="header__elo" href="index.html">Home</a></li>
+        <li><a class="header__elo" href="cursos.html">Cursos</a></li>
+        <li><a class="header__elo" href="professores.html">Professores</a></li>
+        <li><a class="header__elo" href="sobre.html">Sobre</a></li>
+        <li><a class="header__elo" href="contato.html">Contato</a></li>
+      </ul>
+    </nav>
+
+    <div class="header__acoes">
+      <a class="btn btn--acesa btn--auto" href="contato.html#inscricao">Inscreva-se</a>
+
+      <button class="menu-btn" type="button"
+              aria-expanded="false"
+              aria-controls="menu-movel"
+              data-menu-btn>
+        <span class="vis-oculto">Abrir menu</span>
+        <span class="menu-btn__traco" aria-hidden="true"></span>
+        <span class="menu-btn__traco" aria-hidden="true"></span>
+        <span class="menu-btn__traco" aria-hidden="true"></span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<!-- Menu móvel: a camada que desce sobre o campo -->
+<div class="menu-movel" id="menu-movel" data-aberto="false" data-menu hidden>
+  <nav aria-label="Navegação móvel">
+    <ul class="menu-movel__lista">
+      <li><a class="menu-movel__elo" href="index.html">Home <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></a></li>
+      <li><a class="menu-movel__elo" href="cursos.html">Cursos <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></a></li>
+      <li><a class="menu-movel__elo" href="professores.html">Professores <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></a></li>
+      <li><a class="menu-movel__elo" href="sobre.html">Sobre <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></a></li>
+      <li><a class="menu-movel__elo" href="contato.html">Contato <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></a></li>
+    </ul>
+  </nav>
+
+  <div class="menu-movel__pe">
+    <a class="btn btn--acesa btn--bloco" href="contato.html#inscricao">Inscreva-se</a>
+    <!-- SUBSTITUIR: número real de WhatsApp -->
+    <a class="btn btn--contorno btn--bloco" href="https://wa.me/5598000000000" target="_blank" rel="noopener">
+      <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+      Falar no WhatsApp
+    </a>
+    <p class="apoio-sm" style="margin-top:var(--s3)">
+      <svg class="ico ico--p" aria-hidden="true" style="display:inline-block;vertical-align:-3px"><use href="#i-local"></use></svg>
+      Champs Mall &middot; Península &middot; São Luís&nbsp;–&nbsp;MA
+    </p>
+  </div>
+</div>

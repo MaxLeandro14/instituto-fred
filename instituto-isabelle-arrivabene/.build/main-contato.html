@@ -1,0 +1,213 @@
+<!-- WP: Banner -->
+<section class="banner campo-queima" aria-labelledby="banner-titulo" style="padding-bottom:clamp(2.5rem,5vw,4rem)">
+  <figure class="banner__fundo" aria-hidden="true">
+    <img src="assets/img/banner-contato.svg" alt="" width="2000" height="700" fetchpriority="high" decoding="async">
+  </figure>
+
+  <div class="env">
+    <nav class="trilha" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="index.html">Home</a></li>
+        <li><span aria-current="page">Contato</span></li>
+      </ol>
+    </nav>
+
+    <h1 class="banner__titulo" id="banner-titulo">Fale com um <em>consultor</em>.</h1>
+
+    <p class="banner__linha">
+      Investimento, duração, datas de entrada e o que cada programa realmente
+      cobre — tudo tratado diretamente, sem intermediário e sem compromisso.
+    </p>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     CANAIS + FORMULÁRIO
+     ========================================================================== -->
+<section class="secao" aria-labelledby="canais-titulo">
+  <div class="env">
+    <div class="contato-grade">
+
+      <div data-revelar>
+        <hr class="regua">
+        <h2 id="canais-titulo">Canais diretos</h2>
+        <p class="apoio" style="margin-top:var(--abaixo-titulo);margin-bottom:var(--s6);max-width:44ch">
+          O WhatsApp é o canal mais rápido: a maior parte das dúvidas comerciais
+          se resolve na mesma conversa.
+        </p>
+
+        <p class="nota-provisoria" style="margin-bottom:var(--s6)">
+          <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
+          <span><b>Contatos provisórios.</b> Telefone, WhatsApp, e-mail e perfis de
+          rede abaixo são placeholders. Substituir pelos dados reais antes de
+          publicar — a lista completa está no LEIA-ME.md.</span>
+        </p>
+
+        <ul class="canais">
+          <li>
+            <!-- SUBSTITUIR: número real -->
+            <a class="canal" href="https://wa.me/5598000000000?text=Ol%C3%A1%21%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20os%20cursos." target="_blank" rel="noopener">
+              <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+              <span><b>WhatsApp</b><span>(98) 00000-0000 &middot; resposta em horário comercial</span></span>
+            </a>
+          </li>
+          <li>
+            <!-- SUBSTITUIR: telefone real -->
+            <a class="canal" href="tel:+559800000000">
+              <svg class="ico" aria-hidden="true"><use href="#i-telefone"></use></svg>
+              <span><b>Telefone</b><span>(98) 0000-0000</span></span>
+            </a>
+          </li>
+          <li>
+            <!-- SUBSTITUIR: e-mail real -->
+            <a class="canal" href="mailto:contato@exemplo.com.br">
+              <svg class="ico" aria-hidden="true"><use href="#i-email"></use></svg>
+              <span><b>E-mail</b><span>contato@exemplo.com.br</span></span>
+            </a>
+          </li>
+          <li>
+            <!-- SUBSTITUIR: link do Google Maps com o endereço exato -->
+            <a class="canal" href="https://www.openstreetmap.org/?mlat=-2.4885&amp;mlon=-44.2990#map=16/-2.4885/-44.2990" target="_blank" rel="noopener">
+              <svg class="ico" aria-hidden="true"><use href="#i-local"></use></svg>
+              <span><b>Endereço</b><span>Champs Mall &middot; Península &middot; São Luís – MA<!-- SUBSTITUIR: sala, andar, rua, número, CEP --></span></span>
+            </a>
+          </li>
+        </ul>
+
+        <h3 style="margin-top:var(--s8);margin-bottom:var(--s4);font-size:var(--fs-xs);letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--txt-2)">
+          Redes sociais
+        </h3>
+        <div class="rodape__sociais" style="margin-top:0">
+          <!-- SUBSTITUIR: perfis reais -->
+          <a class="rodape__social" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram do Instituto"><svg class="ico" aria-hidden="true"><use href="#i-instagram"></use></svg></a>
+          <a class="rodape__social" href="https://facebook.com/" target="_blank" rel="noopener" aria-label="Facebook do Instituto"><svg class="ico" aria-hidden="true"><use href="#i-facebook"></use></svg></a>
+          <a class="rodape__social" href="https://linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn do Instituto"><svg class="ico" aria-hidden="true"><use href="#i-linkedin"></use></svg></a>
+        </div>
+
+        <h3 style="margin-top:var(--s8);margin-bottom:var(--s4);font-size:var(--fs-xs);letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--txt-2)">
+          Horário de atendimento
+        </h3>
+        <p class="apoio-sm" style="margin:0">
+          <!-- SUBSTITUIR: horário real -->
+          Segunda a sexta, das 00h às 00h &middot; sábado sob agendamento
+        </p>
+      </div>
+
+      <!-- =====================================================================
+           FORMULÁRIO — sem backend nesta fase
+           ===================================================================== -->
+      <div class="form-caixa" id="inscricao" data-revelar data-atraso="1">
+        <h2>Inscrição e informações</h2>
+        <p>Preencha e um consultor entra em contato com a proposta completa do programa que interessa.</p>
+
+        <!-- WP: trocar pelo endpoint real (admin-post.php / CF7 / WPForms) -->
+        <form class="form" data-form novalidate>
+          <div class="form__grade">
+            <div class="campo campo--cheio">
+              <label for="ct-nome">Nome completo <span class="req" aria-hidden="true">*</span></label>
+              <input id="ct-nome" name="nome" type="text" autocomplete="name" required aria-describedby="ct-nome-erro">
+              <p class="campo__erro" id="ct-nome-erro" data-erro></p>
+            </div>
+
+            <div class="campo">
+              <label for="ct-tel">Telefone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
+              <input id="ct-tel" name="telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(98) 00000-0000" required aria-describedby="ct-tel-erro">
+              <p class="campo__erro" id="ct-tel-erro" data-erro></p>
+            </div>
+
+            <div class="campo">
+              <label for="ct-email">E-mail <span class="req" aria-hidden="true">*</span></label>
+              <input id="ct-email" name="email" type="email" autocomplete="email" required aria-describedby="ct-email-erro">
+              <p class="campo__erro" id="ct-email-erro" data-erro></p>
+            </div>
+
+            <div class="campo campo--cheio">
+              <label for="ct-curso">Curso de interesse <span class="req" aria-hidden="true">*</span></label>
+              <select id="ct-curso" name="curso" required aria-describedby="ct-curso-erro">
+                <option value="">Selecione um curso…</option>
+                <option value="harmonizacao-orofacial">Harmonização Orofacial (últimas vagas)</option>
+                <option value="ortodontia">Ortodontia e Ortopedia Facial</option>
+                <option value="protese">Prótese Dentária</option>
+                <option value="implantodontia">Implantodontia</option>
+                <option value="dentistica">Dentística Restauradora (aperfeiçoamento)</option>
+                <option value="indeciso">Ainda estou decidindo</option>
+              </select>
+              <p class="campo__erro" id="ct-curso-erro" data-erro></p>
+            </div>
+
+            <div class="campo campo--cheio">
+              <label for="ct-msg">Mensagem</label>
+              <textarea id="ct-msg" name="mensagem" rows="5" placeholder="Conte em que momento da carreira você está — ajuda o consultor a responder melhor."></textarea>
+              <p class="campo__erro" data-erro></p>
+            </div>
+          </div>
+
+          <div class="form__estado" data-form-estado style="margin-top:var(--s5)">
+            <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
+            <span data-form-msg></span>
+          </div>
+
+          <button class="btn btn--acesa btn--g btn--bloco" type="submit" style="margin-top:var(--s6)">
+            Enviar
+            <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
+          </button>
+
+          <p class="form__aviso" style="margin-top:var(--s5)">
+            <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
+            <span>Seus dados são usados apenas para o contato do consultor.
+            <!-- SUBSTITUIR: link real da política de privacidade --></span>
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     MAPA
+     ========================================================================== -->
+<section class="secao campo-queima" id="onde-estamos" aria-labelledby="mapa-titulo">
+  <div class="env">
+    <div class="cabeca cabeca--larga" data-revelar>
+      <hr class="regua">
+      <h2 id="mapa-titulo">Onde estamos</h2>
+      <p>Champs Mall, na Península, em São Luís – MA. Auditório, clínica, salas, recepção e laboratório no mesmo endereço.</p>
+    </div>
+
+    <div class="mapa-cheio" data-revelar data-atraso="1">
+      <!-- SUBSTITUIR: embed do endereço exato -->
+      <iframe title="Mapa da localização do Instituto Isabelle Arrivabene — Champs Mall, Península, São Luís/MA"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-44.3120%2C-2.4980%2C-44.2860%2C-2.4790&amp;layer=mapnik&amp;marker=-2.4885%2C-44.2990"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <p class="nota-provisoria" style="margin-top:var(--s6)" data-revelar data-atraso="2">
+      <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
+      <span><b>Mapa aproximado.</b> O marcador aponta para a Península, em São Luís,
+      como referência temporária. Substituir pelo embed do endereço exato do
+      Instituto no Champs Mall.</span>
+    </p>
+  </div>
+</section>
+
+<!-- WP: CTA -->
+<section class="cta-final campo-champanhe" aria-labelledby="cta-titulo">
+  <div class="env cta-final__interior">
+    <div class="cta-final__texto">
+      <h2 id="cta-titulo" class="cta-final__titulo" data-revelar>Prefere resolver agora?</h2>
+      <p class="cta-final__linha" data-revelar data-atraso="1">
+        No WhatsApp a resposta costuma vir na mesma conversa — inclusive sobre o
+        que o curso não cobre.
+      </p>
+    </div>
+    <div class="cta-final__acoes" data-revelar data-atraso="2">
+      <!-- SUBSTITUIR -->
+      <a class="btn btn--escura btn--g" href="https://wa.me/5598000000000?text=Ol%C3%A1%21%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20os%20cursos." target="_blank" rel="noopener">
+        <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+        Falar no WhatsApp
+      </a>
+      <a class="btn btn--contorno btn--g" href="cursos.html">Ver os cursos antes</a>
+    </div>
+  </div>
+</section>

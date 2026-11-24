@@ -179,6 +179,32 @@ revezam nas regiões de leitura.
 
 ### Named Rules
 
+**Regra da emenda.** Nenhuma divisa reta entre seções (pedido do cliente,
+24/11/2026). Cada bloco (seções do `<main>`, novidades, rodapé) pinta no topo
+e na base um degradê até o ponto médio, em oklab, entre a sua cor e a do
+vizinho; cada lado ocupa `--emenda` (44–88px) numa curva S, e os fios da
+seda se dissolvem na mesma faixa. É estático, sem animação. Vive em
+`components.css` (EMENDAS, no fim), dentro de `@supports (color-mix)`. Seção
+nova: basta usar o campo (`.campo-teal` / `.campo-areia` / creme); se ela
+tiver `background-image` próprio, ponha `var(--emenda-camadas, none)` como
+primeira camada, como em `.seda`. Barras fixas de interface (o sumário do
+curso) ficam fora, e o **rodapé** também: a borda de cima dele é reta.
+Entre dois campos lisos (creme → areia) o degradê vira uma faixa uniforme e
+sem vida; ali a seção de areia ganha `seda seda--suave` (o cetim em marca
+d'água da faixa do vídeo), como a galeria da Estrutura na home.
+
+**Regra da curva.** Onde o **teal encontra um campo claro** (areia ou creme)
+não há degradê: a seção de baixo sobe numa curva larga e suave por cima da de
+cima (`--curva-h`, 28–56px). Teal → claro (hero/banner → seção seguinte,
+Depoimentos → Novidades), a curva nasce rente à esquerda e cresce para a
+direita, como a fita da seda; claro → teal (Estrutura → Depoimentos), ela é
+espelhada. Descendo a página, as curvas alternam e formam uma onda. O fundo
+da própria seção preenche a curva (máscara no topo + borda transparente para
+o conteúdo não se mover), sem costura. O cliente achou "grosseiro" o
+degradê largo entre teal e areia e recusou a linha esfumada curta
+(24/11/2026); entre os tons claros o degradê fica. O rodapé não entra: borda
+reta. Fica em `components.css`, CURVAS (seletores espelhados na EMENDA).
+
 **Regra da areia grande.** Areia sobre teal mede 3,3:1. Ela só carrega texto
 **grande** (≥ 24px, como a palavra de destaque do h1), bordas, ícones e fundos
 de botão. Rótulo pequeno sobre teal usa `creme-texto` (4,6:1); texto

@@ -2351,7 +2351,9 @@ html:not(.js) .menu-movel {
 .seda {
   position: relative;
   isolation: isolate;
+  /* 1ª camada: a emenda com as seções vizinhas (ver EMENDAS, no fim). */
   background-image:
+    var(--emenda-camadas, none),
     radial-gradient(ellipse 52% 80% at 20% 30%, var(--seda-brilho), transparent 72%),
     radial-gradient(ellipse 38% 60% at 72% 18%, var(--seda-brilho), transparent 70%),
     radial-gradient(ellipse 55% 75% at 100% 100%, var(--seda-sombra), transparent 72%),
@@ -2362,6 +2364,7 @@ html:not(.js) .menu-movel {
    o título, no alto à esquerda, ganha contraste em vez de perder. */
 .campo-teal.seda {
   background-image:
+    var(--emenda-camadas, none),
     radial-gradient(ellipse 58% 70% at var(--seda-foco, 58% 62%), var(--seda-brilho), transparent 72%),
     radial-gradient(ellipse 55% 80% at 0% 0%, var(--seda-sombra), transparent 70%),
     radial-gradient(ellipse 50% 75% at 100% 100%, var(--seda-sombra), transparent 72%);
@@ -2404,6 +2407,14 @@ html:not(.js) .menu-movel {
   --seda-luz: rgba(255, 251, 243, 0.6);
 }
 
+/* Seda suave: a mesma marca d'água da faixa do vídeo, para seções com
+   fotos grandes (a galeria da Estrutura). Dá à emenda com a seção de cima
+   a mesma luz em diagonal da passagem vídeo → carrossel. */
+.seda--suave {
+  --seda-fio: rgba(184, 138, 84, 0.26);
+  --seda-luz: rgba(255, 251, 243, 0.55);
+}
+
 /* Botão de contorno sobre a seda: o fundo transparente desfoca os fios que
    passam por trás, e o rótulo não disputa com as linhas. */
 .seda .btn--contorno {
@@ -2440,4 +2451,167 @@ html:not(.js) .menu-movel {
   .seda::after {
     display: none;
   }
+}
+
+/* ==========================================================================
+   EMENDAS ENTRE SEÇÕES — sem divisa reta entre um campo e outro (pedido do
+   cliente, 24/11/2026: "algo no fundo que passe de uma seção para outra de
+   forma mais suave", sem animação).
+
+   Cada bloco da página (as <section> do <main> e a faixa de novidades)
+   pinta no topo e na base um degradê que leva a sua cor até o
+   ponto médio entre ela e a do vizinho, misturado em oklab (teal → areia
+   passa por um verde-água claro, não por um cinza barrento). Os dois lados
+   chegam à mesma cor na divisa, então a linha some. Cada lado ocupa
+   --emenda; a curva é uma S suave (sem degrau onde o degradê começa).
+   A cor do vizinho vem dos seletores de irmão (+ e :has(+)). Entre dois
+   campos iguais a emenda é invisível. Os fios da .seda se dissolvem nas
+   mesmas faixas, em vez de serem cortados na divisa.
+   O RODAPÉ fica de fora: a borda de cima dele é reta, de propósito (pedido
+   do cliente, 24/11/2026), e o bloco logo acima não esmaece para ele.
+   Navegador sem color-mix: nada disso existe e a página fica como antes.
+   ========================================================================== */
+@supports (color: color-mix(in oklab, red, blue)) {
+  :root {
+    --emenda: clamp(2.75rem, 6vw, 5.5rem); /* meia transição, de cada lado */
+  }
+
+  /* Cada lado pode ter a sua altura (--emenda-cima / --emenda-baixo).
+     Onde o teal encontra um campo claro não há degradê: ali a divisa é a
+     CURVA (no fim do arquivo). Os seletores espelham os de lá. */
+  main > .campo-teal:has(+ section:not(.campo-teal)),
+  main > section:not(.campo-teal):has(+ .campo-teal),
+  main:has(+ .novidades:not(.campo-teal)) > .campo-teal:last-child {
+    --emenda-baixo: 0px;
+  }
+
+  main > .campo-teal + section:not(.campo-teal),
+  main > section:not(.campo-teal) + .campo-teal,
+  main:has(> .campo-teal:last-child) + .novidades:not(.campo-teal) {
+    --emenda-cima: 0px;
+  }
+
+  /* --- Cor do bloco anterior (--antes) --------------------------------- */
+  main > .campo-teal + section,
+  main:has(> section.campo-teal:last-child) + .novidades {
+    --antes: var(--teal);
+  }
+
+  main > .campo-areia + section,
+  main:has(> section.campo-areia:last-child) + .novidades {
+    --antes: var(--areia);
+  }
+
+  main > :not(.campo-teal, .campo-areia) + section,
+  main:has(> section:not(.campo-teal, .campo-areia):last-child) + .novidades {
+    --antes: var(--creme);
+  }
+
+  /* --- Cor do bloco seguinte (--depois); nunca o rodapé ---------------- */
+  main > section:has(+ .campo-teal),
+  main:has(+ .novidades.campo-teal) > section:last-child {
+    --depois: var(--teal);
+  }
+
+  main > section:has(+ .campo-areia),
+  main:has(+ .novidades.campo-areia) > section:last-child {
+    --depois: var(--areia);
+  }
+
+  main > section:has(+ :not(.campo-teal, .campo-areia)),
+  main:has(+ .novidades:not(.campo-teal, .campo-areia)) > section:last-child {
+    --depois: var(--creme);
+  }
+
+  /* --- As duas camadas ------------------------------------------------- */
+  /* Opacidade do ponto médio a 0, ¼, ½, ¾ e 1 da faixa: metade de uma
+     curva S (3u² − 2u³) que atravessa as duas faixas, uma de cada lado. */
+  main > section,
+  body > .novidades {
+    --meio-antes: color-mix(in oklab, var(--antes, var(--sup)), var(--sup));
+    --meio-depois: color-mix(in oklab, var(--depois, var(--sup)), var(--sup));
+    --emenda-camadas:
+      linear-gradient(to bottom,
+        var(--meio-antes) 0,
+        color-mix(in srgb, var(--meio-antes) 63%, transparent) calc(var(--emenda-cima, var(--emenda)) * 0.25),
+        color-mix(in srgb, var(--meio-antes) 31%, transparent) calc(var(--emenda-cima, var(--emenda)) * 0.5),
+        color-mix(in srgb, var(--meio-antes) 9%, transparent) calc(var(--emenda-cima, var(--emenda)) * 0.75),
+        transparent var(--emenda-cima, var(--emenda))),
+      linear-gradient(to top,
+        var(--meio-depois) 0,
+        color-mix(in srgb, var(--meio-depois) 63%, transparent) calc(var(--emenda-baixo, var(--emenda)) * 0.25),
+        color-mix(in srgb, var(--meio-depois) 31%, transparent) calc(var(--emenda-baixo, var(--emenda)) * 0.5),
+        color-mix(in srgb, var(--meio-depois) 9%, transparent) calc(var(--emenda-baixo, var(--emenda)) * 0.75),
+        transparent var(--emenda-baixo, var(--emenda)));
+    background-image: var(--emenda-camadas);
+  }
+
+  /* Fios e luz da seda somem nas faixas de emenda em vez de cortar reto. */
+  .seda::before,
+  .seda::after {
+    -webkit-mask:
+      var(--seda-mascara) var(--seda-pos, center) / cover no-repeat,
+      linear-gradient(transparent, #000 var(--emenda), #000 calc(100% - var(--emenda)), transparent);
+    -webkit-mask-composite: source-in;
+    mask:
+      var(--seda-mascara) var(--seda-pos, center) / cover no-repeat,
+      linear-gradient(transparent, #000 var(--emenda), #000 calc(100% - var(--emenda)), transparent);
+    mask-composite: intersect;
+  }
+}
+
+/* ==========================================================================
+   CURVAS — onde o teal encontra um campo claro (areia ou creme), a seção de
+   baixo sobe numa curva larga e suave por cima da de cima, em vez de
+   degradê ou divisa reta (pedido do cliente, 24/11/2026: o degradê largo
+   teal ↔ areia ficava "grosseiro"). Estáticas. Valem para:
+     - hero/banner → seção seguinte (teal → claro);
+     - Estrutura → Depoimentos, na home (claro → teal);
+     - Depoimentos → Novidades (teal → claro).
+   O rodapé fica de fora: a borda de cima dele é reta, de propósito.
+
+   Como: a seção é puxada para cima pela altura da curva (--curva-h) e o
+   topo dela é recortado por uma máscara com o desenho da curva; o próprio
+   fundo da seção (cor, cetim, fios) preenche a curva, então não há costura.
+   A altura da curva entra como borda transparente: o conteúdo da seção
+   fica onde estava. O hero ganha um respiro embaixo para a curva não
+   encostar no letreiro vazado. Teal → claro, a curva nasce rente à esquerda
+   e cresce para a direita, como a fita da seda; claro → teal, espelhada.
+   Descendo a página, as curvas alternam e formam uma onda.
+   ========================================================================== */
+:root {
+  --curva-h: clamp(1.75rem, 4vw, 3.5rem);
+}
+
+main > :is(.hero, .banner):has(+ section) {
+  padding-bottom: calc(var(--curva-h) * 0.6);
+}
+
+main > .campo-teal + section:not(.campo-teal),
+main > section:not(.campo-teal) + .campo-teal,
+main:has(> .campo-teal:last-child) + .novidades:not(.campo-teal) {
+  --curva-mascara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100C400 98 760 58 1060 30C1240 14 1360 8 1440 8V100Z'/%3E%3C/svg%3E");
+  margin-top: calc(var(--curva-h) * -1);
+  border-top: var(--curva-h) solid transparent;
+  background-color: var(--sup);
+  background-origin: border-box;
+  -webkit-mask:
+    var(--curva-mascara) top / 100% calc(var(--curva-h) + 1px) no-repeat,
+    linear-gradient(#000 0 0) 0 var(--curva-h) / 100% 100% no-repeat;
+  mask:
+    var(--curva-mascara) top / 100% calc(var(--curva-h) + 1px) no-repeat,
+    linear-gradient(#000 0 0) 0 var(--curva-h) / 100% 100% no-repeat;
+}
+
+/* Claro → teal: a mesma curva espelhada (sobe para a esquerda). */
+main > section:not(.campo-teal) + .campo-teal {
+  --curva-mascara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M1440 100C1040 98 680 58 380 30C200 14 80 8 0 8V100Z'/%3E%3C/svg%3E");
+}
+
+/* O cetim (luz e fios) também preenche a curva. */
+main > .campo-teal + section.seda:not(.campo-teal)::before,
+main > .campo-teal + section.seda:not(.campo-teal)::after,
+main > section:not(.campo-teal) + .campo-teal.seda::before,
+main > section:not(.campo-teal) + .campo-teal.seda::after {
+  top: calc(var(--curva-h) * -1);
 }

@@ -34,6 +34,10 @@
 
 <script>document.documentElement.classList.add('js');</script>
 
+<!-- A foto do hero vive dentro do SVG da borboleta (<image>), que não tem
+     fetchpriority: o preload garante que ela chegue junto com o texto. -->
+<link rel="preload" as="image" href="assets/img/persona-clinicos.webp" type="image/webp" fetchpriority="high">
+
 <!-- Schema.org: instituição de ensino.
      Só fatos confirmados. Sem preço, sem carga horária, sem credenciamento. -->
 <script type="application/ld+json">
@@ -89,6 +93,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <symbol id="i-camada" viewBox="0 0 24 24"><path d="M2.5 18.5a9.5 9.5 0 0 1 19 0"/><path d="M6 18.5a6 6 0 0 1 12 0"/><path d="M9.5 18.5a2.5 2.5 0 0 1 5 0"/></symbol>
 <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
 <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.6 5.4v13.2c0 .5.5.8.9.5l10-6.6c.4-.2.4-.8 0-1l-10-6.6c-.4-.3-.9 0-.9.5z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-pausa" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
 <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m5.5 9 6.5 6.5L18.5 9"/></symbol>
 <symbol id="i-seta-esq" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>
 <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
@@ -104,6 +109,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.05" fill="currentColor" stroke="none"/></symbol>
 <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M15.6 4h-2.3C11 4 9.9 5.5 9.9 7.7V10H7.7v3.4h2.2V22h3.4v-8.6h2.4l.4-3.4h-2.8V8c0-.7.2-1 1-1h1.3z" fill="currentColor" stroke="none"/></symbol>
 <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M4.5 8.8h3.2V21H4.5zM6.1 3a1.95 1.95 0 1 0 0 3.9A1.95 1.95 0 0 0 6.1 3zM10.2 8.8h3.1v1.7c.5-.9 1.6-1.9 3.4-1.9 2.6 0 4.1 1.7 4.1 4.9V21h-3.2v-6.8c0-1.7-.6-2.6-2-2.6-1.2 0-1.9.8-2.2 1.6-.1.3-.1.7-.1 1.1V21h-3.1z" fill="currentColor" stroke="none"/></symbol>
+<!-- Borboleta da logo (mesmo traçado de logo-borboleta.svg), para tamanhos pequenos: o traço não escala. -->
+<symbol id="i-borboleta" viewBox="176 94 676 482"><g transform="translate(4 4) scale(0.86)"><path id="i-borboleta-asa" d="M210 114 C226 114 240 115 252 117 C264 128 272 150 274 180 C276 225 272 295 280 335 C288 378 318 405 345 421 C372 436 400 438 418 430 C428 425 444 427 444 432 C444 437 424 437 410 439 C360 447 319 497 322 555 C325 620 380 655 440 656 C500 657 560 628 593 603 C603 595 613 585 612 571 C611 560 604 553 604 545 C607 532 622 530 626 521 C628 516 621 516 622 512 C623 508 630 509 628 504 C627 501 623 502 624 499 C625 496 632 496 629 491 C627 487 622 488 624 484 C627 480 639 479 636 473 C633 466 618 462 614 456 C625 445 648 430 660 417 C645 398 618 375 593 340 C500 210 360 130 252 117" vector-effect="non-scaling-stroke"/><use href="#i-borboleta-asa" transform="translate(1186 0) scale(-1 1)"/></g></symbol>
 </defs></svg>
 
 <!-- WP: Header -->
@@ -239,18 +246,60 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
     </div>
 
-    <figure class="hero__figura moldura moldura--recorte">
-      <div class="moldura__foto">
-        <!-- Asset real fornecido pelo cliente. Recorte em fundo transparente. -->
-        <picture>
-          <source srcset="assets/img/persona-clinicos.avif" type="image/avif">
-          <source srcset="assets/img/persona-clinicos.webp" type="image/webp">
-          <img src="assets/img/persona-clinicos.png"
-               alt="Dois profissionais de odontologia em jaleco branco, com estetoscópio, um deles segurando um tablet"
-               width="679" height="533" fetchpriority="high" decoding="async">
-        </picture>
-      </div>
-      <figcaption class="moldura__selo"><span>Matrículas</span><b>Abertas nos cinco programas</b></figcaption>
+    <!-- BORBOLETA — a silhueta do símbolo da logo (o mesmo traçado de
+         assets/img/logo-borboleta.svg) vira a janela da foto. O recorte dos
+         clínicos fica na frente: o corpo dentro das asas, a cabeça saindo por
+         cima delas. Coordenadas no espaço do símbolo; eixo de simetria x = 593.
+         A asa direita é a esquerda espelhada: matrix(-1 0 0 1 1186 0).
+         WP: campo hero_foto (PNG/WebP com fundo transparente, ~4:3, pessoas
+         cortadas na cintura) no href do <image>; manter o alt no <title>. -->
+    <figure class="hero__figura borboleta">
+      <svg class="borboleta__palco" viewBox="200 80 786 586" role="img" aria-labelledby="borboleta-alt">
+        <title id="borboleta-alt">Dois profissionais de odontologia em jaleco branco, com estetoscópio, um deles segurando um tablet</title>
+        <defs>
+          <path id="bb-asa" d="M210 114C226 114 240 115 252 117C264 128 272 150 274 180C276 225 272 295 280 335C288 378 318 405 345 421C372 436 400 438 418 430C428 425 444 427 444 432C444 437 424 437 410 439C360 447 319 497 322 555C325 620 380 655 440 656C500 657 560 628 593 603C603 595 613 585 612 571C611 560 604 553 604 545C607 532 622 530 626 521C628 516 621 516 622 512C623 508 630 509 628 504C627 501 623 502 624 499C625 496 632 496 629 491C627 487 622 488 624 484C627 480 639 479 636 473C633 466 618 462 614 456C625 445 648 430 660 417C645 398 618 375 593 340C500 210 360 130 252 117"/>
+          <linearGradient id="bb-fundo" x1="0" y1="0" x2="0.3" y2="1">
+            <stop offset="0" class="borboleta__tom-1"/>
+            <stop offset="1" class="borboleta__tom-2"/>
+          </linearGradient>
+          <filter id="bb-sombra" x="-15%" y="-15%" width="130%" height="150%" color-interpolation-filters="sRGB">
+            <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#0e1f1f" flood-opacity="0.32"/>
+          </filter>
+          <clipPath id="bb-asas">
+            <use href="#bb-asa"/>
+            <use href="#bb-asa" transform="matrix(-1 0 0 1 1186 0)"/>
+          </clipPath>
+          <!-- As asas e o "céu" acima das bordas de cima: por onde as cabeças saem. -->
+          <clipPath id="bb-saida">
+            <use href="#bb-asa"/>
+            <use href="#bb-asa" transform="matrix(-1 0 0 1 1186 0)"/>
+            <path d="M120 0H1066V114H976C960 114 946 115 934 117C826 130 686 210 593 340C500 210 360 130 252 117C240 115 226 114 210 114H120Z"/>
+          </clipPath>
+        </defs>
+
+        <!-- Eco: o contorno girado atrás, como o cartão de areia das molduras.
+             É a mesma asa sem o primeiro trecho (a ponta), que girada viraria
+             um risco solto acima das asas. -->
+        <g class="borboleta__eco" transform="rotate(-4 593 385) translate(12 18)">
+          <path id="bb-asa-eco" d="M252 117C264 128 272 150 274 180C276 225 272 295 280 335C288 378 318 405 345 421C372 436 400 438 418 430C428 425 444 427 444 432C444 437 424 437 410 439C360 447 319 497 322 555C325 620 380 655 440 656C500 657 560 628 593 603C603 595 613 585 612 571C611 560 604 553 604 545C607 532 622 530 626 521C628 516 621 516 622 512C623 508 630 509 628 504C627 501 623 502 624 499C625 496 632 496 629 491C627 487 622 488 624 484C627 480 639 479 636 473C633 466 618 462 614 456C625 445 648 430 660 417C645 398 618 375 593 340C500 210 360 130 252 117"/>
+          <use href="#bb-asa-eco" transform="matrix(-1 0 0 1 1186 0)"/>
+        </g>
+
+        <g class="borboleta__asas" filter="url(#bb-sombra)">
+          <rect x="200" y="100" width="786" height="566" fill="url(#bb-fundo)" clip-path="url(#bb-asas)"/>
+        </g>
+
+        <g class="borboleta__traco">
+          <use href="#bb-asa"/>
+          <use href="#bb-asa" transform="matrix(-1 0 0 1 1186 0)"/>
+        </g>
+
+        <!-- Asset real fornecido pelo cliente: recorte em fundo transparente. -->
+        <g clip-path="url(#bb-saida)">
+          <image class="borboleta__recorte" href="assets/img/persona-clinicos.webp" x="233" y="89" width="720" height="567" preserveAspectRatio="xMidYMax meet"/>
+        </g>
+      </svg>
+      <figcaption class="moldura__selo borboleta__selo"><span>Matrículas</span><b>Abertas nos cinco programas</b></figcaption>
     </figure>
   </div>
 
@@ -262,7 +311,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <!-- ==========================================================================
      2. FAIXA — título à esquerda, dois parágrafos à direita, em campo areia.
      ========================================================================== -->
-<section class="banda banda--video campo-areia" aria-labelledby="destaques-titulo">
+<section class="banda banda--video campo-areia seda" aria-labelledby="destaques-titulo">
   <div class="env banda__grade" data-revelar>
     <h2 id="destaques-titulo" class="titulo-discreto">Pós-graduações e aperfeiçoamentos para quem deseja evoluir na Odontologia.</h2>
 
@@ -294,9 +343,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <section class="secao" id="cursos" aria-label="Cursos">
   <div class="env">
 
-    <!-- WP: Cursos Loop -->
-    <div class="carrossel carrossel--cursos" data-carrossel data-revelar>
-      <ul class="carrossel__trilha" data-carrossel-trilha tabindex="0" role="group" aria-label="Cursos">
+    <!-- WP: Cursos Loop
+         Carrossel: Embla Carousel (assets/js/vendor). Sem a lib, a janela rola
+         com scroll-snap nativo. Estrutura exigida: janela > trilha > itens. -->
+    <div class="carrossel carrossel--cursos" data-carrossel="cursos" data-revelar>
+      <div class="carrossel__janela" data-carrossel-janela tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Cursos">
+      <ul class="carrossel__trilha" data-carrossel-trilha>
 
         <li class="carrossel__item">
           <article class="ficha" data-estado="abertas">
@@ -383,6 +435,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           </article>
         </li>
       </ul>
+      </div>
 
       <div class="carrossel__controles">
         <button class="carrossel__btn" type="button" data-carrossel-ant aria-label="Curso anterior">
@@ -391,6 +444,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <button class="carrossel__btn" type="button" data-carrossel-prox aria-label="Próximo curso">
           <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg>
         </button>
+        <!-- Régua: o trecho aceso é a parte da trilha que está à vista. -->
+        <div class="carrossel__regua" aria-hidden="true"><span class="carrossel__regua-trecho" data-carrossel-regua></span></div>
         <p class="carrossel__progresso" data-carrossel-progresso aria-live="polite">1 / 3</p>
       </div>
     </div>
@@ -423,15 +478,19 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
      alunos reais. Trocar por depoimentos reais e autorizados (ou remover a
      seção) antes de publicar. Ver LEIA-ME.
      ========================================================================== -->
-<section class="secao campo-teal" aria-labelledby="depoimentos-titulo">
+<section class="secao campo-teal seda seda--espelho" aria-labelledby="depoimentos-titulo">
   <div class="env">
 
     <div class="cabeca cabeca--discreta" data-revelar>
       <h2 id="depoimentos-titulo" class="titulo-discreto">O que os alunos dizem.</h2>
     </div>
 
-    <div class="carrossel" data-carrossel data-revelar data-atraso="1">
-      <div class="carrossel__trilha" data-carrossel-trilha tabindex="0" role="group" aria-label="Depoimentos de alunos (conteúdo de exemplo)">
+    <!-- Carrossel em laço, centrado: o depoimento em foco fica nítido e os
+         vizinhos recuam. Passa sozinho a cada 7 s (pausa no hover, no foco,
+         fora da tela, no botão de pausa, e nunca com movimento reduzido). -->
+    <div class="carrossel carrossel--depoimentos" data-carrossel="depoimentos" data-revelar data-atraso="1">
+      <div class="carrossel__janela" data-carrossel-janela tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Depoimentos de alunos (conteúdo de exemplo)">
+      <div class="carrossel__trilha" data-carrossel-trilha>
 
         <article class="carrossel__item">
           <div class="depoimento">
@@ -486,6 +545,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         </article>
 
       </div>
+      </div>
 
       <div class="carrossel__controles">
         <button class="carrossel__btn" type="button" data-carrossel-ant aria-label="Depoimento anterior">
@@ -493,6 +553,13 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         </button>
         <button class="carrossel__btn" type="button" data-carrossel-prox aria-label="Próximo depoimento">
           <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg>
+        </button>
+        <!-- Pontos gerados pelo JS (um por depoimento); o aceso enche como
+             cronômetro enquanto a passagem automática corre. -->
+        <div class="carrossel__pontos" data-carrossel-pontos hidden></div>
+        <button class="carrossel__pausa" type="button" data-carrossel-pausa aria-label="Pausar a passagem automática" hidden>
+          <svg class="ico carrossel__pausa-pausar" aria-hidden="true"><use href="#i-pausa"></use></svg>
+          <svg class="ico carrossel__pausa-tocar" aria-hidden="true"><use href="#i-play"></use></svg>
         </button>
         <p class="carrossel__progresso" data-carrossel-progresso aria-live="polite">1 / 4</p>
       </div>
@@ -510,18 +577,26 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <!-- WP: Footer -->
 <!-- WP: Newsletter (faixa acima do rodapé) -->
 <aside class="novidades campo-areia" aria-labelledby="novidades-titulo">
-  <div class="env novidades__interior">
-    <div class="novidades__texto">
-      <h2 id="novidades-titulo" class="titulo-discreto">Receba as próximas turmas</h2>
-      <p>Avisamos por e-mail quando abrir uma nova entrada.</p>
-    </div>
-    <div class="novidades__form">
-      <form class="news" data-news novalidate>
-        <label class="vis-oculto" for="news-email">Seu e-mail</label>
-        <input id="news-email" type="email" name="email" placeholder="seu@email.com" required autocomplete="email">
-        <button class="btn btn--acesa btn--auto" type="submit">Avise-me</button>
-      </form>
-      <p class="apoio-sm" data-news-estado hidden></p>
+  <div class="env">
+    <div class="novidades__cartao">
+      <span class="novidades__selo" aria-hidden="true"><svg class="novidades__borboleta"><use href="#i-borboleta"></use></svg></span>
+      <div class="novidades__texto">
+        <h2 id="novidades-titulo" class="titulo-discreto">Receba as próximas turmas</h2>
+        <p>Avisamos por e-mail quando abrir uma nova entrada.</p>
+      </div>
+      <div class="novidades__form">
+        <form class="news" data-news novalidate>
+          <div class="news__campo">
+            <label class="news__rotulo" for="news-email">Seu e-mail</label>
+            <div class="news__linha">
+              <svg class="ico news__ico" aria-hidden="true"><use href="#i-email"></use></svg>
+              <input id="news-email" type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-describedby="news-estado">
+            </div>
+          </div>
+          <button class="btn btn--acesa news__botao" type="submit">Avise-me <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg></button>
+        </form>
+        <p class="apoio-sm news__estado" id="news-estado" data-news-estado role="status" hidden></p>
+      </div>
     </div>
   </div>
 </aside>
@@ -609,6 +684,10 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </div>
 
 <script src="assets/js/main.js" defer></script>
+<!-- Embla Carousel só na home (os carrosséis vivem aqui). Fica depois de
+     main.js para não entrar no bloco de rodapé compartilhado das outras
+     páginas. WP: enfileirar só em is_front_page(). -->
+<script src="assets/js/vendor/embla-carousel.umd.js" defer></script>
 <script src="assets/js/components.js" defer></script>
 </body>
 </html>

@@ -1,6 +1,9 @@
 # Instituto Isabelle Arrivabene — site institucional
 
-HTML + CSS + JavaScript puro. Zero framework CSS, zero biblioteca JS.
+HTML + CSS + JavaScript puro. Zero framework CSS. Uma única biblioteca JS,
+por decisão sua: **Embla Carousel 8.6.0** (MIT, ~7 KB gzip), só nos
+carrosséis da home, servida do próprio site (`assets/js/vendor/`). Sem ela,
+os carrosséis continuam rolando com scroll-snap nativo.
 Estruturado para virar tema WordPress sem retrabalho.
 
 ---
@@ -87,6 +90,14 @@ o clique mostra "Vídeo em breve".
       Trocar pela fachada/recepção real antes de publicar:
       `grep -rn "recepcao-referencia" --include="*.html" .`
 
+- [ ] **Foto do hero (borboleta).** A foto da home fica dentro da silhueta da
+      borboleta da logo, com as cabeças saindo por cima das asas. Para isso a
+      foto precisa ser um **recorte em fundo transparente** (WebP ou PNG),
+      pessoas cortadas na cintura, proporção ~4:3 — como
+      `assets/img/persona-clinicos.webp`. Para trocar, mudar o `href` do
+      `<image>` dentro de `.borboleta` em `index.html`, o `<link rel="preload">`
+      no `<head>` e o texto do `<title id="borboleta-alt">` (é o alt).
+
 Os 26 arquivos em `assets/img/*.svg` são **placeholders autorais**, recoloridos
 para a paleta teal/areia. Cada um traz no próprio SVG, na tag `<desc>`, o
 briefing do que a foto real deve mostrar:
@@ -138,7 +149,9 @@ instituto-isabelle-arrivabene/
 │   │   └── pages.css       Composições de seção
 │   ├── js/
 │   │   ├── main.js         Header, menu móvel, revelação, voltar ao topo
-│   │   └── components.js   Acordeão, carrossel, filtro, modal, form
+│   │   ├── components.js   Acordeão, carrossel, filtro, modal, form
+│   │   └── vendor/
+│   │       └── embla-carousel.umd.js   Embla 8.6.0, original do npm (MIT)
 │   ├── img/                26 placeholders autorais + a persona fornecida
 │   ├── icons/
 │   └── fonts/
@@ -212,7 +225,11 @@ wp_enqueue_style('iia-base',       get_template_directory_uri().'/assets/css/bas
 wp_enqueue_style('iia-componentes',get_template_directory_uri().'/assets/css/components.css', ['iia-base']);
 wp_enqueue_style('iia-paginas',    get_template_directory_uri().'/assets/css/pages.css',       ['iia-componentes']);
 wp_enqueue_script('iia-main',        get_template_directory_uri().'/assets/js/main.js',       [], null, true);
-wp_enqueue_script('iia-componentes', get_template_directory_uri().'/assets/js/components.js', [], null, true);
+// Embla só na home, onde estão os carrosséis. components.js funciona sem ela.
+if (is_front_page()) {
+    wp_enqueue_script('embla-carousel', get_template_directory_uri().'/assets/js/vendor/embla-carousel.umd.js', [], '8.6.0', true);
+}
+wp_enqueue_script('iia-componentes', get_template_directory_uri().'/assets/js/components.js', is_front_page() ? ['embla-carousel'] : [], null, true);
 ```
 
 A ordem dos CSS importa: `tokens` define as variáveis que os outros três usam.

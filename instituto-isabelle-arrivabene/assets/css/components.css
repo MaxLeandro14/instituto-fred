@@ -1028,39 +1028,227 @@ html:not(.js) .acordeao__painel {
 }
 
 /* --------------------------------------------------------------------------
-   DEPOIMENTOS — carrossel escrito à mão
+   CARROSSEL — Embla Carousel (assets/js/vendor/embla-carousel.umd.js).
+   Estrutura: .carrossel > .carrossel__janela > .carrossel__trilha > itens.
+
+   Sem a lib (sem JS, falha de rede), a janela rola com scroll-snap nativo e
+   nada some. Com a lib, o JS marca [data-embla] e a janela passa a cortar:
+   quem move a trilha é a Embla, com arrasto de física suave.
+
+   A janela sangra até a borda da tela; o recuo do gutter fica no padding da
+   trilha (início) e na margem do último item (fim). A Embla lê os dois como
+   folga das pontas, então a primeira ficha alinha com o texto da página.
    -------------------------------------------------------------------------- */
 .carrossel {
   position: relative;
 }
 
-.carrossel__trilha {
-  display: flex;
-  gap: var(--s5);
+.carrossel__janela {
+  margin-inline: calc(var(--gutter) * -1);
+  margin-top: calc(var(--s3) * -1);
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding-bottom: var(--s5);
-  margin-inline: calc(var(--gutter) * -1);
-  padding-inline: var(--gutter);
   scroll-padding-inline: var(--gutter);
   scrollbar-width: none;
 }
 
-.carrossel__trilha::-webkit-scrollbar {
+.carrossel__janela::-webkit-scrollbar {
   display: none;
+}
+
+/* O respiro de cima e de baixo é o espaço da ficha subir e da sombra
+   aparecer: a janela corta o que passa da borda. */
+.carrossel__trilha {
+  display: flex;
+  margin: 0;
+  padding: var(--s3) 0 var(--s7) var(--gutter);
+  list-style: none;
 }
 
 .carrossel__item {
   flex: 0 0 min(28rem, 84vw);
+  min-width: 0;
+  margin: 0 var(--s5) 0 0;
   scroll-snap-align: start;
+}
+
+.carrossel__item:last-child {
+  margin-right: var(--gutter);
+}
+
+.carrossel[data-embla] .carrossel__janela {
+  overflow: hidden;
+  scroll-snap-type: none;
+  cursor: grab;
+}
+
+.carrossel[data-embla] .carrossel__trilha {
+  touch-action: pan-y pinch-zoom;
+  backface-visibility: hidden;
+}
+
+.carrossel[data-arrastando] .carrossel__janela {
+  cursor: grabbing;
+}
+
+/* Durante o arrasto, nada de seleção de texto pelo caminho. (O clique que
+   encerra um arrasto a Embla já cancela sozinha.) */
+.carrossel[data-arrastando] .carrossel__trilha {
+  user-select: none;
+}
+
+.carrossel__janela:focus-visible {
+  outline-offset: -3px;
 }
 
 .carrossel__controles {
   display: flex;
   align-items: center;
   gap: var(--s3);
-  margin-top: var(--s4);
+}
+
+/* Régua: a linha inteira é a trilha; o trecho aceso é o que está à vista,
+   na posição em que está. Lê como uma barra de rolagem desenhada. */
+.carrossel__regua {
+  position: relative;
+  flex: 1 1 auto;
+  max-width: 22rem;
+  height: 2px;
+  margin-inline: var(--s4);
+  border-radius: 2px;
+  background-color: var(--linha);
+  overflow: hidden;
+}
+
+.carrossel__regua-trecho {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--porcao, 40%);
+  border-radius: inherit;
+  background-color: var(--acao-bg);
+  transform: translate3d(var(--deslize, 0%), 0, 0);
+  will-change: transform;
+}
+
+html:not(.js) .carrossel__regua {
+  display: none;
+}
+
+/* Pontos: um por item. O aceso se alonga e, com a passagem automática
+   correndo, enche como cronômetro (--tempo vem do JS). */
+/* A largura do ponto aceso anima (pílula não escala sem deformar); o
+   contain isola esse relayout na própria fileira. */
+.carrossel__pontos {
+  display: flex;
+  align-items: center;
+  margin-inline: var(--s3);
+  contain: layout;
+}
+
+.carrossel__ponto {
+  display: grid;
+  place-items: center;
+  height: 2.75rem;
+  padding: 0 0.3125rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.carrossel__ponto-barra {
+  position: relative;
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 99px;
+  background-color: var(--linha-forte);
+  overflow: hidden;
+  transition: width var(--t-medio) var(--ease),
+    background-color var(--t-rapido) var(--ease-suave);
+}
+
+.carrossel__ponto:hover .carrossel__ponto-barra {
+  background-color: var(--acao-bg);
+}
+
+.carrossel__ponto[aria-current="true"] .carrossel__ponto-barra {
+  width: 2.5rem;
+  background-color: var(--linha);
+}
+
+.carrossel__ponto-tempo {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--acao-bg);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.carrossel__ponto[aria-current="true"] .carrossel__ponto-tempo {
+  transform: none;
+}
+
+.carrossel[data-tempo] .carrossel__ponto[aria-current="true"] .carrossel__ponto-tempo {
+  animation: carrossel-tempo var(--tempo, 7s) linear both;
+}
+
+.carrossel[data-tempo="pausa"] .carrossel__ponto[aria-current="true"] .carrossel__ponto-tempo {
+  animation-play-state: paused;
+}
+
+@keyframes carrossel-tempo {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.carrossel__ponto:focus-visible {
+  outline: none;
+}
+
+.carrossel__ponto:focus-visible .carrossel__ponto-barra {
+  outline: 2px solid var(--foco);
+  outline-offset: 3px;
+}
+
+/* Pausa: mesmo círculo das setas, um passo menor; troca o ícone pelo estado. */
+.carrossel__pausa {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--linha);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  color: var(--txt-2);
+  transition: border-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave);
+}
+
+.carrossel__pausa:hover {
+  border-color: var(--linha-forte);
+  color: var(--txt);
+}
+
+.carrossel__pausa .ico {
+  width: 1rem;
+  height: 1rem;
+}
+
+.carrossel__pausa-tocar,
+.carrossel__pausa[data-pausado="true"] .carrossel__pausa-pausar {
+  display: none;
+}
+
+.carrossel__pausa[data-pausado="true"] .carrossel__pausa-tocar {
+  display: block;
 }
 
 .carrossel__btn {
@@ -1096,12 +1284,57 @@ html:not(.js) .acordeao__painel {
 }
 
 .carrossel__progresso {
-  margin-left: auto;
+  margin: 0 0 0 auto;
   font-size: var(--fs-xs);
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--txt-2);
   font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   DEPOIMENTOS — laço centrado. O JS escreve --perto em cada cartão (1 em
+   foco, 0 a um passo de distância) enquanto a trilha anda: o vizinho recua
+   e esmaece na mesma medida em que se afasta do centro.
+   -------------------------------------------------------------------------- */
+.carrossel--depoimentos .carrossel__item {
+  flex-basis: min(36rem, 84vw);
+}
+
+.carrossel--depoimentos[data-embla] .carrossel__trilha {
+  padding-left: 0;
+}
+
+.carrossel--depoimentos[data-embla] .carrossel__item:last-child {
+  margin-right: var(--s5);
+}
+
+.carrossel--depoimentos[data-embla] .depoimento {
+  opacity: calc(0.32 + 0.68 * var(--perto, 1));
+  transform: scale(calc(0.9 + 0.1 * var(--perto, 1)));
+  transform-origin: 50% 60%;
+}
+
+.carrossel--depoimentos .depoimento__texto {
+  font-size: clamp(1.125rem, 1rem + 0.45vw, 1.375rem);
+}
+
+/* Controles centrados sob o cartão em foco: seta, pontos, seta, pausa. */
+.carrossel--depoimentos[data-embla] .carrossel__controles {
+  justify-content: center;
+}
+
+.carrossel--depoimentos[data-embla] .carrossel__pontos {
+  order: 1;
+}
+
+.carrossel--depoimentos[data-embla] [data-carrossel-prox] {
+  order: 2;
+}
+
+.carrossel--depoimentos[data-embla] .carrossel__pausa {
+  order: 3;
+  margin-left: var(--s4);
 }
 
 .depoimento {
@@ -1570,70 +1803,67 @@ html.js .flutuante__zap[data-visivel="false"] {
   opacity: 1;
 }
 
-.news {
-  display: flex;
-  gap: var(--s2);
-  margin-top: var(--s4);
-  flex-wrap: wrap;
-}
-
-.news input {
-  flex: 1 1 14rem;
-  min-height: 3rem;
-  padding: 0 var(--s4);
-  font-family: var(--fonte-texto);
-  font-size: var(--fs-corpo);
-  color: var(--tinta);
-  background-color: var(--creme-2);
-  border: 1px solid var(--linha-forte);
-  border-radius: var(--r2);
-  transition: border-color var(--t-rapido) var(--ease-suave), box-shadow var(--t-rapido) var(--ease-suave);
-}
-
-.news input::placeholder {
-  color: var(--tinta-2);
-  opacity: 1;
-}
-
-.news input:focus {
-  outline: none;
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(40, 121, 124, 0.22);
-}
-
 /* --------------------------------------------------------------------------
-   NOVIDADES — faixa de areia entre o CTA e o rodapé: título discreto à
-   esquerda, e-mail e botão à direita.
+   NOVIDADES — faixa de areia acima do rodapé. Um cartão-convite creme com
+   filete dourado duplo (a linguagem do banner do Summit): medalhão da
+   borboleta, título discreto e, depois de um filete, o e-mail numa linha
+   editorial com o botão ao lado.
    -------------------------------------------------------------------------- */
 .novidades {
-  padding-block: 0 clamp(2.25rem, 4.5vw, 3.25rem);
+  padding-block: clamp(2.25rem, 4.5vw, 3.5rem);
 }
 
-/* Filete no topo: separa a faixa de uma seção areia logo acima. */
-.novidades__interior {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s5) var(--s8);
+.novidades__cartao {
+  --ouro: rgba(194, 151, 98, 0.55); /* dourado da logo em filete */
   position: relative;
-  padding-top: clamp(2.25rem, 4.5vw, 3.25rem);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s5) clamp(1rem, 2.5vw, 1.75rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.25rem, 3.5vw, 3rem);
+  border: 1px solid var(--ouro);
+  border-radius: var(--r4);
+  background:
+    radial-gradient(ellipse 55% 140% at 0% 0%, rgba(255, 255, 255, 0.7), transparent 70%),
+    linear-gradient(115deg, var(--creme-2) 0%, var(--creme) 58%, #f3e3ca 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 24px 46px -30px rgba(96, 66, 30, 0.5);
 }
 
-.novidades__interior::before {
+/* Segundo filete, por dentro: o acabamento de convite. */
+.novidades__cartao::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: var(--gutter);
-  right: var(--gutter);
-  border-top: 1px solid var(--linha-forte);
+  inset: 6px;
+  border: 1px solid rgba(194, 151, 98, 0.24);
+  border-radius: calc(var(--r4) - 5px);
+  pointer-events: none;
 }
 
-/* O filete só aparece quando a última seção da página também é areia
-   (ex.: "Missão, visão e valores" em sobre.html); nos demais casos a troca
-   de cor já separa as faixas. */
-body:not(:has(main > .campo-areia:last-child)) .novidades__interior::before {
-  display: none;
+/* Medalhão: a borboleta da logo num círculo de filete, como no banner. */
+.novidades__selo {
+  display: grid;
+  place-items: center;
+  width: clamp(3.25rem, 2.7rem + 1.6vw, 4.25rem);
+  aspect-ratio: 1;
+  border: 1px solid var(--ouro);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--creme-2) 72%);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.35);
+}
+
+/* Símbolo do sprite (i-borboleta): o traço não escala, então a borboleta
+   fica legível a 40px, onde o SVG da logo viraria um fio de 0,3px. */
+.novidades__borboleta {
+  width: 66%;
+  height: auto;
+  aspect-ratio: 676 / 482;
+  fill: none;
+  stroke: var(--dourado-logo);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .novidades__texto p {
@@ -1643,16 +1873,139 @@ body:not(:has(main > .campo-areia:last-child)) .novidades__interior::before {
 }
 
 .novidades__form {
-  flex: 0 1 30rem;
-  min-width: min(100%, 18rem);
+  grid-column: 1 / -1;
+  padding-top: var(--s5);
+  border-top: 1px solid rgba(194, 151, 98, 0.4);
 }
 
-.novidades__form .news {
-  margin-top: 0;
+@media (min-width: 62rem) {
+  .novidades__cartao {
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 32rem);
+    column-gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  }
+
+  .novidades__form {
+    grid-column: auto;
+    padding: var(--s1) 0 var(--s1) clamp(1.5rem, 3vw, 2.5rem);
+    border-top: 0;
+    border-left: 1px solid rgba(194, 151, 98, 0.45);
+  }
 }
 
-.novidades__form [data-news-estado] {
-  margin: var(--s2) 0 0;
+/* Formulário: rótulo em caixa alta, campo sem caixa sobre um filete que
+   acende em teal da esquerda para a direita no foco, botão ao lado. */
+.news {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--s4);
+}
+
+.news__campo {
+  flex: 1 1 13rem;
+  min-width: 0;
+}
+
+.news__rotulo {
+  display: block;
+  font-family: var(--fonte-texto);
+  font-size: var(--fs-rotulo);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rotulo);
+}
+
+.news__linha {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  border-bottom: 1px solid var(--linha-forte);
+}
+
+.news__linha::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background-color: var(--teal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.news__linha:focus-within::after {
+  transform: scaleX(1);
+}
+
+.news__ico {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--teal);
+}
+
+.news input {
+  flex: 1;
+  min-width: 0;
+  height: 3rem;
+  padding: 0;
+  font-family: var(--fonte-texto);
+  font-size: 1.0625rem;
+  color: var(--tinta);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+/* 80% do texto secundário: ainda 4,6:1 sobre o creme, mas distinto do
+   e-mail digitado. */
+.news input::placeholder {
+  color: var(--txt-2);
+  opacity: 0.8;
+}
+
+/* O filete de 2px em teal é o indicador de foco do campo. */
+.news input:focus {
+  outline: none;
+}
+
+.news__linha:has(input[aria-invalid="true"]) {
+  border-bottom-color: var(--erro);
+}
+
+.news__linha:has(input[aria-invalid="true"])::after {
+  background-color: var(--erro);
+}
+
+/* Botão: teal em degradê com filete de areia por dentro — o "Vagas
+   limitadas" do banner, na cor de ação do site. */
+.news__botao {
+  flex: none;
+  min-height: 3rem;
+  padding-inline: var(--s6) var(--s5);
+  background-image: linear-gradient(135deg, var(--teal) 0%, var(--teal-profundo) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(226, 205, 176, 0.3),
+    0 12px 24px -14px rgba(23, 74, 76, 0.7);
+}
+
+.news__botao:hover {
+  background-image: linear-gradient(135deg, var(--teal-profundo) 0%, var(--teal-noite) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(226, 205, 176, 0.45),
+    0 16px 28px -14px rgba(23, 74, 76, 0.8);
+}
+
+.news__estado {
+  margin: var(--s3) 0 0;
+}
+
+.news__estado[data-tom="erro"] {
+  color: var(--erro);
 }
 
 .rodape__base {
@@ -1838,5 +2191,113 @@ html:not(.js) .menu-movel {
 
   html:not(.js) .header {
     position: static;
+  }
+}
+
+/* ==========================================================================
+   SEDA — fundo acetinado, inspirado no banner do Summit do Instituto.
+   Três camadas, de trás para a frente:
+   1. o brilho do cetim: luz larga e macia + sombra quente nos cantos
+      (gradientes no próprio fundo da seção);
+   2. a luz (::before): faixa desfocada e fios claros que cruzam a fita;
+   3. os fios (::after): feixes finos que abrem e torcem como uma fita.
+   Os fios são SVG usados como máscara, embutidos como data URI por
+   .build/seda.py (para desenhar outra fita, edite o script e rode de novo).
+   A cor vem do papel do campo (--seda-*), então a mesma classe serve em
+   areia, creme e teal. Decorativo: não recebe clique.
+   Uso: acrescente "seda" à section que já tem o campo; "seda--espelho"
+   inverte o desenho quando duas seções com seda ficam próximas.
+   ========================================================================== */
+.seda {
+  position: relative;
+  isolation: isolate;
+  background-image:
+    radial-gradient(ellipse 52% 80% at 20% 30%, var(--seda-brilho), transparent 72%),
+    radial-gradient(ellipse 38% 60% at 72% 18%, var(--seda-brilho), transparent 70%),
+    radial-gradient(ellipse 55% 75% at 100% 100%, var(--seda-sombra), transparent 72%),
+    radial-gradient(ellipse 40% 60% at 0% 100%, var(--seda-sombra), transparent 70%);
+}
+
+/* No teal a luz fica longe do texto (--seda-foco) e os cantos escurecem:
+   o título, no alto à esquerda, ganha contraste em vez de perder. */
+.campo-teal.seda {
+  background-image:
+    radial-gradient(ellipse 58% 70% at var(--seda-foco, 58% 62%), var(--seda-brilho), transparent 72%),
+    radial-gradient(ellipse 55% 80% at 0% 0%, var(--seda-sombra), transparent 70%),
+    radial-gradient(ellipse 50% 75% at 100% 100%, var(--seda-sombra), transparent 72%);
+}
+
+.seda::before,
+.seda::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask: var(--seda-mascara) var(--seda-pos, center) / cover no-repeat;
+  mask: var(--seda-mascara) var(--seda-pos, center) / cover no-repeat;
+}
+
+.seda::before {
+  background-color: var(--seda-luz);
+  /* Máscara gerada por .build/seda.py (seda:luz) */
+  --seda-mascara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 700' preserveAspectRatio='xMidYMid slice'%3E%3Cfilter id='c' x='-20%25' y='-50%25' width='140%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='38'/%3E%3C/filter%3E%3Cg fill='none' stroke='%23000' stroke-linecap='round' filter='url(%23c)'%3E%3Cpath d='M-120 120C360 60 700 260 1000 430C1250 570 1450 650 1720 620' stroke-width='120' opacity='.55'/%3E%3Cpath d='M-120 560C240 470 520 420 860 390C1160 360 1380 180 1720 110' stroke-width='70' opacity='.35'/%3E%3C/g%3E%3Cg fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cg stroke-width='1.0'%3E%3Cpath d='M-90 85C380 30 700 250 1000 415C1250 550 1450 635 1700 600' opacity='1.00'/%3E%3Cpath d='M-90 86C380 34 700 253 1000 418C1250 553 1450 639 1700 601' opacity='1.00'/%3E%3Cpath d='M-90 88C380 41 700 259 1000 424C1250 559 1450 644 1700 604' opacity='1.00'/%3E%3Cpath d='M-90 91C379 47 699 262 1000 427C1250 562 1450 649 1700 608' opacity='1.00'/%3E%3Cpath d='M-90 95C378 51 698 263 1000 428C1249 563 1451 651 1700 614' opacity='.98'/%3E%3Cpath d='M-90 101C377 54 697 261 1000 426C1249 561 1451 651 1700 622' opacity='.98'/%3E%3Cpath d='M-90 108C376 58 696 260 1000 425C1248 560 1452 652 1700 631' opacity='.70'/%3E%3Cpath d='M-90 115C375 66 695 263 1000 428C1248 563 1452 656 1700 641' opacity='.75'/%3E%3Cpath d='M-90 123C374 79 694 269 1000 434C1247 569 1453 665 1700 652' opacity='.78'/%3E%3Cpath d='M-90 132C372 94 692 277 1000 442C1246 577 1454 676 1700 664' opacity='.65'/%3E%3Cpath d='M-90 141C371 107 691 283 1000 448C1245 583 1455 684 1700 676' opacity='.61'/%3E%3Cpath d='M-90 149C369 117 689 285 1000 450C1245 585 1455 689 1700 689' opacity='.49'/%3E%3Cpath d='M-90 158C368 123 688 285 1000 450C1244 585 1456 691 1700 701' opacity='.62'/%3E%3Cpath d='M-90 167C366 130 686 285 1000 450C1243 585 1457 694 1700 713' opacity='.64'/%3E%3Cpath d='M-90 175C365 139 685 288 1000 453C1242 588 1458 699 1700 724' opacity='.77'/%3E%3Cpath d='M-90 182C364 151 684 294 1000 459C1242 594 1458 707 1700 734' opacity='.83'/%3E%3Cpath d='M-90 189C363 163 683 301 1000 466C1241 601 1459 716 1700 743' opacity='.74'/%3E%3Cpath d='M-90 195C362 172 682 306 1000 471C1241 606 1459 723 1700 751' opacity='.84'/%3E%3Cpath d='M-90 199C361 176 681 306 1000 471C1240 606 1460 724 1700 757' opacity='.89'/%3E%3Cpath d='M-90 202C360 176 680 303 1000 468C1240 603 1460 723 1700 761' opacity='1.00'/%3E%3Cpath d='M-90 204C360 175 680 300 1000 465C1240 600 1460 720 1700 764' opacity='1.00'/%3E%3Cpath d='M-90 205C360 175 680 300 1000 465C1240 600 1460 720 1700 765' opacity='.90'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.seda::after {
+  background-color: var(--seda-fio);
+  /* Máscara gerada por .build/seda.py (seda:fios) */
+  --seda-mascara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 700' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='%23000' stroke-linecap='round'%3E%3Cg stroke-width='1.05'%3E%3Cpath d='M-90 700C260 746 560 456 840 401C1120 346 1360 151 1700 70' opacity='.88'/%3E%3Cpath d='M-90 699C260 740 560 451 840 396C1120 341 1360 146 1700 71' opacity='.96'/%3E%3Cpath d='M-90 698C260 737 560 449 840 394C1120 339 1360 145 1700 72' opacity='.90'/%3E%3Cpath d='M-90 695C261 738 561 451 841 396C1120 341 1361 149 1700 75' opacity='.95'/%3E%3Cpath d='M-90 691C262 739 562 456 841 401C1120 346 1362 156 1700 79' opacity='.94'/%3E%3Cpath d='M-90 686C263 739 563 459 841 404C1119 349 1363 163 1700 84' opacity='.77'/%3E%3Cpath d='M-90 680C264 734 564 458 842 402C1119 347 1364 165 1700 90' opacity='.73'/%3E%3Cpath d='M-90 673C265 724 565 452 843 397C1119 342 1365 164 1700 96' opacity='.90'/%3E%3Cpath d='M-90 666C267 713 567 446 844 391C1118 336 1367 163 1700 104' opacity='.73'/%3E%3Cpath d='M-90 657C269 704 569 444 844 388C1118 333 1369 166 1700 112' opacity='.68'/%3E%3Cpath d='M-90 648C271 699 571 445 845 389C1117 335 1371 173 1700 121' opacity='.80'/%3E%3Cpath d='M-90 639C273 697 573 449 846 393C1117 338 1373 183 1700 130' opacity='.65'/%3E%3Cpath d='M-90 629C275 692 575 452 847 395C1116 341 1375 192 1700 140' opacity='.66'/%3E%3Cpath d='M-90 618C277 683 577 450 848 393C1116 339 1377 197 1700 150' opacity='.55'/%3E%3Cpath d='M-90 608C279 670 579 444 849 387C1115 333 1379 198 1700 161' opacity='.52'/%3E%3Cpath d='M-90 597C281 656 581 438 851 381C1115 326 1381 198 1700 171' opacity='.45'/%3E%3Cpath d='M-90 587C283 646 583 435 852 378C1114 323 1383 202 1700 182' opacity='.57'/%3E%3Cpath d='M-90 576C285 640 585 436 853 379C1114 325 1385 210 1700 192' opacity='.67'/%3E%3Cpath d='M-90 566C287 637 587 440 854 383C1113 329 1387 221 1700 202' opacity='.66'/%3E%3Cpath d='M-90 557C289 633 589 442 855 385C1113 331 1389 229 1700 211' opacity='.75'/%3E%3Cpath d='M-90 548C291 625 591 441 856 383C1112 329 1391 233 1700 220' opacity='.78'/%3E%3Cpath d='M-90 539C293 614 593 435 856 377C1112 323 1393 233 1700 228' opacity='.68'/%3E%3Cpath d='M-90 532C295 603 595 429 857 371C1111 317 1395 232 1700 236' opacity='.88'/%3E%3Cpath d='M-90 525C296 595 596 427 858 369C1111 315 1396 234 1700 242' opacity='.88'/%3E%3Cpath d='M-90 519C297 593 597 429 859 371C1111 317 1397 240 1700 248' opacity='.83'/%3E%3Cpath d='M-90 514C298 595 598 433 859 375C1110 321 1398 248 1700 253' opacity='.78'/%3E%3Cpath d='M-90 510C299 595 599 436 859 378C1110 324 1399 253 1700 257' opacity='1.00'/%3E%3Cpath d='M-90 507C300 592 600 435 860 377C1110 323 1400 254 1700 260' opacity='.93'/%3E%3Cpath d='M-90 506C300 586 600 431 860 373C1110 319 1400 250 1700 261' opacity='1.00'/%3E%3Cpath d='M-90 505C300 581 600 426 860 368C1110 314 1400 246 1700 262' opacity='1.00'/%3E%3C/g%3E%3Cg stroke-width='0.95'%3E%3Cpath d='M1010 -60C1190 122 1330 332 1700 420' opacity='.66'/%3E%3Cpath d='M1012 -60C1192 122 1332 332 1700 418' opacity='.62'/%3E%3Cpath d='M1019 -60C1198 119 1338 327 1700 413' opacity='.69'/%3E%3Cpath d='M1030 -60C1208 114 1348 319 1700 405' opacity='.54'/%3E%3Cpath d='M1045 -60C1220 109 1360 310 1700 394' opacity='.56'/%3E%3Cpath d='M1062 -60C1235 104 1375 302 1700 381' opacity='.46'/%3E%3Cpath d='M1080 -60C1252 102 1392 294 1700 367' opacity='.35'/%3E%3Cpath d='M1100 -60C1268 100 1408 287 1700 353' opacity='.40'/%3E%3Cpath d='M1118 -60C1285 96 1425 279 1700 339' opacity='.41'/%3E%3Cpath d='M1135 -60C1300 90 1440 269 1700 326' opacity='.54'/%3E%3Cpath d='M1150 -60C1312 84 1452 259 1700 315' opacity='.54'/%3E%3Cpath d='M1161 -60C1322 80 1462 252 1700 307' opacity='.58'/%3E%3Cpath d='M1168 -60C1328 78 1468 249 1700 302' opacity='.67'/%3E%3Cpath d='M1170 -60C1330 80 1470 250 1700 300' opacity='.77'/%3E%3C/g%3E%3Cg stroke-width='0.9'%3E%3Cpath d='M-90 640C240 560 430 600 760 760' opacity='.44'/%3E%3Cpath d='M-90 645C238 565 434 604 754 762' opacity='.42'/%3E%3Cpath d='M-90 657C233 577 444 614 739 767' opacity='.36'/%3E%3Cpath d='M-90 673C227 593 456 626 721 773' opacity='.31'/%3E%3Cpath d='M-90 685C222 605 466 636 706 778' opacity='.41'/%3E%3Cpath d='M-90 690C220 610 470 640 700 780' opacity='.46'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Nos banners o texto ocupa a esquerda: a luz vai para trás da foto e a
+   faixa clara desfocada baixa, para o apoio em branco manter 4,5:1. */
+.banner.seda {
+  --seda-foco: 80% 42%;
+  --seda-luz: rgba(236, 245, 244, 0.1);
+}
+
+/* Faixa do vídeo: os fios ficam quase uma marca d'água; o brilho do cetim
+   continua inteiro (pedido do cliente, 24/11/2026). */
+.banda--video.seda {
+  --seda-fio: rgba(184, 138, 84, 0.3);
+  --seda-luz: rgba(255, 251, 243, 0.6);
+}
+
+/* Botão de contorno sobre a seda: o fundo transparente desfoca os fios que
+   passam por trás, e o rótulo não disputa com as linhas. */
+.seda .btn--contorno {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+/* Espelhada: a fita sobe da direita para a esquerda (para variar o desenho
+   quando duas seções com seda ficam próximas). */
+.seda--espelho::before,
+.seda--espelho::after {
+  transform: scaleX(-1);
+}
+
+/* No celular a seção é alta e estreita e a máscara mostra só uma fatia da
+   fita: --seda-pos escolhe a fatia que corre pelos vãos do conteúdo. A luz
+   do teal desce para trás da figura, longe do texto. */
+@media (max-width: 48rem) {
+  .seda {
+    --seda-pos: 58% center;
+  }
+
+  .banda--video.seda {
+    --seda-pos: 85% 30%;
+  }
+
+  .banner.seda {
+    --seda-foco: 70% 78%;
+  }
+}
+
+@media (forced-colors: active) {
+  .seda::before,
+  .seda::after {
+    display: none;
   }
 }

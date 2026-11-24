@@ -38,6 +38,9 @@
 
   --erro: #b42318;
 
+  /* --- Dourado da logo: só no traço da borboleta do hero, nunca em texto */
+  --dourado-logo: #c29762;
+
   /* --- Papéis semânticos: campo creme (padrão) -------------------------- */
   --sup: var(--creme);
   --cartao: var(--areia);
@@ -54,6 +57,12 @@
   --acao-hover: var(--teal-profundo);
   --acao-hover-txt: #fff;
   --foco: var(--teal-profundo);
+
+  /* --- Seda: o fundo acetinado (.seda), lido pelo papel do campo -------- */
+  --seda-fio: rgba(194, 151, 98, 0.62); /* dourado da logo */
+  --seda-luz: rgba(255, 255, 255, 0.9);
+  --seda-brilho: rgba(255, 255, 255, 0.7);
+  --seda-sombra: rgba(194, 151, 98, 0.14);
 
   /* --- Tipografia ------------------------------------------------------- */
   /* Raleway em caixa alta com tracking aberto nos títulos; Manrope no texto.
@@ -160,6 +169,10 @@
   --acao-hover: #fff;
   --acao-hover-txt: var(--teal-profundo);
   --foco: var(--areia);
+  --seda-fio: rgba(226, 205, 176, 0.42);
+  --seda-luz: rgba(236, 245, 244, 0.2);
+  --seda-brilho: rgba(84, 160, 162, 0.42);
+  --seda-sombra: rgba(23, 74, 76, 0.6);
   background-color: var(--teal);
   color: var(--txt);
 }
@@ -181,6 +194,10 @@
   --acao-hover: var(--teal-profundo);
   --acao-hover-txt: #fff;
   --foco: var(--teal-profundo);
+  --seda-fio: rgba(184, 138, 84, 0.78);
+  --seda-luz: rgba(255, 251, 243, 0.95);
+  --seda-brilho: rgba(251, 244, 232, 0.85);
+  --seda-sombra: rgba(170, 128, 78, 0.2);
   background-color: var(--areia);
   color: var(--txt);
 }

@@ -252,6 +252,8 @@
 
       if (!campo.value || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(campo.value)) {
         newsEstado.textContent = "Confira o e-mail: parece estar incompleto.";
+        newsEstado.setAttribute("data-tom", "erro");
+        campo.setAttribute("aria-invalid", "true");
         campo.focus();
         return;
       }
@@ -259,7 +261,16 @@
       /* WP: trocar por wp_ajax_ ou pelo endpoint do plugin de e-mail. */
       newsEstado.textContent =
         "Pronto. Assim que o envio for conectado, você recebe as próximas turmas.";
+      newsEstado.removeAttribute("data-tom");
+      campo.removeAttribute("aria-invalid");
       news.reset();
+    });
+
+    /* Ao corrigir, o campo deixa de acusar erro. */
+    news.addEventListener("input", function (e) {
+      if (e.target.getAttribute("aria-invalid") !== "true") return;
+      e.target.removeAttribute("aria-invalid");
+      newsEstado.hidden = true;
     });
   }
   /* ------------------------------------------------------------------------

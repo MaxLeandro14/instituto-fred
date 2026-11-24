@@ -226,8 +226,8 @@ cor de destaque do campo (areia sobre teal, teal sobre claro). Uma por título.
 - **CTA final:** retirado de todas as páginas a pedido do cliente (24/11/2026).
   O CSS da cúpula (`.cta-final` em `pages.css`) ficou sem uso.
 - **Novidades:** faixa em areia logo acima do rodapé, presente em todas as
-  páginas — título discreto à esquerda, e-mail e botão à direita. Ganha um
-  filete no topo só quando a última seção da página também é areia.
+  páginas, com um **cartão-convite** creme (ver Components). O cartão já
+  separa a faixa de uma seção areia logo acima; o filete de topo saiu.
 - **Rodapé:** coluna da marca só com logo e redes; o mapa fica numa faixa
   centralizada abaixo das colunas (até 44rem, 21:8), quase monocromático até
   o hover.
@@ -250,8 +250,8 @@ no hover. Molduras levam a sombra mais longa (`0 24px 60px`).
 
 Botões 6px; fichas e cartões 8px; molduras e quadros da galeria 14px; selos,
 etiquetas e filtro em pílula. O cartão de areia atrás das molduras gira
-−3,5° e aparece embaixo e à direita da foto. O quadro do hero é quase
-quadrado (13:14) e tem no máximo 28rem de largura.
+−3,5° e aparece embaixo e à direita da foto. O hero da home não usa moldura:
+a foto fica na silhueta da borboleta da logo (ver Components).
 
 ## Components
 
@@ -281,6 +281,24 @@ quadrado (13:14) e tem no máximo 28rem de largura.
   discreto: rótulo de 10px e texto de 15px em peso regular.
   Foto de terceiros leva a legenda "Imagem ilustrativa".
 
+### Borboleta do hero
+A foto do hero da home vive dentro da **silhueta do símbolo da logo** (o mesmo
+traçado de `logo-borboleta.svg`, SVG inline, eixo x = 593). Camadas, de trás
+para a frente: o **eco** (contorno em areia a 45%, girado −4°, sem a ponta da
+asa), as **asas** cheias (creme → areia, com sombra), o **traço dourado**
+(`dourado-logo`, 4,5 unidades) e o **recorte dos clínicos**, recortado pelas
+asas mais o "céu" acima delas: o corpo fica dentro das asas e as cabeças
+saem por cima. O selo de matrícula assenta na ponta da asa de baixo, à
+direita. Até 36rem de largura.
+
+Entrada (o momento autoral da página, uma vez): o traço se desenha das pontas
+para o centro em 2s, as asas acendem por dentro dele — mostrando os dois
+perfis da logo — e os clínicos assentam na frente; o selo chega por último.
+Com movimento reduzido, tudo aparece pronto.
+
+A foto precisa ser um **recorte em fundo transparente**, pessoas cortadas na
+cintura, ~4:3. As molduras com cartão girado continuam nos banners internos.
+
 ### Inputs / Fields
 Fundo creme-2, borda teal a 40%, cantos 6px, 52px de altura. Foco: borda teal
 + anel de 3px. Erro em `erro` com mensagem que nomeia problema e correção.
@@ -295,18 +313,86 @@ os cinco programas e "Ver todos os cursos" em caixa alta. Sem JS, o dropdown
 abre por `:hover`/`:focus-within` e a lista do header quebra linha.
 
 ### Carrossel
-Um só componente para cursos e depoimentos: trilha com rolagem nativa e
-snap, setas circulares de contorno e contador "1 / N" abaixo. Nos cursos,
-cada ficha tem ~23,5rem — três inteiras e a ponta da quarta à vista no
-desktop, uma e a ponta da seguinte no celular.
+Um só componente sobre a **Embla Carousel** (`assets/js/vendor`, só na home),
+estrutura `.carrossel > .carrossel__janela > .carrossel__trilha > itens`. A
+janela sangra até a borda da tela; o recuo do gutter fica no padding da
+trilha e na margem do último item. Sem a lib, a janela rola com scroll-snap
+nativo; com ela, recebe `[data-embla]`, corta e a trilha é arrastada com
+física suave (cursor de mão, sem seleção de texto durante o arrasto).
+
+- **Cursos** (`data-carrossel="cursos"`): paradas alinhadas ao texto da
+  página, para nas pontas. Cada ficha tem ~23,5rem — três inteiras e a ponta
+  da quarta à vista no desktop, uma e a ponta da seguinte no celular. Abaixo:
+  setas, **régua** (linha de 2px; o trecho aceso é a parte da trilha à vista,
+  na posição em que está) e contador "1 / N". A foto de cada ficha é 14% mais
+  larga que o quadro e corre contra o arrasto (**paralaxe** de até 6%, pela
+  propriedade `translate`, separada do zoom de hover).
+  **Traços de acabamento** (só nas fichas do carrossel, cantos de 14px): um
+  filete dourado de 1px (`dourado-logo`) deslocado 14px para baixo e à
+  direita atrás de cada ficha, que sai de trás dela em cascata quando o
+  carrossel aparece e vai a 20px no hover; um passe-partout creme a 42% por
+  dentro da foto (12px de recuo; o selo pousa sobre ele); filete acima do
+  pé; e a seta num círculo de contorno de 36px que se preenche de teal
+  profundo no hover. O nível ("Pós-graduação") fica sem traço antes, a
+  pedido do cliente.
+- **Depoimentos** (`data-carrossel="depoimentos"`): **laço centrado**; o cartão
+  em foco fica nítido e os vizinhos recuam (escala 0,9, opacidade 0,32) na
+  medida da distância ao centro (`--perto`, escrito pelo JS a cada quadro).
+  Controles centrados: seta, pontos, seta, pausa. O ponto aceso se alonga e
+  **enche como cronômetro** da passagem automática (7s). A passagem pausa com
+  mouse em cima, foco de teclado, arrasto, aba oculta ou carrossel fora da
+  tela, e o cronômetro retoma de onde parou; o botão de pausa vence tudo.
+  Com movimento reduzido não há passagem automática nem botão de pausa.
 
 ### Vídeo institucional
 Quadro 16:9 com cantos de 14px sobre cartão creme girado −2°, na faixa areia
-logo após o hero (título discreto à esquerda). A capa é um botão: disco
+com fundo de seda logo após o hero (título discreto à esquerda). A capa é um botão: disco
 translúcido com anel que "respira" (3,2s, desligado com movimento reduzido),
 rótulo "Conheça o Instituto" em Raleway caixa alta; no hover o disco acende em
 areia. Sem JS aparecem os controles nativos; com `data-youtube` o player do
 YouTube entra só no clique.
+
+### Novidades (cartão-convite)
+Cartão creme sobre a faixa areia, com **filete dourado duplo** (borda a 55%
+e um segundo filete 6px para dentro, a 24%), cantos de 14px e sombra quente
+longa. À esquerda, o **medalhão**: a borboleta da logo num círculo de filete
+dourado, como no banner do Summit; ela vem do símbolo `i-borboleta` do sprite,
+com traço que não escala (o SVG da logo a 40px viraria um fio de 0,3px).
+Depois, o título discreto e o apoio; um filete dourado vertical (horizontal
+no celular) separa o formulário.
+
+- **Campo:** rótulo visível em caixa alta (Manrope 800, 11px), ícone de
+  e-mail e o input sem caixa, sobre um filete; no foco, um traço de 2px em
+  teal corre da esquerda para a direita (é o indicador de foco). Erro: o
+  filete e a mensagem ficam em `erro`, com `aria-invalid` no campo, e somem
+  ao corrigir.
+- **Botão:** teal → teal profundo em degradê, filete de areia por dentro e
+  sombra, seta que avança no hover. No celular ocupa a largura toda.
+
+### Seda (fundo acetinado)
+Inspirada no fundo do banner do Summit do Instituto (24/11/2026, pedido do
+cliente): feixes de fios finos que correm em curvas longas, abrem e torcem
+como uma fita de seda, sobre um brilho de cetim. Classe `.seda` na `<section>`
+que já tem o campo; `.seda--espelho` inverte o desenho.
+
+- **Camadas:** brilho largo + sombra quente nos cantos (gradientes no fundo da
+  seção) → luz (`::before`: faixa desfocada e fios claros) → fios (`::after`).
+- **Cor pelo papel do campo:** `--seda-fio`, `--seda-luz`, `--seda-brilho`,
+  `--seda-sombra`. Areia: fios no dourado da logo, luz creme. Teal: fios em
+  areia a 42%, luz gelo, cantos em teal noturno.
+- **Máscaras** geradas por `.build/seda.py` e embutidas como data URI em
+  `components.css` (máscara CSS por `file://` não carrega). Para mudar o
+  desenho, edite o script e rode `python3 .build/seda.py`.
+- **Onde está:** faixa do vídeo (areia, com os fios suavizados a pedido do
+  cliente: quase marca d'água, o brilho fica inteiro), depoimentos (teal,
+  espelhada) e os banners das páginas internas (teal). Não vai no hero da
+  home (a borboleta é o momento autoral) nem na faixa Novidades (estreita
+  demais: a fita cruza o título).
+- **Contraste:** no teal, a luz (`--seda-foco`) fica atrás da figura, nunca
+  atrás do texto; branco sobre o centro do brilho cai para ~4,1:1. No
+  celular, `--seda-pos` escolhe a fatia da fita que corre pelos vãos. Botão
+  de contorno sobre a seda desfoca os fios por trás (`backdrop-filter`).
+- Estática, decorativa, some em `forced-colors`.
 
 ### Faixa de contorno
 Texto em caixa alta, vazado (`-webkit-text-stroke` areia a 34%), correndo em

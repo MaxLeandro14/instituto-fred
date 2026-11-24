@@ -8,7 +8,11 @@ web
 
 ## Stack
 
-HTML + CSS + JavaScript puro. **Proibido:** Bootstrap, Tailwind, qualquer framework CSS, qualquer biblioteca JS (jQuery, GSAP, Swiper, AOS incluídos). Carousel, accordion, scroll reveal e menu mobile são escritos à mão. Decisão explícita do usuário, reafirmada. Structured for a later conversion to a WordPress theme: separated CSS/JS, reusable partials under `components/` destined to become `get_header()` / `get_footer()`, and `<!-- WP: ... -->` markers at every future template seam.
+HTML + CSS + JavaScript puro. **Proibido:** Bootstrap, Tailwind, qualquer framework CSS, qualquer biblioteca JS (jQuery, GSAP, Swiper, AOS incluídos). Accordion, scroll reveal e menu mobile são escritos à mão. Decisão explícita do usuário, reafirmada.
+
+**Única exceção (2026-11-24, decisão do usuário):** **Embla Carousel 8.6.0** (MIT, ~7 KB gzip, sem CSS próprio) nos carrosséis da home, servida localmente em `assets/js/vendor/embla-carousel.umd.js` (sem CDN). Escolhida entre Embla, Swiper (44 KB + CSS) e Splide (sem release desde 2022) por ser leve e não impor visual. O carrossel continua funcionando sem ela (scroll-snap nativo). Nenhuma outra lib entra sem nova decisão do usuário.
+
+Structured for a later conversion to a WordPress theme: separated CSS/JS, reusable partials under `components/` destined to become `get_header()` / `get_footer()`, and `<!-- WP: ... -->` markers at every future template seam.
 
 ## Users
 

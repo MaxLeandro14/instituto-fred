@@ -417,29 +417,39 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </main>
 
 <!-- WP: Footer -->
-<!-- WP: Newsletter (faixa acima do rodapé) -->
+<!-- WP: Newsletter (faixa acima do rodapé) — e-mail ou WhatsApp -->
 <aside class="novidades campo-areia" aria-labelledby="novidades-titulo">
-  <div class="env">
-    <div class="novidades__cartao">
-      <span class="novidades__selo" aria-hidden="true"><svg class="novidades__borboleta"><use href="#i-borboleta"></use></svg></span>
-      <div class="novidades__texto">
-        <h2 id="novidades-titulo" class="titulo-discreto">Receba as próximas turmas</h2>
-        <p>Avisamos por e-mail quando abrir uma nova entrada.</p>
-      </div>
-      <div class="novidades__form">
-        <form class="news" data-news novalidate>
-          <div class="news__campo">
-            <label class="news__rotulo" for="news-email">Seu e-mail</label>
-            <div class="news__linha">
-              <svg class="ico news__ico" aria-hidden="true"><use href="#i-email"></use></svg>
-              <input id="news-email" type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-describedby="news-estado">
-            </div>
-          </div>
-          <button class="btn btn--acesa news__botao" type="submit">Avise-me <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg></button>
-        </form>
-        <p class="apoio-sm news__estado" id="news-estado" data-news-estado role="status" hidden></p>
-      </div>
+  <div class="env novidades__grade">
+    <div class="novidades__texto">
+      <svg class="novidades__borboleta" aria-hidden="true"><use href="#i-borboleta"></use></svg>
+      <h2 id="novidades-titulo" class="titulo-discreto">Receba informações por e-mail ou WhatsApp</h2>
+      <p>Avisamos quando abrir uma nova turma, no canal que você preferir.</p>
     </div>
+    <form class="news" data-news novalidate>
+      <fieldset class="news__canais">
+        <legend class="vis-oculto">Como prefere receber</legend>
+        <label class="news__canal">
+          <input type="radio" name="canal" value="email" checked data-news-canal>
+          <svg class="ico" aria-hidden="true"><use href="#i-email"></use></svg>E-mail
+        </label>
+        <label class="news__canal">
+          <input type="radio" name="canal" value="whatsapp" data-news-canal>
+          <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"></use></svg>WhatsApp
+        </label>
+      </fieldset>
+      <div class="news__envio">
+        <div class="news__campo" data-canal="email">
+          <label class="vis-oculto" for="news-email">Seu e-mail</label>
+          <input class="news__entrada" id="news-email" type="email" name="email" placeholder="seu@email.com" autocomplete="email" aria-describedby="news-estado">
+        </div>
+        <div class="news__campo" data-canal="whatsapp">
+          <label class="vis-oculto" for="news-whatsapp">Seu WhatsApp com DDD</label>
+          <input class="news__entrada" id="news-whatsapp" type="tel" name="whatsapp" inputmode="tel" placeholder="(98) 90000-0000" autocomplete="tel-national" aria-describedby="news-estado">
+        </div>
+        <button class="btn btn--acesa news__botao" type="submit">Quero receber <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg></button>
+      </div>
+      <p class="apoio-sm news__estado" id="news-estado" data-news-estado role="status" hidden></p>
+    </form>
   </div>
 </aside>
 

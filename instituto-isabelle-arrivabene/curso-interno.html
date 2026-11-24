@@ -175,6 +175,10 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
      MODELO REUTILIZÁVEL DE CURSO
      Preenchido com Harmonização Orofacial. No WordPress vira single-curso.php,
      e cada bloco marcado abaixo puxa de um campo do CPT 'curso'.
+
+     Estrutura: banner → sumário fixo → seções num trilho de duas colunas
+     (título à esquerda, conteúdo à direita), para que todos os títulos
+     caiam no mesmo eixo e a página leia como um índice.
      ========================================================================== -->
 
 <!-- WP: Banner (campo: curso_imagem_banner) -->
@@ -183,6 +187,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     <div class="banner__texto">
       <!-- WP: the_title() -->
       <h1 class="banner__titulo" id="banner-titulo">Harmonização <em>Orofacial</em></h1>
+
+      <!-- WP: campos curso_nivel e curso_status -->
+      <p class="banner__meta">
+        <span class="selo selo--nivel">Pós-graduação</span>
+        <span class="selo selo--ultimas"><span class="selo__ponto" aria-hidden="true"></span>Últimas vagas</span>
+      </p>
 
       <!-- WP: campo curso_resumo -->
       <p class="banner__linha">
@@ -210,15 +220,36 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </section>
 
 <!-- ==========================================================================
-     SOBRE O CURSO
+     SUMÁRIO DA PÁGINA — fixo logo abaixo do header; marca a seção em leitura.
      ========================================================================== -->
-<section class="secao" id="sobre-curso" aria-labelledby="sobre-curso-titulo">
+<nav class="sumario" aria-label="Nesta página" data-sumario>
   <div class="env">
-    <div class="par">
-      <div class="par__texto" data-revelar>
-        <h2 id="sobre-curso-titulo">Sobre o curso</h2>
-        <!-- WP: the_content() -->
-        <p>
+    <ul class="sumario__lista">
+      <li><a class="sumario__elo" href="#sobre-curso">O curso</a></li>
+      <li><a class="sumario__elo" href="#programatico">Programa</a></li>
+      <li><a class="sumario__elo" href="#faq">Perguntas</a></li>
+      <li><a class="sumario__elo" href="#inscricao-curso">Inscrição</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ==========================================================================
+     SOBRE O CURSO — título e foto no trilho; texto e diferenciais ao lado.
+     ========================================================================== -->
+<section class="secao trecho" id="sobre-curso" aria-labelledby="sobre-curso-titulo">
+  <div class="env trilho">
+    <div class="trilho__guia" data-revelar>
+      <h2 id="sobre-curso-titulo">Sobre o curso</h2>
+      <figure class="visao__figura">
+        <!-- WP: campo curso_imagem -->
+        <img src="assets/img/curso-harmonizacao.svg" alt="" width="1200" height="800" loading="lazy" decoding="async">
+      </figure>
+    </div>
+
+    <div class="trilho__corpo" data-revelar data-atraso="1">
+      <!-- WP: the_content() -->
+      <div class="visao__texto">
+        <p class="visao__abertura">
           A Harmonização Orofacial é o programa mais procurado do Instituto — e o
           mais exigente. Ele parte de um princípio simples: nenhum protocolo é
           seguro sem domínio da anatomia que está por baixo dele.
@@ -234,170 +265,139 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           detalhe — na angulação, no volume, no ponto em que você não tinha
           reparado — e não em observação genérica para a sala inteira.
         </p>
-
-        <ul class="marcos">
-          <li><b>Prática<br>supervisionada</b><span>Em clínica própria, desde os primeiros módulos</span></li>
-          <li><b>Turma<br>reduzida</b><span>Acompanhamento individual por procedimento</span></li>
-          <li><b>Casos<br>reais</b><span>Discussão dos casos trazidos pelos alunos</span></li>
-        </ul>
       </div>
 
-      <figure class="par__figura" data-revelar data-atraso="1">
-        <!-- WP: campo curso_imagem -->
-        <img src="assets/img/curso-harmonizacao.svg" alt="" width="1200" height="800" loading="lazy" decoding="async">
-        <figcaption>Clínica do Instituto &middot; Champs Mall, São Luís&nbsp;–&nbsp;MA</figcaption>
-      </figure>
+      <!-- WP: campo curso_diferenciais -->
+      <ul class="diferenciais" role="list">
+        <li>
+          <h3>Prática supervisionada</h3>
+          <p>Em clínica própria, desde os primeiros módulos.</p>
+        </li>
+        <li>
+          <h3>Turma reduzida</h3>
+          <p>Acompanhamento individual por procedimento.</p>
+        </li>
+        <li>
+          <h3>Casos reais</h3>
+          <p>Discussão dos casos trazidos pelos alunos.</p>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- ==========================================================================
-     CONTEÚDO PROGRAMÁTICO — acordeão. WP: campo repetidor curso_modulos
+     CONTEÚDO PROGRAMÁTICO — todos os módulos à vista, em ordem.
+     WP: campo repetidor curso_modulos (titulo + topicos)
      ========================================================================== -->
-<section class="secao campo-areia" id="programatico" aria-labelledby="prog-titulo">
-  <div class="env env--estreito">
-    <div class="cabeca" data-revelar>
+<section class="secao campo-areia trecho" id="programatico" aria-labelledby="prog-titulo">
+  <div class="env trilho">
+    <div class="trilho__guia trilho__guia--fixa" data-revelar>
       <h2 id="prog-titulo">Conteúdo programático</h2>
+      <p class="trilho__apoio">
+        Seis módulos, da anatomia à gestão do serviço. A anatomia facial
+        aplicada abre o programa e volta em cada etapa seguinte.
+      </p>
+      <a class="btn btn--contorno" href="#inscricao-curso">
+        Solicitar proposta
+        <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
+      </a>
     </div>
 
     <!-- WP: Módulos Loop -->
-    <div class="acordeao" data-acordeao="exclusivo" data-revelar data-atraso="1">
+    <ol class="modulos trilho__corpo" role="list" data-revelar data-atraso="1">
+      <li class="modulo">
+        <span class="modulo__num" aria-hidden="true">01</span>
+        <h3 class="modulo__titulo">Anatomia facial aplicada</h3>
+        <ul class="modulo__topicos">
+          <li>Planos, compartimentos de gordura e sustentação</li>
+          <li>Vascularização e territórios de risco</li>
+          <li>Musculatura da expressão e vetores de tração</li>
+        </ul>
+      </li>
 
-      <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
-          <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="true" aria-controls="mod-1">
-            Anatomia facial aplicada
-            <span class="acordeao__sinal" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="acordeao__painel" id="mod-1" data-aberto="true">
-          <div class="acordeao__interior"><div>
-            <ul class="lista-check">
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Planos, compartimentos de gordura e sustentação</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Vascularização e territórios de risco</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Musculatura da expressão e vetores de tração</li>
-            </ul>
-          </div></div>
-        </div>
-      </div>
+      <li class="modulo">
+        <span class="modulo__num" aria-hidden="true">02</span>
+        <h3 class="modulo__titulo">Diagnóstico e planejamento facial</h3>
+        <ul class="modulo__topicos">
+          <li>Avaliação estática e dinâmica</li>
+          <li>Documentação fotográfica padronizada</li>
+          <li>Construção do plano e alinhamento de expectativa</li>
+        </ul>
+      </li>
 
-      <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
-          <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="false" aria-controls="mod-2">
-            Diagnóstico e planejamento facial
-            <span class="acordeao__sinal" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="acordeao__painel" id="mod-2" data-aberto="false">
-          <div class="acordeao__interior"><div>
-            <ul class="lista-check">
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Avaliação estática e dinâmica</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Documentação fotográfica padronizada</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Construção do plano e alinhamento de expectativa</li>
-            </ul>
-          </div></div>
-        </div>
-      </div>
+      <li class="modulo">
+        <span class="modulo__num" aria-hidden="true">03</span>
+        <h3 class="modulo__titulo">Protocolos e técnicas</h3>
+        <ul class="modulo__topicos">
+          <li>Toxina botulínica: indicação, dose e distribuição</li>
+          <li>Preenchedores: seleção, plano e técnica de aplicação</li>
+          <li>Associação de técnicas no mesmo planejamento</li>
+        </ul>
+      </li>
 
-      <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
-          <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="false" aria-controls="mod-3">
-            Protocolos e técnicas
-            <span class="acordeao__sinal" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="acordeao__painel" id="mod-3" data-aberto="false">
-          <div class="acordeao__interior"><div>
-            <ul class="lista-check">
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Toxina botulínica: indicação, dose e distribuição</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Preenchedores: seleção, plano e técnica de aplicação</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Associação de técnicas no mesmo planejamento</li>
-            </ul>
-          </div></div>
-        </div>
-      </div>
+      <li class="modulo">
+        <span class="modulo__num" aria-hidden="true">04</span>
+        <h3 class="modulo__titulo">Prática clínica supervisionada</h3>
+        <ul class="modulo__topicos">
+          <li>Atendimento na clínica do Instituto</li>
+          <li>Execução acompanhada, com correção por procedimento</li>
+          <li>Registro e acompanhamento do resultado</li>
+        </ul>
+      </li>
 
-      <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
-          <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="false" aria-controls="mod-4">
-            Prática clínica supervisionada
-            <span class="acordeao__sinal" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="acordeao__painel" id="mod-4" data-aberto="false">
-          <div class="acordeao__interior"><div>
-            <ul class="lista-check">
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Atendimento na clínica do Instituto</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Execução acompanhada, com correção por procedimento</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Registro e acompanhamento do resultado</li>
-            </ul>
-          </div></div>
-        </div>
-      </div>
+      <li class="modulo">
+        <span class="modulo__num" aria-hidden="true">05</span>
+        <h3 class="modulo__titulo">Manejo de intercorrências</h3>
+        <ul class="modulo__topicos">
+          <li>Reconhecimento precoce de complicações</li>
+          <li>Conduta imediata e protocolo de resgate</li>
+          <li>Comunicação com o paciente na intercorrência</li>
+        </ul>
+      </li>
 
-      <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
-          <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="false" aria-controls="mod-5">
-            Manejo de intercorrências
-            <span class="acordeao__sinal" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="acordeao__painel" id="mod-5" data-aberto="false">
-          <div class="acordeao__interior"><div>
-            <ul class="lista-check">
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Reconhecimento precoce de complicações</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Conduta imediata e protocolo de resgate</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Comunicação com o paciente na intercorrência</li>
-            </ul>
-          </div></div>
-        </div>
-      </div>
-
-      <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
-          <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="false" aria-controls="mod-6">
-            Ética, documentação e gestão do serviço
-            <span class="acordeao__sinal" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="acordeao__painel" id="mod-6" data-aberto="false">
-          <div class="acordeao__interior"><div>
-            <ul class="lista-check">
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Limites de atuação do cirurgião-dentista</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Prontuário, consentimento e responsabilidade</li>
-              <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Precificação e apresentação do serviço na clínica</li>
-            </ul>
-          </div></div>
-        </div>
-      </div>
-
-    </div>
+      <li class="modulo">
+        <span class="modulo__num" aria-hidden="true">06</span>
+        <h3 class="modulo__titulo">Ética, documentação e gestão do serviço</h3>
+        <ul class="modulo__topicos">
+          <li>Limites de atuação do cirurgião-dentista</li>
+          <li>Prontuário, consentimento e responsabilidade</li>
+          <li>Precificação e apresentação do serviço na clínica</li>
+        </ul>
+      </li>
+    </ol>
   </div>
 </section>
 
 <!-- ==========================================================================
-     FAQ DO CURSO
+     PERGUNTAS — título e saída para o consultor no trilho; acordeão ao lado.
      ========================================================================== -->
-<section class="secao" id="faq" aria-labelledby="faqc-titulo">
-  <div class="env env--estreito">
-    <div class="cabeca" data-revelar>
+<section class="secao trecho" id="faq" aria-labelledby="faqc-titulo">
+  <div class="env trilho">
+    <div class="trilho__guia" data-revelar>
       <h2 id="faqc-titulo">Perguntas sobre este curso</h2>
+      <p class="trilho__apoio">Não encontrou a sua dúvida? Um consultor responde pelo WhatsApp.</p>
+      <!-- SUBSTITUIR: número real de WhatsApp -->
+      <a class="btn btn--contorno" href="https://wa.me/5598000000000?text=Ol%C3%A1%21%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20P%C3%B3s%20em%20Harmoniza%C3%A7%C3%A3o%20Orofacial." target="_blank" rel="noopener">
+        <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+        Falar com um consultor
+      </a>
     </div>
 
-    <div class="acordeao" data-acordeao="exclusivo" data-revelar data-atraso="1">
+    <div class="acordeao trilho__corpo" data-acordeao="exclusivo" data-revelar data-atraso="1">
       <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
-          <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="false" aria-controls="fc-1">
+        <h3>
+          <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="true" aria-controls="fc-1">
             Vou atender pacientes durante o curso?
             <span class="acordeao__sinal" aria-hidden="true"></span>
           </button>
         </h3>
-        <div class="acordeao__painel" id="fc-1" data-aberto="false">
+        <div class="acordeao__painel" id="fc-1" data-aberto="true">
           <div class="acordeao__interior"><div><p>Sim. A prática supervisionada acontece na clínica do Instituto, com acompanhamento do professor a cada procedimento.</p></div></div>
         </div>
       </div>
       <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
+        <h3>
           <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="false" aria-controls="fc-2">
             Preciso levar material próprio?
             <span class="acordeao__sinal" aria-hidden="true"></span>
@@ -408,7 +408,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         </div>
       </div>
       <div class="acordeao__item">
-        <h3 style="font-size:inherit;margin:0">
+        <h3>
           <button class="acordeao__gatilho" type="button" data-acordeao-gatilho aria-expanded="false" aria-controls="fc-3">
             Posso trazer meus próprios casos para discussão?
             <span class="acordeao__sinal" aria-hidden="true"></span>
@@ -423,16 +423,33 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </section>
 
 <!-- ==========================================================================
-     FORMULÁRIO DE INSCRIÇÃO NO CURSO
+     INSCRIÇÃO — o que acontece depois, no trilho; formulário ao lado.
      ========================================================================== -->
-<section class="secao campo-areia" id="inscricao-curso" aria-labelledby="insc-titulo">
-  <div class="env env--estreito">
-    <div class="form-caixa" data-revelar>
-      <h2 id="insc-titulo">Inscrição — Harmonização Orofacial</h2>
-      <p>Preencha e um consultor entra em contato com a proposta completa. A inscrição reserva sua análise, não a vaga.</p>
+<section class="secao campo-areia trecho" id="inscricao-curso" aria-labelledby="insc-titulo">
+  <div class="env trilho">
+    <div class="trilho__guia" data-revelar>
+      <h2 id="insc-titulo">Inscrição</h2>
+      <p class="trilho__apoio">Harmonização Orofacial &middot; Pós-graduação</p>
 
+      <ol class="passos" role="list">
+        <li>
+          <b>Você envia seus dados</b>
+          <span>Nome, telefone e e-mail — a mensagem é opcional.</span>
+        </li>
+        <li>
+          <b>Um consultor entra em contato</b>
+          <span>Com a proposta completa do curso.</span>
+        </li>
+        <li>
+          <b>Sua análise fica reservada</b>
+          <span>A inscrição reserva a análise, não a vaga.</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="form-caixa trilho__corpo" data-revelar data-atraso="1">
       <!-- WP: trocar action pelo endpoint real (admin-post.php / CF7 / WPForms) -->
-      <form class="form" data-form novalidate>
+      <form class="form" data-form novalidate aria-labelledby="insc-titulo">
         <div class="form__grade">
           <div class="campo">
             <label for="ic-nome">Nome completo <span class="req" aria-hidden="true">*</span></label>
@@ -467,21 +484,23 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
           </div>
         </div>
 
-        <div class="form__estado" data-form-estado style="margin-top:var(--s5)">
+        <div class="form__estado" data-form-estado>
           <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
           <span data-form-msg></span>
         </div>
 
-        <button class="btn btn--acesa btn--g" type="submit" style="margin-top:var(--s6)">
-          Enviar inscrição
-          <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
-        </button>
+        <div class="form__envio">
+          <button class="btn btn--acesa btn--g" type="submit">
+            Enviar inscrição
+            <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
+          </button>
 
-        <p class="form__aviso" style="margin-top:var(--s5)">
-          <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
-          <span>Seus dados são usados apenas para o contato do consultor sobre este
-          curso. <!-- SUBSTITUIR: link real da política de privacidade --></span>
-        </p>
+          <p class="form__aviso">
+            <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
+            <span>Seus dados são usados apenas para o contato do consultor sobre este
+            curso. <!-- SUBSTITUIR: link real da política de privacidade --></span>
+          </p>
+        </div>
       </form>
     </div>
   </div>
@@ -490,29 +509,39 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </main>
 
 <!-- WP: Footer -->
-<!-- WP: Newsletter (faixa acima do rodapé) -->
+<!-- WP: Newsletter (faixa acima do rodapé) — e-mail ou WhatsApp -->
 <aside class="novidades campo-areia" aria-labelledby="novidades-titulo">
-  <div class="env">
-    <div class="novidades__cartao">
-      <span class="novidades__selo" aria-hidden="true"><svg class="novidades__borboleta"><use href="#i-borboleta"></use></svg></span>
-      <div class="novidades__texto">
-        <h2 id="novidades-titulo" class="titulo-discreto">Receba as próximas turmas</h2>
-        <p>Avisamos por e-mail quando abrir uma nova entrada.</p>
-      </div>
-      <div class="novidades__form">
-        <form class="news" data-news novalidate>
-          <div class="news__campo">
-            <label class="news__rotulo" for="news-email">Seu e-mail</label>
-            <div class="news__linha">
-              <svg class="ico news__ico" aria-hidden="true"><use href="#i-email"></use></svg>
-              <input id="news-email" type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-describedby="news-estado">
-            </div>
-          </div>
-          <button class="btn btn--acesa news__botao" type="submit">Avise-me <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg></button>
-        </form>
-        <p class="apoio-sm news__estado" id="news-estado" data-news-estado role="status" hidden></p>
-      </div>
+  <div class="env novidades__grade">
+    <div class="novidades__texto">
+      <svg class="novidades__borboleta" aria-hidden="true"><use href="#i-borboleta"></use></svg>
+      <h2 id="novidades-titulo" class="titulo-discreto">Receba informações por e-mail ou WhatsApp</h2>
+      <p>Avisamos quando abrir uma nova turma, no canal que você preferir.</p>
     </div>
+    <form class="news" data-news novalidate>
+      <fieldset class="news__canais">
+        <legend class="vis-oculto">Como prefere receber</legend>
+        <label class="news__canal">
+          <input type="radio" name="canal" value="email" checked data-news-canal>
+          <svg class="ico" aria-hidden="true"><use href="#i-email"></use></svg>E-mail
+        </label>
+        <label class="news__canal">
+          <input type="radio" name="canal" value="whatsapp" data-news-canal>
+          <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"></use></svg>WhatsApp
+        </label>
+      </fieldset>
+      <div class="news__envio">
+        <div class="news__campo" data-canal="email">
+          <label class="vis-oculto" for="news-email">Seu e-mail</label>
+          <input class="news__entrada" id="news-email" type="email" name="email" placeholder="seu@email.com" autocomplete="email" aria-describedby="news-estado">
+        </div>
+        <div class="news__campo" data-canal="whatsapp">
+          <label class="vis-oculto" for="news-whatsapp">Seu WhatsApp com DDD</label>
+          <input class="news__entrada" id="news-whatsapp" type="tel" name="whatsapp" inputmode="tel" placeholder="(98) 90000-0000" autocomplete="tel-national" aria-describedby="news-estado">
+        </div>
+        <button class="btn btn--acesa news__botao" type="submit">Quero receber <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg></button>
+      </div>
+      <p class="apoio-sm news__estado" id="news-estado" data-news-estado role="status" hidden></p>
+    </form>
   </div>
 </aside>
 

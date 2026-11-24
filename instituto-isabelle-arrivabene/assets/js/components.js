@@ -1,7 +1,7 @@
 /* ==========================================================================
    COMPONENTES — Instituto Isabelle Arrivabene
-   Acordeão, carrossel, filtro de catálogo, busca de professores, modal de
-   ficha docente, validação de formulário.
+   Acordeão, sumário da página, carrossel, filtro de catálogo, busca de
+   professores, modal de ficha docente, validação de formulário.
 
    Zero dependência. Cada componente só se instala se o seu marcador existir
    na página, e todos degradam para conteúdo legível sem JS.
@@ -53,6 +53,44 @@
       });
     }
   );
+
+  /* ========================================================================
+     SUMÁRIO DA PÁGINA — marca a seção em leitura.
+     A seção que cruza uma faixa estreita a ~40% da altura da tela é a
+     "atual". Fora de qualquer seção (no banner), nada fica marcado; depois
+     da última, ela continua marcada.
+     ======================================================================== */
+  var sumario = document.querySelector("[data-sumario]");
+
+  if (sumario && "IntersectionObserver" in window) {
+    var elosSumario = Array.prototype.slice.call(
+      sumario.querySelectorAll('a[href^="#"]')
+    );
+
+    var marcaSumario = function (id) {
+      elosSumario.forEach(function (elo) {
+        if (elo.getAttribute("href") === "#" + id) {
+          elo.setAttribute("aria-current", "true");
+        } else {
+          elo.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    var leitor = new IntersectionObserver(
+      function (entradas) {
+        entradas.forEach(function (entrada) {
+          if (entrada.isIntersecting) marcaSumario(entrada.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+
+    elosSumario.forEach(function (elo) {
+      var alvo = document.getElementById(elo.getAttribute("href").slice(1));
+      if (alvo) leitor.observe(alvo);
+    });
+  }
 
   /* ========================================================================
      CARROSSEL — cursos e depoimentos, sobre a Embla Carousel.

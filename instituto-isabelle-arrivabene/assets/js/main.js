@@ -238,39 +238,117 @@
   if (ano) ano.textContent = String(new Date().getFullYear());
 
   /* ------------------------------------------------------------------------
-     NEWSLETTER — sem backend nesta fase.
-     Valida, confirma e deixa claro que o envio ainda não está conectado.
+     NOVIDADES — e-mail ou WhatsApp, sem backend nesta fase.
+     O CSS mostra só o campo do canal escolhido; aqui o outro fica desativado
+     (não vai no envio), o WhatsApp ganha máscara e cada canal tem sua
+     validação. Confirma e deixa claro que o envio ainda não está conectado.
      ------------------------------------------------------------------------ */
   var news = document.querySelector("[data-news]");
   var newsEstado = document.querySelector("[data-news-estado]");
 
   if (news && newsEstado) {
+    var newsCanais = news.querySelectorAll("[data-news-canal]");
+    var newsZap = news.querySelector('[data-canal="whatsapp"] input');
+
+    var canalAtual = function () {
+      var marcado = news.querySelector("[data-news-canal]:checked");
+      return marcado ? marcado.value : "email";
+    };
+
+    var campoAtual = function () {
+      return news.querySelector('[data-canal="' + canalAtual() + '"] input');
+    };
+
+    var limpaEstado = function () {
+      newsEstado.hidden = true;
+      newsEstado.textContent = "";
+      newsEstado.removeAttribute("data-tom");
+    };
+
+    var aplicaCanal = function () {
+      var atual = canalAtual();
+      Array.prototype.forEach.call(news.querySelectorAll("[data-canal] input"), function (campo) {
+        var ativo = campo.closest("[data-canal]").getAttribute("data-canal") === atual;
+        campo.disabled = !ativo;
+        campo.removeAttribute("aria-invalid");
+      });
+      limpaEstado();
+    };
+
+    /* Celular ou fixo com DDD; aceita +55 colado na frente. */
+    var digitosZap = function (valor) {
+      var d = valor.replace(/\D/g, "");
+      if (d.length > 11 && d.indexOf("55") === 0) d = d.slice(2);
+      return d.slice(0, 11);
+    };
+
+    var formataZap = function (valor) {
+      var d = digitosZap(valor);
+      if (!d) return "";
+      if (d.length <= 2) return "(" + d;
+      var resto = d.slice(2);
+      var corte = resto.length > 8 ? 5 : 4;
+      return (
+        "(" + d.slice(0, 2) + ") " +
+        (resto.length > corte ? resto.slice(0, corte) + "-" + resto.slice(corte) : resto)
+      );
+    };
+
+    Array.prototype.forEach.call(newsCanais, function (canal) {
+      canal.addEventListener("change", aplicaCanal);
+    });
+    aplicaCanal();
+
+    if (newsZap) {
+      /* Formata enquanto digita no fim; edição no meio só formata ao sair,
+         para o cursor não pular. */
+      newsZap.addEventListener("input", function () {
+        if (newsZap.selectionStart !== newsZap.value.length) return;
+        newsZap.value = formataZap(newsZap.value);
+      });
+      newsZap.addEventListener("blur", function () {
+        newsZap.value = formataZap(newsZap.value);
+      });
+    }
+
     news.addEventListener("submit", function (e) {
       e.preventDefault();
-      var campo = news.querySelector('input[type="email"]');
+      var canal = canalAtual();
+      var campo = campoAtual();
+      var valor = campo.value.trim();
+      var valido =
+        canal === "whatsapp"
+          ? /^\d{10,11}$/.test(digitosZap(valor))
+          : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor);
+
       newsEstado.hidden = false;
 
-      if (!campo.value || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(campo.value)) {
-        newsEstado.textContent = "Confira o e-mail: parece estar incompleto.";
+      if (!valido) {
+        newsEstado.textContent =
+          canal === "whatsapp"
+            ? "Confira o WhatsApp: informe o DDD e o número, como (98) 91234-5678."
+            : "Confira o e-mail: parece estar incompleto.";
         newsEstado.setAttribute("data-tom", "erro");
         campo.setAttribute("aria-invalid", "true");
         campo.focus();
         return;
       }
 
-      /* WP: trocar por wp_ajax_ ou pelo endpoint do plugin de e-mail. */
+      /* WP: trocar por wp_ajax_ ou pelo endpoint do plugin de e-mail /
+         integração de WhatsApp. Enviar { canal, contato }. */
       newsEstado.textContent =
-        "Pronto. Assim que o envio for conectado, você recebe as próximas turmas.";
+        "Pronto. Assim que o envio for conectado, você recebe as próximas turmas " +
+        (canal === "whatsapp" ? "no seu WhatsApp." : "no seu e-mail.");
       newsEstado.removeAttribute("data-tom");
       campo.removeAttribute("aria-invalid");
-      news.reset();
+      campo.value = "";
     });
 
     /* Ao corrigir, o campo deixa de acusar erro. */
     news.addEventListener("input", function (e) {
       if (e.target.getAttribute("aria-invalid") !== "true") return;
       e.target.removeAttribute("aria-invalid");
-      newsEstado.hidden = true;
+      limpaEstado();
     });
   }
   /* ------------------------------------------------------------------------

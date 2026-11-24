@@ -67,12 +67,23 @@ com o aviso "Conteúdo de exemplo". Remover o aviso junto com o conteúdo.
 
 ### 3b. Vídeo institucional (home)
 
-O espaço já está pronto na faixa logo abaixo do topo. Enquanto não houver vídeo,
-o clique mostra "Vídeo em breve".
+Na faixa logo abaixo do topo, ao lado da citação da Isabelle. Se o arquivo
+faltar, o clique mostra "Vídeo em breve".
 
-- [ ] **Arquivo próprio:** salvar como `assets/video/instituto.mp4` (H.264,
-      1080p, de preferência < 15 MB) e trocar a capa provisória
-      `assets/img/video-capa.svg` por um quadro do vídeo (1600×900, JPG).
+- [ ] **Citação da Isabelle** (ao lado do vídeo, com o retrato dela e o nome
+      em assinatura manuscrita): a frase é **provisória**, tirada da legenda
+      do post do vídeo. Está em `index.html`, em `<div class="citacao">`
+      (marcado com `SUBSTITUIR`). O retrato usa o mesmo arquivo da borboleta,
+      `assets/img/isabelle-arrivabene.webp`.
+
+- [x] **Arquivo próprio:** o vídeo do post do Instituto no Instagram
+      (12/11/2026, 1:55, 1080p) está em duas fontes:
+      `assets/video/instituto.webm` (o VP9 original, sem recompressão; o
+      navegador usa este primeiro) e `assets/video/instituto.mp4` (H.264 1080p,
+      para quem não toca VP9). Para trocar o vídeo, substituir os dois
+      arquivos (ou só o MP4, apagando o `<source>` do WebM).
+- [ ] Capa: segue a provisória `assets/img/video-capa.svg`, por escolha do
+      cliente (24/11/2026).
 - [ ] **Ou YouTube:** em `index.html`, preencher `data-youtube="ID_DO_VIDEO"` no
       `<figure class="video">`. O player só carrega no clique, pelo domínio
       sem cookies (youtube-nocookie.com).
@@ -90,13 +101,16 @@ o clique mostra "Vídeo em breve".
       Trocar pela fachada/recepção real antes de publicar:
       `grep -rn "recepcao-referencia" --include="*.html" .`
 
-- [ ] **Foto do hero (borboleta).** A foto da home fica dentro da silhueta da
-      borboleta da logo, com as cabeças saindo por cima das asas. Para isso a
-      foto precisa ser um **recorte em fundo transparente** (WebP ou PNG),
-      pessoas cortadas na cintura, proporção ~4:3 — como
-      `assets/img/persona-clinicos.webp`. Para trocar, mudar o `href` do
-      `<image>` dentro de `.borboleta` em `index.html`, o `<link rel="preload">`
-      no `<head>` e o texto do `<title id="borboleta-alt">` (é o alt).
+- [x] **Foto do hero (borboleta).** A foto da home fica dentro da silhueta da
+      borboleta da logo, com a cabeça saindo por cima das asas. Há duas fotos
+      prontas: os clínicos (`assets/img/persona-clinicos.webp`, **ativa**) e a
+      Isabelle (`assets/img/isabelle-arrivabene.webp`, comentada logo abaixo do
+      `<image>` ativo; o `.png` ao lado é a matriz sem perda). Para alternar,
+      trocar o `<image>` dentro de `.borboleta` em `index.html` (linha inteira:
+      x/y/width/height seguem a proporção de cada arquivo), o href do
+      `<link rel="preload">` no `<head>` e o texto do `<title id="borboleta-alt">`
+      (é o alt); o comentário no código traz os valores. Outra foto precisa ser
+      **recorte em fundo transparente** (WebP ou PNG).
 
 Os 26 arquivos em `assets/img/*.svg` são **placeholders autorais**, recoloridos
 para a paleta teal/areia. Cada um traz no próprio SVG, na tag `<desc>`, o

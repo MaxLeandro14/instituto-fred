@@ -206,8 +206,8 @@ rolar, ele só ganha sombra.
 
 ### Named Rules
 
-**Título discreto.** Seções em que o conteúdo deve liderar (faixa do vídeo,
-estrutura, depoimentos) usam `.titulo-discreto`: Raleway caixa alta em
+**Título discreto.** Seções em que o conteúdo deve liderar (estrutura,
+depoimentos) usam `.titulo-discreto`: Raleway caixa alta em
 18–22px com tracking 0,14em, no lugar do h2 grande.
 
 **A palavra do ofício.** Em h1/h2, o `<em>` não é itálico: é a mesma letra na
@@ -221,13 +221,14 @@ cor de destaque do campo (areia sobre teal, teal sobre claro). Uma por título.
 - **Cabeça de seção:** título à esquerda, apoio à direita, alinhados pela
   base, a partir de 62rem; empilhados abaixo disso.
 - **Hero e banners:** grade texto / figura (1fr / 0,86fr). Abaixo de 62rem o
-  hero vira uma coluna e a figura sobe para logo depois dos botões (antes das
-  etiquetas e dos fatos), para que os clínicos apareçam no primeiro viewport.
+  hero vira uma coluna e a figura sobe para logo depois dos botões (antes do
+  endereço), para que a foto apareça no primeiro viewport. O hero não tem mais
+  os fatos Formação/Prática/Turmas (retirados a pedido do cliente, 24/11/2026).
 - **CTA final:** retirado de todas as páginas a pedido do cliente (24/11/2026).
   O CSS da cúpula (`.cta-final` em `pages.css`) ficou sem uso.
 - **Novidades:** faixa em areia logo acima do rodapé, presente em todas as
-  páginas, com um **cartão-convite** creme (ver Components). O cartão já
-  separa a faixa de uma seção areia logo acima; o filete de topo saiu.
+  páginas, **aberta, sem cartão** (ver Components). Quando a última seção da
+  página também é areia (Sobre, Curso), um filete de topo marca o início.
 - **Rodapé:** coluna da marca só com logo e redes; o mapa fica numa faixa
   centralizada abaixo das colunas (até 44rem, 21:8), quase monocromático até
   o hover.
@@ -235,6 +236,17 @@ cor de destaque do campo (areia sobre teal, teal sobre claro). Uma por título.
   dois parágrafos à direita, sem lista nem ícones.
 - **Chamada:** faixa de uma linha só — frase à esquerda, botão de contorno à
   direita (ex.: "Ver todos os professores" na home).
+- **Página de curso — o trilho** (`.trilho`, revisto em 24/11/2026): toda
+  seção usa a mesma grade, guia estreito à esquerda (título, apoio, uma ação)
+  e conteúdo largo à direita (`minmax(21rem, 1fr) / 1.85fr`, a partir de
+  64rem). Os títulos caem no mesmo eixo e a página lê como um índice.
+  Ordem: banner (com nível e selo de matrícula abaixo do título) → sumário →
+  Sobre (título + foto no guia; texto e três diferenciais sob filete com
+  trecho dourado) → Programa (guia fixo; **todos os módulos à vista**,
+  numerados 01–06, em linhas número | título | tópicos ≥ 80rem) → Perguntas
+  (guia com saída para o WhatsApp; acordeão) → Inscrição (três passos ligados
+  por um fio; formulário ao lado). Foto sem legenda de endereço: o endereço
+  já está no rodapé e na gaveta.
 - **Breakpoints:** menu horizontal ≥ 80rem; botões do header ≥ 40rem;
   grades colapsam em 74 / 62 / 48 / 34rem.
 - O botão de menu (caixa com três traços) aparece em todas as larguras e abre
@@ -286,18 +298,22 @@ A foto do hero da home vive dentro da **silhueta do símbolo da logo** (o mesmo
 traçado de `logo-borboleta.svg`, SVG inline, eixo x = 593). Camadas, de trás
 para a frente: o **eco** (contorno em areia a 45%, girado −4°, sem a ponta da
 asa), as **asas** cheias (creme → areia, com sombra), o **traço dourado**
-(`dourado-logo`, 4,5 unidades) e o **recorte dos clínicos**, recortado pelas
-asas mais o "céu" acima delas: o corpo fica dentro das asas e as cabeças
-saem por cima. O selo de matrícula assenta na ponta da asa de baixo, à
-direita. Até 36rem de largura.
+(`dourado-logo`, 4,5 unidades) e o **recorte da foto**, recortado pelas asas
+mais o "céu" acima delas: o corpo fica dentro das asas e as cabeças saem por
+cima. Sem selo (retirado a pedido do cliente, 24/11/2026). Há duas fotos
+prontas: os **clínicos** (`persona-clinicos.webp`, ativa) e a **Isabelle
+Arrivabene**, dona do instituto (`isabelle-arrivabene.webp`, com o `<image>`
+comentado no `index.html`, centrada no eixo, a cabeça saindo pelo V entre as
+asas de cima e as mãos acima do entalhe de baixo). O cliente alterna entre as
+duas para comparar. Até 36rem de largura.
 
 Entrada (o momento autoral da página, uma vez): o traço se desenha das pontas
 para o centro em 2s, as asas acendem por dentro dele — mostrando os dois
-perfis da logo — e os clínicos assentam na frente; o selo chega por último.
+perfis da logo — e a foto assenta na frente.
 Com movimento reduzido, tudo aparece pronto.
 
 A foto precisa ser um **recorte em fundo transparente**, pessoas cortadas na
-cintura, ~4:3. As molduras com cartão girado continuam nos banners internos.
+cintura ou no quadril. As molduras com cartão girado continuam nos banners internos.
 
 ### Inputs / Fields
 Fundo creme-2, borda teal a 40%, cantos 6px, 52px de altura. Foco: borda teal
@@ -311,6 +327,15 @@ pequeno; a dourada (`logo-instituto.svg`) é a fiel, para fundo claro. Links bra
 página atual com sublinhado de areia de 2px. "Cursos" abre dropdown creme com
 os cinco programas e "Ver todos os cursos" em caixa alta. Sem JS, o dropdown
 abre por `:hover`/`:focus-within` e a lista do header quebra linha.
+
+### Sumário da página
+Barra "Nesta página" das páginas de curso, fixa logo abaixo do header
+(`--sumario-h`, 52px), em creme-2 com filete e sombra curta: lê como um
+segundo andar do header. Links em Manrope 600, 14px, caixa normal; a seção em
+leitura ganha `aria-current` e um traço de teal de 2px que cresce da
+esquerda (JS com IntersectionObserver, faixa a ~40% da tela). No celular a
+lista rola na horizontal. As âncoras descontam header + sumário
+(`scroll-padding-top`). Sem JS: fixa e funcional, só sem o traço.
 
 ### Carrossel
 Um só componente sobre a **Embla Carousel** (`assets/js/vendor`, só na home),
@@ -346,28 +371,42 @@ física suave (cursor de mão, sem seleção de texto durante o arrasto).
 
 ### Vídeo institucional
 Quadro 16:9 com cantos de 14px sobre cartão creme girado −2°, na faixa areia
-com fundo de seda logo após o hero (título discreto à esquerda). A capa é um botão: disco
+com fundo de seda logo após o hero, ao lado da **citação da Isabelle**
+(`.citacao`, referência do cliente de 24/11/2026). A citação tem o retrato (o
+mesmo recorte da borboleta, num quadro creme com o canto de baixo à direita em
+quarto de círculo) e, ao lado, o nome dela em assinatura manuscrita (Mrs Saint
+Delafield, `--dourado-escrita`, −10°) que cruza o canto de cima do retrato; a
+frase entre aspas em Manrope; "Saiba mais" em caixa alta atravessando um anel
+dourado de 1px, à direita. Texto aberto sobre a areia, sem cartão. A
+assinatura se escreve da esquerda para a direita (recorte animado, 1,8s)
+quando a faixa entra na tela; a fonte manuscrita só carrega na home. Citação
+e vídeo ficam lado a lado a partir de 75rem (1,5fr / 1fr); abaixo disso,
+empilhados (retrato e frase lado a lado a partir de 40rem). A
+capa do vídeo é um botão: disco
 translúcido com anel que "respira" (3,2s, desligado com movimento reduzido),
 rótulo "Conheça o Instituto" em Raleway caixa alta; no hover o disco acende em
 areia. Sem JS aparecem os controles nativos; com `data-youtube` o player do
 YouTube entra só no clique.
 
-### Novidades (cartão-convite)
-Cartão creme sobre a faixa areia, com **filete dourado duplo** (borda a 55%
-e um segundo filete 6px para dentro, a 24%), cantos de 14px e sombra quente
-longa. À esquerda, o **medalhão**: a borboleta da logo num círculo de filete
-dourado, como no banner do Summit; ela vem do símbolo `i-borboleta` do sprite,
-com traço que não escala (o SVG da logo a 40px viraria um fio de 0,3px).
-Depois, o título discreto e o apoio; um filete dourado vertical (horizontal
-no celular) separa o formulário.
+### Novidades (e-mail ou WhatsApp)
+Faixa aberta direto sobre a areia: **sem cartão, borda, fundo próprio ou
+sombra** (pedido do cliente, 24/11/2026: não gosta de card). Texto à
+esquerda, formulário à direita a partir de 62rem; empilhados abaixo disso.
+A borboleta da logo vem solta, em traço dourado, ao lado do título (acima
+dele até 36rem); é o símbolo `i-borboleta` do sprite, com traço que não
+escala (o SVG da logo a 40px viraria um fio de 0,3px).
 
-- **Campo:** rótulo visível em caixa alta (Manrope 800, 11px), ícone de
-  e-mail e o input sem caixa, sobre um filete; no foco, um traço de 2px em
-  teal corre da esquerda para a direita (é o indicador de foco). Erro: o
-  filete e a mensagem ficam em `erro`, com `aria-invalid` no campo, e somem
-  ao corrigir.
-- **Botão:** teal → teal profundo em degradê, filete de areia por dentro e
-  sombra, seta que avança no hover. No celular ocupa a largura toda.
+- **Canal:** duas opções de texto em Raleway caixa alta com ícone, E-mail e
+  WhatsApp (rádios de verdade, num `fieldset`). A escolhida fica em teal
+  profundo com traço de 2px por baixo; foco de teclado com contorno.
+- **Campo:** só o do canal escolhido aparece (CSS `:has()`, funciona sem JS;
+  o JS desativa o outro para não ir no envio). Input sem caixa sobre um
+  filete; no foco, um traço de 2px em teal profundo corre da esquerda (é o
+  indicador de foco). WhatsApp com máscara `(98) 91234-5678`, aceita +55
+  colado. Erro: o filete e a mensagem ficam em `erro`, com `aria-invalid`,
+  e somem ao corrigir.
+- **Botão:** "Quero receber", `btn--acesa` chapado, sem degradê nem sombra.
+  No celular (até 30rem) ocupa a largura toda.
 
 ### Seda (fundo acetinado)
 Inspirada no fundo do banner do Summit do Instituto (24/11/2026, pedido do

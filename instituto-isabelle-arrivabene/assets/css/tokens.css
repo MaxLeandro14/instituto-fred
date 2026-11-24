@@ -40,6 +40,9 @@
 
   /* --- Dourado da logo: só no traço da borboleta do hero, nunca em texto */
   --dourado-logo: #c29762;
+  /* Dourado escurecido para a assinatura manuscrita da citação: 3,2:1 sobre
+     areia e 4,3:1 sobre creme. Só em texto GRANDE (a assinatura) e filetes. */
+  --dourado-escrita: #946632;
 
   /* --- Papéis semânticos: campo creme (padrão) -------------------------- */
   --sup: var(--creme);
@@ -69,6 +72,8 @@
      A logo é um vetor e não depende de fonte carregada. */
   --fonte-display: "Raleway", "Helvetica Neue", Arial, sans-serif;
   --fonte-texto: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Só na citação da Isabelle (home): o nome dela em assinatura manuscrita. */
+  --fonte-escrita: "Mrs Saint Delafield", "Snell Roundhand", cursive;
 
   --fs-display: clamp(2rem, 1.3rem + 2vw, 2.75rem);
   --fs-h1: clamp(1.9375rem, 1.3rem + 2.1vw, 2.75rem);
@@ -116,6 +121,7 @@
   --largura-estreita: 60rem;
   --gutter: clamp(1.25rem, 5vw, 6rem);
   --header-h: 6rem;
+  --sumario-h: 3.25rem; /* barra "Nesta página" das páginas de curso */
 
   /* --- Cantos ----------------------------------------------------------- */
   --r1: 4px;

@@ -370,7 +370,8 @@ a.etiqueta:hover {
 }
 
 .selo--abertas,
-.selo--abertas-claro {
+.selo--abertas-claro,
+.selo--nivel {
   border-color: var(--linha-forte);
   color: var(--rotulo);
 }
@@ -951,6 +952,12 @@ html:not(.js) .header__item--sub:focus-within .header__sub {
   border-bottom: 1px solid var(--linha-forte);
 }
 
+/* O h3 só dá semântica ao gatilho; a letra é a do botão. */
+.acordeao__item > h3 {
+  margin: 0;
+  font-size: inherit;
+}
+
 .acordeao__gatilho {
   display: flex;
   align-items: flex-start;
@@ -1025,6 +1032,85 @@ html:not(.js) .header__item--sub:focus-within .header__sub {
 
 html:not(.js) .acordeao__painel {
   grid-template-rows: 1fr;
+}
+
+/* --------------------------------------------------------------------------
+   SUMÁRIO DA PÁGINA — "Nesta página", fixo logo abaixo do header.
+   Creme como o dropdown: lê como um segundo andar do header. A seção em
+   leitura ganha o traço de teal (aria-current, escrito pelo JS); sem JS a
+   barra continua fixa e os links funcionam, só sem o traço.
+   -------------------------------------------------------------------------- */
+.sumario {
+  position: sticky;
+  top: var(--header-h);
+  z-index: calc(var(--z-header) - 1);
+  background-color: var(--creme-2);
+  border-bottom: 1px solid var(--linha);
+  box-shadow: 0 14px 28px -24px rgba(14, 31, 31, 0.5);
+}
+
+/* Âncoras da página caem abaixo do header e do sumário. */
+html:has(.sumario) {
+  scroll-padding-top: calc(var(--header-h) + var(--sumario-h));
+}
+
+.sumario__lista {
+  display: flex;
+  gap: clamp(1.5rem, 3.4vw, 3rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sumario__lista::-webkit-scrollbar {
+  display: none;
+}
+
+.sumario__lista li {
+  flex: none;
+  margin: 0;
+}
+
+.sumario__elo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--sumario-h);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--txt-2);
+  text-decoration: none;
+  transition: color var(--t-rapido) var(--ease-suave);
+}
+
+.sumario__elo::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background-color: var(--teal);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.sumario__elo:hover,
+.sumario__elo[aria-current="true"] {
+  color: var(--titulo);
+}
+
+.sumario__elo[aria-current="true"]::after {
+  transform: scaleX(1);
+}
+
+/* A lista rola na horizontal: o anel de foco fica por dentro para não
+   ser cortado pela borda da rolagem. */
+.sumario__elo:focus-visible {
+  outline-offset: -3px;
 }
 
 /* --------------------------------------------------------------------------
@@ -1804,66 +1890,77 @@ html.js .flutuante__zap[data-visivel="false"] {
 }
 
 /* --------------------------------------------------------------------------
-   NOVIDADES — faixa de areia acima do rodapé. Um cartão-convite creme com
-   filete dourado duplo (a linguagem do banner do Summit): medalhão da
-   borboleta, título discreto e, depois de um filete, o e-mail numa linha
-   editorial com o botão ao lado.
+   NOVIDADES — faixa de areia acima do rodapé, aberta, sem cartão: nada de
+   borda, fundo próprio ou sombra. Texto à esquerda (borboleta da logo +
+   título discreto), formulário à direita: o visitante escolhe e-mail ou
+   WhatsApp e deixa o contato numa linha editorial.
    -------------------------------------------------------------------------- */
 .novidades {
-  padding-block: clamp(2.25rem, 4.5vw, 3.5rem);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
-.novidades__cartao {
-  --ouro: rgba(194, 151, 98, 0.55); /* dourado da logo em filete */
-  position: relative;
+/* Quando a última seção da página também é areia (Sobre, Curso), um filete
+   na largura do conteúdo marca onde a faixa começa. */
+main:has(> .campo-areia:last-child) + .novidades {
+  padding-top: 0;
+}
+
+main:has(> .campo-areia:last-child) + .novidades .novidades__grade {
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--linha);
+}
+
+.novidades__grade {
+  display: grid;
+  gap: var(--s6);
+  align-items: center;
+}
+
+@media (min-width: 62rem) {
+  .novidades__grade {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 33rem);
+    column-gap: clamp(3rem, 7vw, 7rem);
+  }
+}
+
+.novidades__texto {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: var(--s5) clamp(1rem, 2.5vw, 1.75rem);
-  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.25rem, 3.5vw, 3rem);
-  border: 1px solid var(--ouro);
-  border-radius: var(--r4);
-  background:
-    radial-gradient(ellipse 55% 140% at 0% 0%, rgba(255, 255, 255, 0.7), transparent 70%),
-    linear-gradient(115deg, var(--creme-2) 0%, var(--creme) 58%, #f3e3ca 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    0 24px 46px -30px rgba(96, 66, 30, 0.5);
-}
-
-/* Segundo filete, por dentro: o acabamento de convite. */
-.novidades__cartao::before {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(194, 151, 98, 0.24);
-  border-radius: calc(var(--r4) - 5px);
-  pointer-events: none;
-}
-
-/* Medalhão: a borboleta da logo num círculo de filete, como no banner. */
-.novidades__selo {
-  display: grid;
-  place-items: center;
-  width: clamp(3.25rem, 2.7rem + 1.6vw, 4.25rem);
-  aspect-ratio: 1;
-  border: 1px solid var(--ouro);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--creme-2) 72%);
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.35);
+  column-gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: start;
 }
 
 /* Símbolo do sprite (i-borboleta): o traço não escala, então a borboleta
-   fica legível a 40px, onde o SVG da logo viraria um fio de 0,3px. */
+   fica legível pequena, onde o SVG da logo viraria um fio de 0,3px. */
 .novidades__borboleta {
-  width: 66%;
+  grid-row: span 2;
+  align-self: center; /* no meio do bloco título + apoio */
+  width: clamp(2.75rem, 2.3rem + 1.3vw, 3.5rem);
   height: auto;
   aspect-ratio: 676 / 482;
   fill: none;
   stroke: var(--dourado-logo);
-  stroke-width: 1.4;
+  stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.novidades__texto h2 {
+  margin: 0;
+}
+
+/* No celular a borboleta sobe para cima do título: ao lado, ela tirava
+   largura e o título quebrava em três linhas. */
+@media (max-width: 36rem) {
+  .novidades__texto {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .novidades__borboleta {
+    grid-row: auto;
+    width: 2.5rem;
+    margin: 0 0 var(--s4);
+  }
 }
 
 .novidades__texto p {
@@ -1872,29 +1969,84 @@ html.js .flutuante__zap[data-visivel="false"] {
   font-size: var(--fs-sm);
 }
 
-.novidades__form {
-  grid-column: 1 / -1;
-  padding-top: var(--s5);
-  border-top: 1px solid rgba(194, 151, 98, 0.4);
-}
-
-@media (min-width: 62rem) {
-  .novidades__cartao {
-    grid-template-columns: auto minmax(0, 1fr) minmax(0, 32rem);
-    column-gap: clamp(1.25rem, 2.5vw, 2.25rem);
-  }
-
-  .novidades__form {
-    grid-column: auto;
-    padding: var(--s1) 0 var(--s1) clamp(1.5rem, 3vw, 2.5rem);
-    border-top: 0;
-    border-left: 1px solid rgba(194, 151, 98, 0.45);
-  }
-}
-
-/* Formulário: rótulo em caixa alta, campo sem caixa sobre um filete que
-   acende em teal da esquerda para a direita no foco, botão ao lado. */
+/* Formulário ------------------------------------------------------------ */
 .news {
+  min-width: 0;
+}
+
+/* Canal: duas opções de texto, sem caixa. A escolhida fica em teal
+   profundo com um traço de 2px por baixo, que corre da esquerda. */
+.news__canais {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s6);
+  min-width: 0;
+  margin: 0 0 var(--s2);
+  padding: 0;
+  border: 0;
+}
+
+.news__canal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  min-height: 2.75rem;
+  font-family: var(--fonte-display);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--txt-2);
+  cursor: pointer;
+  transition: color var(--t-rapido) var(--ease-suave);
+}
+
+.news__canal input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.news__canal .ico {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.news__canal::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.35rem;
+  height: 2px;
+  background-color: var(--titulo);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.news__canal:hover,
+.news__canal:has(input:checked) {
+  color: var(--titulo);
+}
+
+.news__canal:has(input:checked)::after {
+  transform: scaleX(1);
+}
+
+.news__canal:has(input:focus-visible) {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+  border-radius: var(--r1);
+}
+
+/* Linha de envio: o campo sobre um filete e o botão ao lado. */
+.news__envio {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
@@ -1902,55 +2054,51 @@ html.js .flutuante__zap[data-visivel="false"] {
 }
 
 .news__campo {
+  position: relative;
   flex: 1 1 13rem;
   min-width: 0;
-}
-
-.news__rotulo {
-  display: block;
-  font-family: var(--fonte-texto);
-  font-size: var(--fs-rotulo);
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--rotulo);
-}
-
-.news__linha {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
   border-bottom: 1px solid var(--linha-forte);
+  animation: news-entra var(--t-medio) var(--ease);
 }
 
-.news__linha::after {
+/* Só o campo do canal escolhido aparece (sem JS também). */
+.news__campo[data-canal="whatsapp"],
+.news:has(input[value="whatsapp"]:checked) .news__campo[data-canal="email"] {
+  display: none;
+}
+
+.news:has(input[value="whatsapp"]:checked) .news__campo[data-canal="whatsapp"] {
+  display: block;
+}
+
+@keyframes news-entra {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+/* No foco, um traço de 2px em teal corre da esquerda: é o indicador de foco. */
+.news__campo::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: -1px;
   height: 2px;
-  background-color: var(--teal);
+  background-color: var(--teal-profundo);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--t-medio) var(--ease);
 }
 
-.news__linha:focus-within::after {
+.news__campo:focus-within::after {
   transform: scaleX(1);
 }
 
-.news__ico {
-  width: 1.125rem;
-  height: 1.125rem;
-  color: var(--teal);
-}
-
-.news input {
-  flex: 1;
-  min-width: 0;
+.news__entrada {
+  display: block;
+  width: 100%;
   height: 3rem;
   padding: 0;
   font-family: var(--fonte-texto);
@@ -1961,43 +2109,35 @@ html.js .flutuante__zap[data-visivel="false"] {
   border-radius: 0;
 }
 
-/* 80% do texto secundário: ainda 4,6:1 sobre o creme, mas distinto do
-   e-mail digitado. */
-.news input::placeholder {
+/* 80% do texto secundário: ainda legível sobre a areia, mas distinto do
+   contato digitado. */
+.news__entrada::placeholder {
   color: var(--txt-2);
   opacity: 0.8;
 }
 
-/* O filete de 2px em teal é o indicador de foco do campo. */
-.news input:focus {
+.news__entrada:focus {
   outline: none;
 }
 
-.news__linha:has(input[aria-invalid="true"]) {
+.news__campo:has(input[aria-invalid="true"]) {
   border-bottom-color: var(--erro);
 }
 
-.news__linha:has(input[aria-invalid="true"])::after {
+.news__campo:has(input[aria-invalid="true"])::after {
   background-color: var(--erro);
 }
 
-/* Botão: teal em degradê com filete de areia por dentro — o "Vagas
-   limitadas" do banner, na cor de ação do site. */
+/* Botão: a ação do campo, chapada, sem sombra. */
 .news__botao {
   flex: none;
-  min-height: 3rem;
   padding-inline: var(--s6) var(--s5);
-  background-image: linear-gradient(135deg, var(--teal) 0%, var(--teal-profundo) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(226, 205, 176, 0.3),
-    0 12px 24px -14px rgba(23, 74, 76, 0.7);
 }
 
-.news__botao:hover {
-  background-image: linear-gradient(135deg, var(--teal-profundo) 0%, var(--teal-noite) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(226, 205, 176, 0.45),
-    0 16px 28px -14px rgba(23, 74, 76, 0.8);
+@media (max-width: 30rem) {
+  .news__botao {
+    flex: 1 1 100%;
+  }
 }
 
 .news__estado {

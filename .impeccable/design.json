@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-24T11:10:00-03:00",
+  "title": "Design System: Instituto Isabelle Arrivabene",
+  "extensions": {
+    "colorMeta": {
+      "teal": { "role": "primary", "displayName": "Teal", "tonalRamp": ["#174a4c", "#1f5f61", "#226d70", "#28797c"] },
+      "teal-profundo": { "role": "primary", "displayName": "Teal profundo" },
+      "areia": { "role": "secondary", "displayName": "Areia", "tonalRamp": ["#e2cdb0", "#eedcc4"] },
+      "creme": { "role": "neutral", "displayName": "Creme", "tonalRamp": ["#f8eddb", "#fbf4e8", "#faf1e3"] },
+      "tinta": { "role": "neutral", "displayName": "Tinta" },
+      "gelo": { "role": "neutral", "displayName": "Gelo (texto secundário sobre teal)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Título do hero, Raleway caixa alta." },
+      "h2": { "displayName": "Título de seção", "purpose": "Raleway caixa alta, tracking 0,075em." }
+    },
+    "shadows": [
+      { "name": "sh2", "value": "0 2px 6px rgba(14,31,31,.08), 0 14px 32px rgba(14,31,31,.12)", "purpose": "Ficha e cartão no hover." },
+      { "name": "sh3", "value": "0 18px 45px rgba(19,19,19,.18)", "purpose": "Dropdown do header, selo da moldura." },
+      { "name": "sh-moldura", "value": "0 24px 60px rgba(14,31,31,.28)", "purpose": "Foto emoldurada do hero e dos banners." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Revelação por scroll, gaveta, botão-círculo." },
+      { "name": "faixa", "value": "64s linear infinite", "purpose": "Texto vazado sob o hero; parado com movimento reduzido." }
+    ],
+    "breakpoints": [
+      { "name": "menu-horizontal", "value": "80rem" },
+      { "name": "notebook", "value": "74rem" },
+      { "name": "tablet", "value": "62rem" },
+      { "name": "mobile-grande", "value": "48rem" },
+      { "name": "botoes-header", "value": "40rem" },
+      { "name": "mobile", "value": "34rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão principal sobre teal",
+      "kind": "button",
+      "refersTo": "button-primary-on-teal",
+      "description": "Ação principal em campo teal: areia, texto teal profundo, caixa alta.",
+      "html": "<div style=\"background:#28797c;padding:24px\"><a class=\"ds-btn\" href=\"#\">Quero me inscrever</a></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;min-height:48px;padding:0 32px;border-radius:6px;background:#e2cdb0;color:#1f5f61;font:500 15px/1 Raleway,Helvetica Neue,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .2s}.ds-btn:hover{background:#fff}"
+    },
+    {
+      "name": "Header teal com dropdown",
+      "kind": "nav",
+      "refersTo": "header",
+      "description": "Header sólido teal; página atual com sublinhado de areia; dropdown creme.",
+      "html": "<nav class=\"ds-nav\"><a aria-current=\"page\" href=\"#\">Home</a><a href=\"#\">Cursos</a><a href=\"#\">Professores</a><a href=\"#\">Contato</a></nav>",
+      "css": ".ds-nav{display:flex;gap:28px;align-items:center;height:96px;padding:0 32px;background:#28797c}.ds-nav a{position:relative;color:#fff;font:500 15px Manrope,system-ui,sans-serif;text-decoration:none;padding:8px 0}.ds-nav a[aria-current]{color:#faf1e3}.ds-nav a[aria-current]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:#e2cdb0}"
+    },
+    {
+      "name": "Ficha de curso",
+      "kind": "card",
+      "refersTo": "card-course",
+      "description": "Imagem 16:9 em cima, corpo em areia sobre creme.",
+      "html": "<div style=\"background:#f8eddb;padding:24px\"><article class=\"ds-ficha\"><div class=\"ds-ficha__img\"></div><div class=\"ds-ficha__corpo\"><span>Pós-graduação</span><h3>Harmonização Orofacial</h3><p>Protocolos faciais com prática supervisionada.</p></div></article></div>",
+      "css": ".ds-ficha{max-width:340px;border-radius:8px;overflow:hidden;background:#e2cdb0}.ds-ficha__img{aspect-ratio:16/9;background:#28797c}.ds-ficha__corpo{padding:24px}.ds-ficha__corpo span{font:800 11px Manrope,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#1f5f61}.ds-ficha__corpo h3{margin:10px 0 8px;font:500 21px Raleway,sans-serif;color:#1f5f61}.ds-ficha__corpo p{margin:0;font:14px/1.65 Manrope,sans-serif;color:#4f4e48}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Teal & Areia",
+    "overview": "Estúdio de saúde premium: campos inteiros de teal, areia e creme se alternando, com títulos em Raleway caixa alta sobre Manrope. Cada campo reatribui os papéis de cor e os componentes leem os papéis.",
+    "keyCharacteristics": ["Header teal sólido com dropdown creme", "Botões de areia em caixa alta", "Moldura com cartão de areia girado e selo teal profundo", "Texto vazado correndo sob o hero", "Cúpula teal abrindo o CTA final"],
+    "rules": [
+      { "name": "Regra da areia grande", "body": "Areia sobre teal (3,3:1) só em texto grande, bordas, ícones e fundos de botão.", "section": "colors" },
+      { "name": "A palavra do ofício", "body": "O <em> dos títulos é a mesma letra na cor de destaque do campo, sem itálico.", "section": "typography" }
+    ],
+    "dos": ["Aplicar campo à seção inteira", "Ler cores pelos papéis do campo", "Usar pílula só quando carrega informação"],
+    "donts": ["Texto pequeno em areia sobre teal", "Texto teal sobre areia", "Kicker acima de título de seção", "Recriar a logo com texto vivo"]
+  }
+}

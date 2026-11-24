@@ -1,91 +1,87 @@
 /* ==========================================================================
    TOKENS — Instituto Isabelle Arrivabene
-   Mundo visual: Camada Cerâmica (seed d3bb9c1b)
-   Paleta: FIXADA PELA MARCA, amostrada da peça oficial e da logo.
+   Mundo visual: Teal & Areia (referência pinada pelo cliente).
 
-   A estrutura é a estratificação de uma cerâmica dental — núcleo de dentina
-   opaco, camada translúcida por cima, luz atravessando as duas. A paleta é a
-   da identidade: champanhe/ouro morno, pérola greige, cinza quente, espresso
-   profundo para contraste.
+   Três campos inteiros se alternam pela página — teal, areia e creme — e
+   cada um reatribui os mesmos papéis (--txt, --titulo, --acao-*…). Todo
+   componente lê o papel, nunca a cor literal: é por isso que um botão, uma
+   ficha ou um formulário funcionam nos três campos sem variante.
 
-   Regra de estado: o OURO é luz transmitida, e é o único elemento da página
-   com permissão de acender. Nada mais brilha, em nenhum lugar.
-
-   Registro: luxo discreto, público seleto. Contraste real, não suavidade —
-   uma página pálida inteira com um detalhe dourado é a versão fraca disto.
+   Contraste medido, não estimado:
+   - Branco sobre teal #28797C ............ 5,1:1
+   - Teal profundo #1F5F61 sobre areia .... 4,7:1  (texto de botão)
+   - Teal profundo sobre creme ............ 6,3:1
+   - Areia sobre teal ..................... 3,3:1  → só texto GRANDE,
+     bordas e ícones. Rótulos pequenos sobre teal usam --creme-texto (4,6:1).
    ========================================================================== */
 
 :root {
-  /* --- Campo profundo: espresso, o escuro que dá o luxo ----------------- */
-  --campo: #201a14;
-  --campo-2: #2c2419;
+  /* --- Teal: a cor do header e dos campos de marca ---------------------- */
+  --teal: #28797c;
+  --teal-profundo: #1f5f61; /* títulos em campo claro, texto sobre areia */
+  --teal-noite: #174a4c; /* sombras, véus */
+  --teal-cartao: #226d70; /* plano um passo abaixo do campo teal */
 
-  /* --- Sombra: os marrons mornos de corpo ------------------------------- */
-  --sombra: #3a3128;
-  --sombra-2: #4a4036;
-  --sombra-3: #5d5145;
+  /* --- Areia: botões, faixas, molduras ---------------------------------- */
+  --areia: #e2cdb0;
+  --areia-2: #eedcc4;
 
-  /* --- Halo: a translucidez de esmalte, em registro morno --------------- */
-  --halo: #cbbda6;
-  --halo-forte: #e6dcc8;
-  --halo-veu: rgba(203, 189, 166, 0.14);
+  /* --- Creme: o campo claro --------------------------------------------- */
+  --creme: #f8eddb;
+  --creme-2: #fbf4e8;
+  --creme-texto: #faf1e3; /* o "areia" mais quente que passa 4,5:1 sobre teal */
 
-  /* --- Ouro / champanhe: luz transmitida (o único acento ativo) --------- */
-  --ouro: #b29a6e; /* a barra champanhe da peça oficial */
-  --ouro-2: #c9b48e;
-  --ouro-3: #e2d5bc;
-  --ouro-marca: #a98a57; /* o ouro da logo */
-  --ouro-fundo: #8a6e42; /* o único ouro escuro o bastante p/ texto branco */
-  --ouro-brasa: rgba(178, 154, 110, 0.26);
+  /* --- Texto ------------------------------------------------------------ */
+  --tinta: #2b2d2a;
+  --tinta-2: #4f4e48; /* secundário em campo claro: 6,6:1 creme · 5,4:1 areia */
+  --gelo: #ecf5f4; /* secundário sobre teal: 4,6:1 */
 
-  /* --- Pérola: o greige claro, o campo dominante ------------------------ */
-  --perola: #f3f0ec;
-  --perola-2: #eae4db;
-  --perola-3: #dcd3c7;
+  --erro: #b42318;
 
-  /* --- Tinta e cinza quente -------------------------------------------- */
-  --tinta: #2a2420;
-  --cinza-quente: #6b645c;
-  --cinza-quente-2: #8a8278;
-
-  /* --- Papéis semânticos: campo claro (padrão) ------------------------- */
-  --sup: var(--perola);
-  --sup-2: #fbf9f6;
-  --sup-3: var(--perola-2);
+  /* --- Papéis semânticos: campo creme (padrão) -------------------------- */
+  --sup: var(--creme);
+  --cartao: var(--areia);
   --txt: var(--tinta);
-  --txt-2: var(--cinza-quente);
-  --linha: rgba(107, 100, 92, 0.2);
-  --linha-forte: rgba(107, 100, 92, 0.36);
+  --txt-2: var(--tinta-2);
+  --titulo: var(--teal-profundo);
+  --destaque: var(--teal);
+  --rotulo: var(--teal-profundo);
+  --icone: var(--teal);
+  --linha: rgba(31, 95, 97, 0.16);
+  --linha-forte: rgba(31, 95, 97, 0.4);
+  --acao-bg: var(--teal);
+  --acao-txt: #fff;
+  --acao-hover: var(--teal-profundo);
+  --acao-hover-txt: #fff;
+  --foco: var(--teal-profundo);
 
   /* --- Tipografia ------------------------------------------------------- */
-  /* Bodoni Moda: a didone de luxo. O contraste hairline/haste é o mesmo
-     contraste esmalte/dentina, e é a letra que a logo já sugere.
-     Jost: geométrica, registro de moda/luxo, excelente em caps espaçadas —
-     que a identidade da marca usa como assinatura. */
-  --fonte-display: "Bodoni Moda", "Bodoni MT", "Didot", "Times New Roman", serif;
-  --fonte-texto: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Raleway em caixa alta com tracking aberto nos títulos; Manrope no texto.
+     A logo é um vetor e não depende de fonte carregada. */
+  --fonte-display: "Raleway", "Helvetica Neue", Arial, sans-serif;
+  --fonte-texto: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --fs-display: clamp(2.125rem, 5.6vw, 4.5rem);
-  --fs-h1: clamp(2.125rem, 5vw, 3.625rem);
-  --fs-h2: clamp(1.75rem, 3.4vw, 2.625rem);
-  --fs-h3: clamp(1.1875rem, 1.8vw, 1.5rem);
-  --fs-h4: clamp(1.0625rem, 1.2vw, 1.1875rem);
-  --fs-corpo: clamp(1.0625rem, 0.35vw + 0.98rem, 1.1875rem);
-  --fs-corpo-g: clamp(1.125rem, 0.6vw + 1rem, 1.375rem);
-  --fs-sm: 0.9375rem;
+  --fs-display: clamp(2rem, 1.3rem + 2vw, 2.75rem);
+  --fs-h1: clamp(1.9375rem, 1.3rem + 2.1vw, 2.75rem);
+  --fs-h2: clamp(1.75rem, 1.42rem + 1.1vw, 2.375rem);
+  --fs-h3: 1.25rem;
+  --fs-h4: 1.0625rem;
+  --fs-corpo: 1rem;
+  --fs-corpo-g: clamp(1.0625rem, 1rem + 0.25vw, 1.125rem);
+  --fs-sm: 0.875rem;
   --fs-xs: 0.8125rem;
+  --fs-rotulo: 0.6875rem;
 
-  --lh-display: 0.98;
-  --lh-titulo: 1.12;
-  --lh-corpo: 1.7;
+  --lh-display: 1.12;
+  --lh-titulo: 1.18;
+  --lh-corpo: 1.72;
 
-  /* Piso de tracking do sistema: -0.04em. Nunca mais apertado que isso. */
-  --tr-display: -0.03em;
-  --tr-titulo: -0.018em;
-  --tr-caps: 0.14em; /* a assinatura da marca é a caps larga */
-  --tr-caps-larga: 0.24em;
+  --tr-h1: 0.035em;
+  --tr-titulo: 0.075em;
+  --tr-caps: 0.16em;
+  --tr-pilula: 0.26em;
 
-  /* --- Ritmo de espaço: uma escala só, em toda a superfície ------------- */
+  /* --- Espaço: uma escala só ------------------------------------------- */
   --s1: 0.25rem;
   --s2: 0.5rem;
   --s3: 0.75rem;
@@ -99,36 +95,35 @@
   --s11: 6.5rem;
   --s12: 8rem;
 
-  /* Respiro de seção: mais espaço acima de um título do que abaixo. */
-  --secao-y: clamp(4.5rem, 10vw, 9rem);
-  --acima-titulo: clamp(2rem, 4vw, 3.5rem);
-  --abaixo-titulo: clamp(1rem, 1.6vw, 1.5rem);
+  --secao-y: clamp(3.75rem, 7vw, 6.5rem);
+  --acima-titulo: clamp(2rem, 3.6vw, 3rem);
+  --abaixo-titulo: clamp(1rem, 1.4vw, 1.25rem);
 
-  /* --- Medida de leitura: 65–75ch --------------------------------------- */
-  --medida: 68ch;
-  --medida-curta: 54ch;
+  --medida: 66ch;
+  --medida-curta: 52ch;
 
   /* --- Contêiner -------------------------------------------------------- */
-  --largura: 78rem;
+  --largura: 90rem;
   --largura-estreita: 60rem;
-  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --gutter: clamp(1.25rem, 5vw, 6rem);
+  --header-h: 6rem;
 
-  /* --- Linguagem de canto: cerâmica é esculpida, não arredondada -------- */
-  --r1: 2px;
-  --r2: 4px;
-  --r3: 10px;
-  --r-camada: 12px 12px 2px 2px; /* a camada de esmalte assenta por cima */
+  /* --- Cantos ----------------------------------------------------------- */
+  --r1: 4px;
+  --r2: 6px; /* botões */
+  --r3: 8px; /* fichas, figuras */
+  --r4: 14px; /* galeria, molduras */
 
-  /* --- Profundidade: sempre deslocamento + desfoque suave --------------- */
-  --sh1: 0 1px 2px rgba(32, 26, 20, 0.06), 0 2px 8px rgba(32, 26, 20, 0.05);
-  --sh2: 0 2px 6px rgba(32, 26, 20, 0.08), 0 12px 28px rgba(32, 26, 20, 0.1);
-  --sh3: 0 4px 12px rgba(32, 26, 20, 0.1), 0 24px 56px rgba(32, 26, 20, 0.16);
-  --sh-escuro: 0 2px 8px rgba(0, 0, 0, 0.3), 0 18px 48px rgba(0, 0, 0, 0.38);
+  /* --- Profundidade: deslocamento + desfoque, tinta de teal noturno ----- */
+  --sh1: 0 1px 2px rgba(14, 31, 31, 0.06), 0 4px 12px rgba(14, 31, 31, 0.06);
+  --sh2: 0 2px 6px rgba(14, 31, 31, 0.08), 0 14px 32px rgba(14, 31, 31, 0.12);
+  --sh3: 0 18px 45px rgba(19, 19, 19, 0.18);
+  --sh-moldura: 0 24px 60px rgba(14, 31, 31, 0.28);
 
-  /* --- Movimento: ease-out exponencial, a partir do já visível ---------- */
+  /* --- Movimento -------------------------------------------------------- */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-suave: cubic-bezier(0.33, 1, 0.68, 1);
-  --t-rapido: 180ms;
+  --t-rapido: 200ms;
   --t-medio: 340ms;
   --t-lento: 720ms;
 
@@ -138,45 +133,60 @@
   --z-modal: 300;
 }
 
+@media (max-width: 54rem) {
+  :root {
+    --header-h: 4.75rem;
+  }
+}
+
 /* ==========================================================================
-   Campo escuro — a inversão de papéis.
-   Aplicada a regiões inteiras, nunca a um card solto. A alternância entre
-   campo escuro e campo de pérola É a estratificação.
+   CAMPOS — aplicados a regiões inteiras, nunca a um card solto.
    ========================================================================== */
-.campo-escuro {
-  --sup: var(--sombra);
-  --sup-2: var(--sombra-2);
-  --sup-3: var(--campo-2);
-  --txt: var(--perola);
-  --txt-2: var(--halo);
-  --linha: rgba(203, 189, 166, 0.2);
-  --linha-forte: rgba(203, 189, 166, 0.38);
-  background-color: var(--sombra);
+
+/* Teal: hero, banners, faixas de marca, CTA, rodapé. */
+.campo-teal {
+  --sup: var(--teal);
+  --cartao: var(--teal-cartao);
+  --txt: #fff;
+  --txt-2: var(--gelo);
+  --titulo: #fff;
+  --destaque: var(--areia);
+  --rotulo: var(--creme-texto);
+  --icone: var(--areia);
+  --linha: rgba(255, 255, 255, 0.18);
+  --linha-forte: rgba(226, 205, 176, 0.7);
+  --acao-bg: var(--areia);
+  --acao-txt: var(--teal-profundo);
+  --acao-hover: #fff;
+  --acao-hover-txt: var(--teal-profundo);
+  --foco: var(--areia);
+  background-color: var(--teal);
   color: var(--txt);
 }
 
-.campo-queima {
-  --sup: var(--campo);
-  --sup-2: var(--campo-2);
-  --sup-3: var(--sombra);
-  --txt: var(--perola);
-  --txt-2: var(--halo);
-  --linha: rgba(203, 189, 166, 0.16);
-  --linha-forte: rgba(203, 189, 166, 0.32);
-  background-color: var(--campo);
+/* Areia: faixas de leitura curta e grades com cartão creme. */
+.campo-areia {
+  --sup: var(--areia);
+  --cartao: var(--creme);
+  --txt: var(--tinta);
+  --txt-2: #4b4942;
+  --titulo: var(--teal-profundo);
+  --destaque: var(--teal);
+  --rotulo: var(--teal-profundo);
+  --icone: var(--teal-profundo);
+  --linha: rgba(31, 95, 97, 0.2);
+  --linha-forte: rgba(31, 95, 97, 0.5);
+  --acao-bg: var(--teal);
+  --acao-txt: #fff;
+  --acao-hover: var(--teal-profundo);
+  --acao-hover-txt: #fff;
+  --foco: var(--teal-profundo);
+  background-color: var(--areia);
   color: var(--txt);
 }
 
-/* Campo champanhe — a barra da peça oficial, promovida a região.
-   Texto sempre em espresso: branco sobre champanhe não passa de 2,7:1. */
-.campo-champanhe {
-  --sup: var(--ouro);
-  --sup-2: var(--ouro-2);
-  --sup-3: var(--ouro-3);
-  --txt: var(--campo);
-  --txt-2: rgba(32, 26, 20, 0.72);
-  --linha: rgba(32, 26, 20, 0.2);
-  --linha-forte: rgba(32, 26, 20, 0.38);
-  background-color: var(--ouro);
-  color: var(--txt);
+/* Creme explícito (o padrão do body já é creme). */
+.campo-creme {
+  --sup: var(--creme);
+  background-color: var(--creme);
 }

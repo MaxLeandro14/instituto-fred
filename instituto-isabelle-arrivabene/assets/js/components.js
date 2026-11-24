@@ -188,42 +188,6 @@
   }
 
   /* ========================================================================
-     BUSCA DE PROFESSORES — filtra por nome e por especialidade
-     ======================================================================== */
-  var busca = document.querySelector("[data-busca]");
-
-  if (busca) {
-    var cartoes = document.querySelectorAll("[data-busca-item]");
-    var vazio = document.querySelector("[data-busca-vazio]");
-    var termoVazio = document.querySelector("[data-busca-termo]");
-
-    var normaliza = function (t) {
-      return t
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-    };
-
-    var filtra = function () {
-      var termo = normaliza(busca.value.trim());
-      var achou = 0;
-
-      Array.prototype.forEach.call(cartoes, function (cartao) {
-        var texto = normaliza(cartao.getAttribute("data-busca-item") || "");
-        var casa = !termo || texto.indexOf(termo) !== -1;
-        cartao.hidden = !casa;
-        if (casa) achou++;
-      });
-
-      if (vazio) vazio.setAttribute("data-visivel", achou ? "false" : "true");
-      if (termoVazio) termoVazio.textContent = busca.value.trim();
-    };
-
-    busca.addEventListener("input", filtra);
-    filtra();
-  }
-
-  /* ========================================================================
      MODAL — ficha do professor.
      Aqui o modal se justifica: é foco protegido sobre um item de uma grade,
      e voltar à grade na mesma posição é o comportamento certo.

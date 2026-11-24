@@ -20,11 +20,11 @@ os.chdir(RAIZ)
 PARTS = json.load(open('.build/parts.json', encoding='utf-8'))
 
 CONTRATO = """<!--
-THESIS: Uma pós-graduação em odontologia construída como o ceramista constrói um dente — núcleo opaco, camada translúcida, luz atravessando as duas. Recusa o landing clínico branco-e-azul com foto de sorriso e fileira de cards de ícone.
-OWN-WORLD: Campos de espresso profundo alternando com pérola greige; champanhe da marca como única luz; halo incisal na aresta de cada plano; Bodoni Moda de alto contraste sobre Jost em caps largas.
+THESIS: Formação clínica de alto nível apresentada como um estúdio de saúde premium — campos inteiros de teal, areia e creme se alternando. Recusa o landing clínico branco-e-azul com foto de sorriso e fileira de cards de ícone.
+OWN-WORLD: Header e campos de marca em teal #28797C; faixas em areia #E2CDB0; leitura em creme #F8EDDB; Raleway em caixa alta com tracking aberto sobre Manrope; botões de areia em caixa alta, pílulas de contorno, molduras com cartão de areia girado e selo em teal profundo; texto vazado correndo sob o hero.
 STORY: O dentista entende que existe formação deste nível sem sair do Maranhão, acredita pelo corpo docente e pela estrutura, e fala com um consultor sobre um curso nomeado.
 FIRST VIEWPORT: {viewport}
-FORM: Camada Cerâmica, candidata 5 de 7, seed d3bb9c1b, code-led.
+FORM: Teal & Areia — direção pinada pelo cliente a partir de uma referência; sem rolagem de conceito. Code-led.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->"""
 
@@ -35,7 +35,10 @@ GABARITO = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{titulo}</title>
 <meta name="description" content="{descricao}">
-<meta name="theme-color" content="#201a14">
+<meta name="theme-color" content="#28797c">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="canonical" href="https://institutoisabellearrivabene.com.br/{arquivo}">
 
 <meta property="og:type" content="website">
@@ -50,7 +53,7 @@ GABARITO = """<!DOCTYPE html>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&amp;family=Jost:wght@400;500;600&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Raleway:wght@400;500;600&amp;display=swap">
 
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
@@ -82,21 +85,13 @@ GABARITO = """<!DOCTYPE html>
 # sobre campo escuro.
 # ---------------------------------------------------------------------------
 PAGINAS = {
-    'cursos.html': dict(
-        ativo='cursos.html',
-        titulo='Cursos — Pós-graduações e Aperfeiçoamentos em Odontologia | Instituto Isabelle Arrivabene',
-        og_titulo='Formação Avançada em Odontologia e Harmonização Facial',
-        descricao='Cinco programas de pós-graduação e aperfeiçoamento em Odontologia e Harmonização Facial em São Luís/MA. Últimas vagas em Harmonização Orofacial.',
-        og_img='banner-cursos',
-        viewport='Banner escuro em sangria com foto de ambiente clínico tratada em espresso; título em didone com a palavra do ofício em itálico champanhe; selo de últimas vagas e dois CTAs; abaixo, o filtro de nível em pílula e a contagem de cursos.',
-    ),
     'curso-interno.html': dict(
-        ativo='cursos.html',
+        ativo='index.html#cursos',
         titulo='Harmonização Orofacial — Pós-graduação | Instituto Isabelle Arrivabene',
         og_titulo='Pós-graduação em Harmonização Orofacial — Instituto Isabelle Arrivabene',
-        descricao='Pós-graduação em Harmonização Orofacial no Champs Mall, Península, São Luís – MA. Protocolos faciais com prática supervisionada. Últimas vagas.',
+        descricao='Pós-graduação em Harmonização Orofacial no Champs Mall, Península, São Luís – MA. Protocolos faciais com prática supervisionada.',
         og_img='banner-curso',
-        viewport='Banner escuro com trilha de pão, selo de últimas vagas e o nome do curso em didone monumental; CTA aceso e âncora para o conteúdo programático.',
+        viewport='Banner teal com o nome do curso em caixa alta com "Orofacial" em areia, CTA de areia e âncora para o conteúdo programático; moldura à direita.',
     ),
     'sobre.html': dict(
         ativo='sobre.html',
@@ -104,7 +99,7 @@ PAGINAS = {
         og_titulo='Sobre o Instituto Isabelle Arrivabene',
         descricao='O Instituto Isabelle Arrivabene oferece pós-graduações e aperfeiçoamentos que unem excelência acadêmica, prática clínica e professores reconhecidos nacionalmente, no Champs Mall, em São Luís/MA.',
         og_img='banner-sobre',
-        viewport='Banner escuro com a frase institucional em didone; abaixo, os três pilares em colunas com filete champanhe no topo, e a linha do tempo à esquerda.',
+        viewport='Banner teal com a frase institucional em caixa alta e "consultório" em areia; à direita, a recepção emoldurada sobre cartão de areia girado; faixa de texto vazado.',
     ),
     'professores.html': dict(
         ativo='professores.html',
@@ -112,7 +107,7 @@ PAGINAS = {
         og_titulo='Corpo docente — Instituto Isabelle Arrivabene',
         descricao='Conheça o corpo docente do Instituto Isabelle Arrivabene: profissionais em atividade clínica que ensinam os protocolos que executam.',
         og_img='banner-professores',
-        viewport='Banner escuro com o título e, imediatamente abaixo em campo claro, o campo de busca em pílula e a grade de retratos em 4 colunas, cada um virando ficha completa no clique.',
+        viewport='Banner teal com o título; abaixo, em creme, a grade de retratos com corpo em areia, cada um virando ficha completa no clique.',
     ),
     'contato.html': dict(
         ativo='contato.html',
@@ -120,7 +115,7 @@ PAGINAS = {
         og_titulo='Fale com um consultor — Instituto Isabelle Arrivabene',
         descricao='Fale com um consultor do Instituto Isabelle Arrivabene. Champs Mall, Península, São Luís – MA. WhatsApp, telefone e formulário de inscrição.',
         og_img='banner-contato',
-        viewport='Banner escuro compacto com o título; abaixo, em campo claro, os canais de contato à esquerda em fichas com filete e, à direita, a caixa de formulário de inscrição elevada.',
+        viewport='Banner teal compacto com o título; abaixo, em creme, os canais em cartões de areia à esquerda e a caixa de formulário elevada à direita.',
     ),
 }
 

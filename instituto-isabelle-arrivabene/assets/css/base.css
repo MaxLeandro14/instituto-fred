@@ -12,57 +12,69 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   /* Compensa o header fixo quando um deep link cai numa seção. */
-  scroll-padding-top: 6.5rem;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
 }
 
 body {
   margin: 0;
-  background-color: var(--perola);
+  background-color: var(--creme);
   color: var(--txt);
   font-family: var(--fonte-texto);
   font-size: var(--fs-corpo);
   line-height: var(--lh-corpo);
   font-weight: 400;
-  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body.menu-aberto {
   overflow: hidden;
 }
 
+/* Títulos: Raleway média, caixa alta, tracking aberto. */
 h1,
 h2,
 h3,
 h4 {
   margin: 0;
   font-family: var(--fonte-display);
-  font-weight: 600;
+  font-weight: 500;
   line-height: var(--lh-titulo);
-  letter-spacing: var(--tr-titulo);
   text-wrap: balance;
-  color: var(--txt);
+  color: var(--titulo);
 }
 
 h1 {
   font-size: var(--fs-h1);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-h1);
+  text-transform: uppercase;
 }
+
 h2 {
   font-size: var(--fs-h2);
+  letter-spacing: var(--tr-titulo);
+  text-transform: uppercase;
 }
+
+/* A palavra que carrega o ofício acende na cor de destaque do campo. */
+h1 em,
+h2 em {
+  font-style: normal;
+  color: var(--destaque);
+}
+
 h3 {
   font-size: var(--fs-h3);
-  font-family: var(--fonte-texto);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
 }
+
 h4 {
   font-size: var(--fs-h4);
   font-family: var(--fonte-texto);
-  font-weight: 600;
-  letter-spacing: 0;
+  font-weight: 700;
 }
 
 p {
@@ -76,8 +88,8 @@ p:last-child {
 
 a {
   color: inherit;
-  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
-  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, currentColor 50%, transparent);
+  text-underline-offset: 0.24em;
   text-decoration-thickness: 1px;
   transition: color var(--t-rapido) var(--ease-suave),
     text-decoration-color var(--t-rapido) var(--ease-suave);
@@ -107,16 +119,15 @@ video {
 }
 
 img {
-  background-color: var(--perola-3);
+  background-color: var(--areia-2);
   color: transparent;
 }
 
 strong,
 b {
-  font-weight: 600;
+  font-weight: 700;
 }
 
-/* Números em dados tabulares alinham. */
 table,
 .num,
 time,
@@ -137,26 +148,29 @@ hr {
 }
 
 /* --------------------------------------------------------------------------
-   Superfícies do navegador — as partes que não desenhamos ainda carregam o
-   projeto. Seleção, caret, scrollbar e anel de foco saem da paleta.
+   Superfícies do navegador — saem da paleta, não do sistema operacional.
    -------------------------------------------------------------------------- */
 
 ::selection {
-  background-color: var(--ouro-3);
-  color: var(--campo);
+  background-color: var(--areia);
+  color: var(--teal-noite);
 }
 
-.campo-escuro ::selection,
-.campo-queima ::selection {
-  background-color: var(--ouro);
-  color: var(--campo);
+.campo-teal ::selection {
+  background-color: var(--creme);
+  color: var(--teal-noite);
+}
+
+.campo-areia ::selection {
+  background-color: var(--teal);
+  color: #fff;
 }
 
 :root {
-  scrollbar-color: var(--sombra-3) var(--perola-2);
+  scrollbar-color: var(--teal) var(--creme);
   scrollbar-width: thin;
-  accent-color: var(--sombra);
-  caret-color: var(--ouro);
+  accent-color: var(--teal);
+  caret-color: var(--teal);
 }
 
 ::-webkit-scrollbar {
@@ -164,28 +178,21 @@ hr {
   height: 11px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--perola-2);
+  background: var(--creme);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--sombra-3);
-  border: 3px solid var(--perola-2);
+  background: var(--teal);
+  border: 3px solid var(--creme);
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--sombra);
+  background: var(--teal-profundo);
 }
 
-/* O anel de foco é a aresta incisal: ouro sobre escuro, espresso sobre claro. */
 :focus-visible {
-  outline: 2px solid var(--sombra);
+  outline: 2px solid var(--foco);
   outline-offset: 3px;
   border-radius: var(--r1);
-}
-
-.campo-escuro :focus-visible,
-.campo-queima :focus-visible,
-.header--fixo.campo-queima :focus-visible {
-  outline-color: var(--ouro-2);
 }
 
 /* --------------------------------------------------------------------------
@@ -200,7 +207,7 @@ hr {
 }
 
 .env--estreito {
-  max-width: var(--largura-estreita);
+  max-width: calc(var(--largura-estreita) + var(--gutter) * 2);
 }
 
 .secao {
@@ -209,7 +216,7 @@ hr {
 }
 
 .secao--compacta {
-  padding-block: clamp(3rem, 6vw, 5rem);
+  padding-block: clamp(2.5rem, 5vw, 4rem) 0;
 }
 
 .medida {
@@ -236,10 +243,10 @@ hr {
   left: var(--s4);
   top: -100%;
   z-index: 500;
-  background: var(--ouro);
-  color: var(--campo);
+  background: var(--areia);
+  color: var(--teal-profundo);
   padding: var(--s3) var(--s5);
-  font-weight: 600;
+  font-weight: 800;
   font-size: var(--fs-sm);
   border-radius: var(--r2);
   transition: top var(--t-medio) var(--ease);
@@ -249,7 +256,6 @@ hr {
   top: var(--s4);
 }
 
-/* Texto de apoio */
 .apoio {
   color: var(--txt-2);
   font-size: var(--fs-corpo);
@@ -260,57 +266,17 @@ hr {
   font-size: var(--fs-sm);
 }
 
-/* O rótulo em caps — usado como legenda DENTRO de um bloco, jamais como
-   sobrancelha acima de um título. */
+/* Rótulo em caixa alta — legenda DENTRO de um bloco. */
 .caps {
-  font-size: var(--fs-xs);
-  font-weight: 600;
+  font-size: var(--fs-rotulo);
+  font-weight: 800;
   letter-spacing: var(--tr-caps);
   text-transform: uppercase;
-  color: var(--txt-2);
-}
-
-/* --------------------------------------------------------------------------
-   A CAMADA — a lâmina de esmalte translúcido.
-   O único lugar do sistema onde translucidez aparece: quando um plano
-   realmente se sobrepõe a um campo. Nunca como decoração.
-   -------------------------------------------------------------------------- */
-
-.camada {
-  position: relative;
-  background: linear-gradient(
-    to bottom,
-    rgba(203, 189, 166, 0.16),
-    rgba(203, 189, 166, 0.05) 42%,
-    rgba(32, 26, 20, 0.12)
-  );
-  border-radius: var(--r-camada);
-  border: 1px solid rgba(230, 220, 200, 0.16);
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
-  backdrop-filter: blur(14px) saturate(1.15);
-}
-
-/* A aresta incisal: a faixa de translucidez no topo da camada. */
-.camada::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 2px;
-  border-radius: var(--r-camada) var(--r-camada) 0 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--halo-forte) 22%,
-    var(--halo-forte) 78%,
-    transparent
-  );
-  opacity: 0.5;
-  transition: opacity var(--t-medio) var(--ease-suave);
+  color: var(--rotulo);
 }
 
 /* --------------------------------------------------------------------------
    Movimento — a partir de um padrão já visível, sempre.
-   O conteúdo nunca depende de JS para existir.
    -------------------------------------------------------------------------- */
 
 [data-revelar] {
@@ -364,7 +330,8 @@ html.js [data-revelar][data-atraso="4"] {
   .header,
   .flutuante,
   .ao-topo,
-  .menu-movel {
+  .menu-movel,
+  .faixa-contorno {
     display: none !important;
   }
   body {

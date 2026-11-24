@@ -5,43 +5,34 @@
      ========================================================================== -->
 
 <!-- WP: Banner (campo: curso_imagem_banner) -->
-<section class="banner campo-queima" aria-labelledby="banner-titulo">
-  <figure class="banner__fundo" aria-hidden="true">
-    <img src="assets/img/banner-curso.svg" alt="" width="2000" height="700" fetchpriority="high" decoding="async">
-  </figure>
+<section class="banner campo-teal" aria-labelledby="banner-titulo">
+  <div class="env banner__grade">
+    <div class="banner__texto">
+      <!-- WP: the_title() -->
+      <h1 class="banner__titulo" id="banner-titulo">Harmonização <em>Orofacial</em></h1>
 
-  <div class="env">
-    <nav class="trilha" aria-label="Trilha de navegação">
-      <ol>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="cursos.html">Cursos</a></li>
-        <li><span aria-current="page">Harmonização Orofacial</span></li>
-      </ol>
-    </nav>
+      <!-- WP: campo curso_resumo -->
+      <p class="banner__linha">
+        Protocolos faciais aplicados sob supervisão desde os primeiros módulos, com
+        a anatomia tratada como fundamento da decisão clínica.
+      </p>
 
-    <p style="margin-bottom:var(--s5);display:flex;flex-wrap:wrap;gap:var(--s3)">
-      <!-- WP: campo curso_status -->
-      <span class="selo selo--ultimas"><span class="selo__ponto" aria-hidden="true"></span>Últimas vagas</span>
-      <!-- WP: campo curso_nivel -->
-      <span class="selo selo--abertas">Pós-graduação</span>
-    </p>
-
-    <!-- WP: the_title() -->
-    <h1 class="banner__titulo" id="banner-titulo">Harmonização <em>Orofacial</em></h1>
-
-    <!-- WP: campo curso_resumo -->
-    <p class="banner__linha">
-      Protocolos faciais aplicados sob supervisão desde os primeiros módulos, com
-      a anatomia tratada como fundamento da decisão clínica.
-    </p>
-
-    <div class="banner__acoes">
-      <a class="btn btn--acesa btn--g" href="#inscricao-curso">
-        Quero me inscrever
-        <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
-      </a>
-      <a class="btn btn--contorno btn--g" href="#programatico">Conteúdo programático</a>
+      <div class="banner__acoes">
+        <a class="btn btn--acesa btn--g" href="#inscricao-curso">
+          Quero me inscrever
+          <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
+        </a>
+        <a class="btn btn--contorno btn--g" href="#programatico">Conteúdo programático</a>
+      </div>
     </div>
+
+    <figure class="banner__figura moldura" aria-hidden="true">
+      <div class="moldura__foto"><img src="assets/img/estrutura-clinica.svg" alt="" width="1000" height="750" fetchpriority="high" decoding="async"></div>
+    </figure>
+  </div>
+
+  <div class="faixa-contorno" aria-hidden="true">
+    <div class="faixa-contorno__trilha"><span>Harmonização Orofacial ·</span><span>Harmonização Orofacial ·</span><span>Harmonização Orofacial ·</span><span>Harmonização Orofacial ·</span><span>Harmonização Orofacial ·</span><span>Harmonização Orofacial ·</span></div>
   </div>
 </section>
 
@@ -52,7 +43,6 @@
   <div class="env">
     <div class="par">
       <div class="par__texto" data-revelar>
-        <hr class="regua">
         <h2 id="sobre-curso-titulo">Sobre o curso</h2>
         <!-- WP: the_content() -->
         <p>
@@ -91,12 +81,10 @@
 <!-- ==========================================================================
      CONTEÚDO PROGRAMÁTICO — acordeão. WP: campo repetidor curso_modulos
      ========================================================================== -->
-<section class="secao campo-escuro" id="programatico" aria-labelledby="prog-titulo">
+<section class="secao campo-areia" id="programatico" aria-labelledby="prog-titulo">
   <div class="env env--estreito">
     <div class="cabeca" data-revelar>
-      <hr class="regua">
       <h2 id="prog-titulo">Conteúdo programático</h2>
-      <p>Seis eixos, trabalhados em sequência. Cada um abre com teoria e fecha com prática.</p>
     </div>
 
     <!-- WP: Módulos Loop -->
@@ -215,139 +203,11 @@
 </section>
 
 <!-- ==========================================================================
-     COORDENAÇÃO E PROFESSORES — WP: campo curso_coordenacao / curso_docentes
-     ========================================================================== -->
-<section class="secao" id="corpo-docente" aria-labelledby="doc-titulo">
-  <div class="env">
-    <div class="cabeca cabeca--larga" data-revelar>
-      <hr class="regua">
-      <h2 id="doc-titulo">Coordenação e professores</h2>
-      <p>Quem conduz o programa e quem está em sala nos módulos práticos.</p>
-    </div>
-
-    <p class="nota-provisoria" style="margin-bottom:var(--s7)" data-revelar>
-      <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
-      <span><b>Conteúdo de exemplo.</b> Nomes e biografias abaixo são exemplos de
-      preenchimento — não são professores reais do Instituto. Substituir antes de publicar.</span>
-    </p>
-
-    <!-- WP: Docentes Loop -->
-    <ul class="docentes" data-revelar data-atraso="1">
-      <li>
-        <article class="docente" style="cursor:default">
-          <figure class="docente__figura"><img src="assets/img/docente-1.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
-          <div class="docente__corpo">
-            <span class="docente__area">Coordenação</span>
-            <h3 class="docente__nome">Nome do coordenador</h3>
-            <p class="docente__bio">Responsável pelo desenho do programa e pela condução dos módulos de anatomia e planejamento.</p>
-          </div>
-        </article>
-      </li>
-      <li>
-        <article class="docente" style="cursor:default">
-          <figure class="docente__figura"><img src="assets/img/docente-2.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
-          <div class="docente__corpo">
-            <span class="docente__area">Protocolos faciais</span>
-            <h3 class="docente__nome">Nome do professor</h3>
-            <p class="docente__bio">Conduz as sessões de técnica e a prática supervisionada em clínica.</p>
-          </div>
-        </article>
-      </li>
-      <li>
-        <article class="docente" style="cursor:default">
-          <figure class="docente__figura"><img src="assets/img/docente-3.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
-          <div class="docente__corpo">
-            <span class="docente__area">Intercorrências</span>
-            <h3 class="docente__nome">Nome do professor</h3>
-            <p class="docente__bio">Responsável pelo módulo de complicações, conduta imediata e protocolo de resgate.</p>
-          </div>
-        </article>
-      </li>
-      <li>
-        <article class="docente" style="cursor:default">
-          <figure class="docente__figura"><img src="assets/img/docente-4.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
-          <div class="docente__corpo">
-            <span class="docente__area">Ética e gestão</span>
-            <h3 class="docente__nome">Nome do professor</h3>
-            <p class="docente__bio">Trata limites de atuação, documentação clínica e apresentação do serviço.</p>
-          </div>
-        </article>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<!-- ==========================================================================
-     ESTRUTURA
-     ========================================================================== -->
-<section class="secao campo-queima" id="estrutura" aria-labelledby="estr-titulo">
-  <div class="env">
-    <div class="cabeca cabeca--larga" data-revelar>
-      <hr class="regua">
-      <h2 id="estr-titulo">Onde o curso acontece</h2>
-      <p>Auditório, clínica e salas no mesmo endereço, disponíveis à turma durante todo o programa.</p>
-    </div>
-
-    <ul class="galeria" data-revelar data-atraso="1">
-      <li><figure class="lamina"><img src="assets/img/estrutura-clinica.svg" alt="" width="1000" height="750" loading="lazy" decoding="async"><figcaption>Clínica</figcaption></figure></li>
-      <li><figure class="lamina"><img src="assets/img/estrutura-auditorio.svg" alt="" width="1200" height="675" loading="lazy" decoding="async"><figcaption>Auditório</figcaption></figure></li>
-      <li><figure class="lamina"><img src="assets/img/estrutura-sala.svg" alt="" width="1000" height="750" loading="lazy" decoding="async"><figcaption>Sala de aula</figcaption></figure></li>
-    </ul>
-  </div>
-</section>
-
-<!-- ==========================================================================
-     INVESTIMENTO — sem tabela de preço, por decisão do cliente.
-     Toda pergunta comercial vira conversa com consultor.
-     ========================================================================== -->
-<section class="secao" id="investimento" aria-labelledby="inv-titulo">
-  <div class="env env--estreito">
-    <div class="cabeca" data-revelar>
-      <hr class="regua">
-      <h2 id="inv-titulo">Investimento</h2>
-      <p>Tratado individualmente, com transparência total, antes de qualquer compromisso.</p>
-    </div>
-
-    <div class="par" data-revelar data-atraso="1" style="align-items:start">
-      <div>
-        <p>
-          Valores, formas de pagamento e condições variam conforme a entrada e o
-          perfil da turma. Em vez de publicar um número que muda a cada abertura,
-          o Instituto trata cada caso diretamente: você recebe a proposta completa
-          do programa, por escrito, antes de assumir qualquer compromisso.
-        </p>
-        <ul class="lista-check" style="margin-top:var(--s5)">
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Proposta por escrito, com todas as condições</li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Sem cobrança antes da documentação aprovada</li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>Consultor responde também sobre o que o curso não cobre</li>
-        </ul>
-      </div>
-
-      <div class="form-caixa">
-        <h2 style="font-family:var(--fonte-display)">Peça a proposta deste curso</h2>
-        <p>Um consultor envia o material completo de Harmonização Orofacial.</p>
-        <div style="display:grid;gap:var(--s3)">
-          <a class="btn btn--acesa btn--bloco btn--g" href="#inscricao-curso">
-            Solicitar proposta
-            <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
-          </a>
-          <!-- SUBSTITUIR -->
-          <a class="btn btn--contorno btn--bloco" href="https://wa.me/5598000000000?text=Ol%C3%A1%21%20Quero%20a%20proposta%20de%20Harmoniza%C3%A7%C3%A3o%20Orofacial." target="_blank" rel="noopener">
-            <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"></use></svg> Falar no WhatsApp
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==========================================================================
      FAQ DO CURSO
      ========================================================================== -->
-<section class="secao campo-escuro" id="faq" aria-labelledby="faqc-titulo">
+<section class="secao" id="faq" aria-labelledby="faqc-titulo">
   <div class="env env--estreito">
     <div class="cabeca" data-revelar>
-      <hr class="regua">
       <h2 id="faqc-titulo">Perguntas sobre este curso</h2>
     </div>
 
@@ -392,7 +252,7 @@
 <!-- ==========================================================================
      FORMULÁRIO DE INSCRIÇÃO NO CURSO
      ========================================================================== -->
-<section class="secao" id="inscricao-curso" aria-labelledby="insc-titulo">
+<section class="secao campo-areia" id="inscricao-curso" aria-labelledby="insc-titulo">
   <div class="env env--estreito">
     <div class="form-caixa" data-revelar>
       <h2 id="insc-titulo">Inscrição — Harmonização Orofacial</h2>
@@ -450,26 +310,6 @@
           curso. <!-- SUBSTITUIR: link real da política de privacidade --></span>
         </p>
       </form>
-    </div>
-  </div>
-</section>
-
-<!-- WP: CTA -->
-<section class="cta-final campo-champanhe" aria-labelledby="cta-titulo">
-  <div class="env cta-final__interior">
-    <div class="cta-final__texto">
-      <h2 id="cta-titulo" class="cta-final__titulo" data-revelar>Últimas vagas nesta turma.</h2>
-      <p class="cta-final__linha" data-revelar data-atraso="1">
-        O encerramento é por ordem de documentação aprovada. Se este é o seu
-        momento, vale começar a análise agora.
-      </p>
-    </div>
-    <div class="cta-final__acoes" data-revelar data-atraso="2">
-      <a class="btn btn--escura btn--g" href="#inscricao-curso">
-        Quero garantir minha vaga
-        <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
-      </a>
-      <a class="btn btn--contorno btn--g" href="cursos.html">Comparar com os outros cursos</a>
     </div>
   </div>
 </section>

@@ -16,17 +16,23 @@ Para localizar todos de uma vez:
 grep -rn "SUBSTITUIR" --include="*.html" .
 ```
 
-### 1. Logo (bloqueante)
+### 1. Logo
 
-O símbolo da borboleta **não foi redesenhado** — recriar de olho uma marca
-existente produziria uma versão pior dela. O lockup roda apenas tipográfico
-até o vetor chegar.
+A logo foi **redesenhada em vetor** (24/11/2026) a partir da imagem enviada:
+borboleta de traço único com os dois perfis traçada à mão; nome em Bellefair e
+"INSTITUTO" em Raleway (ambas SIL OFL, convertidas em curvas), com o "A" de
+travessão ondulado redesenhado. Não depende de fonte instalada.
 
-- [ ] Salvar o vetor oficial em `assets/img/logo-borboleta.svg`
-- [ ] Em `components/header.html` e `components/footer.html`, descomentar a
-      linha `<img class="marca__glifo" ...>` (o comentário está logo acima)
-- [ ] Repetir nas 6 páginas montadas (ou rodar `python3 .build/montar.py`
-      depois de ajustar `components/`)
+| Arquivo | Uso |
+|---|---|
+| `assets/img/logo-instituto.svg` | Versão fiel, dourado `#C29762`, para fundo claro e impressos |
+| `assets/img/logo-instituto-areia.svg` | Versão de tela, areia `#E2CDB0`, traço da borboleta mais encorpado — header, gaveta e rodapé (sobre teal) |
+| `assets/img/logo-borboleta.svg` | Só o símbolo, dourado (favicon, avatar de redes) |
+
+- [ ] Se existir o arquivo vetorial oficial da marca, conferir contra ele: o
+      oficial prevalece sobre este redesenho.
+- [x] Favicon: `assets/icons/favicon.svg` (borboleta em areia sobre teal, traço
+      simplificado para 16–32px), com `favicon-32.png` e `apple-touch-icon.png`.
 
 ### 2. Contato
 
@@ -39,7 +45,7 @@ até o vetor chegar.
 | Footer, contato | Perfis reais de Instagram, Facebook e LinkedIn |
 | Footer | Razão social e CNPJ |
 | Contato | Horário de atendimento real |
-| Footer, contato | Embed de mapa do endereço exato (hoje aponta para a Península como aproximação) |
+| Footer | Embed de mapa do endereço exato (hoje aponta para a Península como aproximação) |
 | Footer | Links reais de política de privacidade e termos de uso |
 
 ### 3. Conteúdo de exemplo, rotulado como tal no site
@@ -47,17 +53,42 @@ até o vetor chegar.
 Estes blocos existem para dimensionar o layout e **estão marcados na página**
 com o aviso "Conteúdo de exemplo". Remover o aviso junto com o conteúdo.
 
-- [ ] **Depoimentos** (home) — 4 textos de exemplo. Substituir por depoimentos
-      reais e autorizados, ou remover a seção.
-- [ ] **Professores** (home, cursos, curso-interno, professores) — 6 perfis de
+- [ ] **Depoimentos** (home) — 4 textos de exemplo. **O aviso visível foi
+      retirado a seu pedido**; só o comentário `SUBSTITUIR` no código e o
+      "· exemplo" de cada cartão ainda marcam que não são reais. Substituir por
+      depoimentos reais e autorizados, ou remover a seção, antes de publicar.
+- [ ] **Professores** (professores) — 6 perfis de
       exemplo. Substituir por nomes, especialidades, currículos e fotos reais.
-- [ ] **Linha do tempo** (sobre) — marcos sem ano, porque nenhuma data foi
-      confirmada. Preencher ou remover a seção.
+      Em `professores.html` **o aviso visível foi retirado a seu pedido**; só o
+      comentário `SUBSTITUIR` no código marca que os perfis não são reais.
+
+### 3b. Vídeo institucional (home)
+
+O espaço já está pronto na faixa logo abaixo do topo. Enquanto não houver vídeo,
+o clique mostra "Vídeo em breve".
+
+- [ ] **Arquivo próprio:** salvar como `assets/video/instituto.mp4` (H.264,
+      1080p, de preferência < 15 MB) e trocar a capa provisória
+      `assets/img/video-capa.svg` por um quadro do vídeo (1600×900, JPG).
+- [ ] **Ou YouTube:** em `index.html`, preencher `data-youtube="ID_DO_VIDEO"` no
+      `<figure class="video">`. O player só carrega no clique, pelo domínio
+      sem cookies (youtube-nocookie.com).
+- [ ] Legendas: incluir `<track kind="captions" src="..." srclang="pt-BR">`
+      no `<video>` se o vídeo tiver fala.
 
 ### 4. Fotografia
 
-Os 26 arquivos em `assets/img/*.svg` são **placeholders autorais**, desenhados
-no mundo visual do projeto. Cada um traz no próprio SVG, na tag `<desc>`, o
+- [ ] **`assets/img/recepcao-referencia.jpg` é foto de TERCEIROS, provisória.**
+      Recortada do site de referência (dentopia.marketing, recepção da clínica
+      NUYU, Reino Unido), com autorização sua para uso em desenvolvimento. Não
+      é licenciada para produção e não mostra o Instituto. Aparece no bloco
+      "Sobre" da home e no banner de `sobre.html`, **sem legenda** (a legenda
+      "Imagem ilustrativa" foi retirada a seu pedido).
+      Trocar pela fachada/recepção real antes de publicar:
+      `grep -rn "recepcao-referencia" --include="*.html" .`
+
+Os 26 arquivos em `assets/img/*.svg` são **placeholders autorais**, recoloridos
+para a paleta teal/areia. Cada um traz no próprio SVG, na tag `<desc>`, o
 briefing do que a foto real deve mostrar:
 
 ```bash
@@ -87,7 +118,6 @@ Ao subir as fotos reais, trocar a extensão nos `src` e **remover os blocos
 - [ ] `og:image` real de 1200×630 em cada página (hoje aponta para um SVG)
 - [ ] Trocar o domínio `institutoisabellearrivabene.com.br` nos `canonical`
       e `og:url` se for outro
-- [ ] Favicon (`assets/icons/`)
 
 ---
 
@@ -96,10 +126,9 @@ Ao subir as fotos reais, trocar a extensão nos `src` e **remover os blocos
 ```
 instituto-isabelle-arrivabene/
 ├── index.html              Home
-├── cursos.html             Catálogo (a página de maior peso de conversão)
 ├── curso-interno.html      Modelo reutilizável de curso
 ├── sobre.html              Institucional
-├── professores.html        Corpo docente com busca e ficha em modal
+├── professores.html        Corpo docente com ficha em modal
 ├── contato.html            Canais + formulário
 ├── assets/
 │   ├── css/
@@ -109,7 +138,7 @@ instituto-isabelle-arrivabene/
 │   │   └── pages.css       Composições de seção
 │   ├── js/
 │   │   ├── main.js         Header, menu móvel, revelação, voltar ao topo
-│   │   └── components.js   Acordeão, carrossel, filtro, busca, modal, form
+│   │   └── components.js   Acordeão, carrossel, filtro, modal, form
 │   ├── img/                26 placeholders autorais + a persona fornecida
 │   ├── icons/
 │   └── fonts/
@@ -196,14 +225,23 @@ A ordem dos CSS importa: `tokens` define as variáveis que os outros três usam.
 site. Toda pergunta comercial vira "Fale com um consultor". Se um valor entrar
 depois, ele entra como campo do CPT — não como texto solto.
 
-**O ouro é o único elemento com permissão de acender.** É o sistema de estado
-do site: matrícula aberta acende por dentro, "últimas vagas" intensifica o
-halo na aresta superior da ficha. Se você adicionar um brilho dourado
-decorativo em outro lugar, o sistema para de comunicar estado.
+**Visual: Teal & Areia.** Header e campos de marca em teal `#28797C`, faixas
+em areia `#E2CDB0`, leitura em creme `#F8EDDB`; títulos em Raleway caixa alta,
+texto em Manrope — seguindo a referência que você enviou. Sistema completo em
+`../DESIGN.md`.
 
-**Texto sobre champanhe é sempre espresso, nunca branco.** Branco sobre
-`#B29A6E` mede 2,7:1 e reprova em acessibilidade. Para o raro caso que exige
-texto branco existe o `--ouro-fundo` (`#8A6E42`, 4,8:1).
+**Cor por campo, nunca por componente.** Cada `<section>` recebe um campo
+(`campo-teal`, `campo-areia`; creme é o padrão) e os componentes leem os papéis
+(`--txt`, `--titulo`, `--acao-bg`…). Para trocar o fundo de uma seção, troque a
+classe da seção — não o CSS do botão.
+
+**Areia sobre teal só em texto grande.** Areia sobre `#28797C` mede 3,3:1:
+serve para a palavra de destaque do título, bordas, ícones e fundo de botão.
+Texto pequeno sobre teal é branco ou `--creme-texto`. Texto sobre areia é
+sempre `--teal-profundo` (4,7:1).
+
+**O header é sempre teal sólido**, com dropdown creme em "Cursos". O botão de
+menu aparece em todas as larguras e abre uma gaveta lateral.
 
 **Nada depende de JavaScript para existir.** Sem JS: o menu vira lista inline,
 os acordeões ficam todos abertos, o conteúdo continua legível. Manter assim.
@@ -220,5 +258,5 @@ python3 -m http.server 8000
 # abrir http://localhost:8000
 ```
 
-Precisa de servidor: os ícones usam `<use href="#id">` e o filtro lê a URL.
+Precisa de servidor: os ícones usam `<use href="#id">`.
 Abrir por `file://` funciona parcialmente, mas não é representativo.

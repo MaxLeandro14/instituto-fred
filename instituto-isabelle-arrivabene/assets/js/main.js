@@ -13,8 +13,8 @@
   var reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ------------------------------------------------------------------------
-     HEADER — transparente no topo, campo de queima ao rolar.
-     O limiar é 24px: cedo o bastante para o texto nunca ficar sem fundo.
+     HEADER — teal sólido sempre; ao rolar ganha sombra para se descolar
+     do conteúdo. O limiar é 24px.
      ------------------------------------------------------------------------ */
   var header = document.querySelector("[data-header]");
 
@@ -75,6 +75,10 @@
     });
 
     menu.addEventListener("click", function (e) {
+      if (e.target.closest("[data-menu-fechar]")) {
+        fechaMenu(true);
+        return;
+      }
       if (e.target.closest("a")) fechaMenu(false);
     });
 
@@ -108,19 +112,49 @@
       }
     });
 
-    /* Ao passar para desktop o menu não pode ficar preso aberto. */
-    var largo = window.matchMedia("(min-width: 54.0625rem)");
-    var aoMudarLargura = function (mq) {
-      if (mq.matches && menu.getAttribute("data-aberto") === "true") {
-        fechaMenu(false);
-      }
-    };
-    if (largo.addEventListener) {
-      largo.addEventListener("change", aoMudarLargura);
-    } else if (largo.addListener) {
-      largo.addListener(aoMudarLargura);
-    }
   }
+
+  /* ------------------------------------------------------------------------
+     SUBMENU DO HEADER — abre no hover e no foco, fecha em Escape.
+     Sem JS, o CSS abre por :hover / :focus-within.
+     ------------------------------------------------------------------------ */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-sub]"), function (item) {
+    var gatilho = item.querySelector("[aria-haspopup]");
+    var timer = null;
+
+    var abre = function () {
+      window.clearTimeout(timer);
+      item.setAttribute("data-aberto", "true");
+      if (gatilho) gatilho.setAttribute("aria-expanded", "true");
+    };
+
+    var fecha = function () {
+      window.clearTimeout(timer);
+      item.setAttribute("data-aberto", "false");
+      if (gatilho) gatilho.setAttribute("aria-expanded", "false");
+    };
+
+    item.addEventListener("mouseenter", abre);
+    item.addEventListener("mouseleave", function () {
+      timer = window.setTimeout(fecha, 140);
+    });
+    var suprimir = false;
+    item.addEventListener("focusin", function () {
+      if (!suprimir) abre();
+    });
+    item.addEventListener("focusout", function (e) {
+      if (!item.contains(e.relatedTarget)) fecha();
+    });
+    item.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && item.getAttribute("data-aberto") === "true") {
+        /* O foco volta ao gatilho sem reabrir o painel. */
+        suprimir = true;
+        if (gatilho) gatilho.focus();
+        suprimir = false;
+        fecha();
+      }
+    });
+  });
 
   /* ------------------------------------------------------------------------
      REVELAÇÃO POR SCROLL — a partir de um padrão já visível.
@@ -160,6 +194,8 @@
      VOLTAR AO TOPO
      ------------------------------------------------------------------------ */
   var aoTopo = document.querySelector("[data-ao-topo]");
+  /* O CTA flutuante só aparece depois do hero, que já tem o próprio botão. */
+  var zap = document.querySelector("[data-zap]");
 
   if (aoTopo) {
     var travadoTopo = false;
@@ -170,6 +206,12 @@
         "data-visivel",
         window.scrollY > window.innerHeight ? "true" : "false"
       );
+      if (zap) {
+        zap.setAttribute(
+          "data-visivel",
+          window.scrollY > window.innerHeight * 0.6 ? "true" : "false"
+        );
+      }
     };
 
     window.addEventListener(
@@ -220,4 +262,45 @@
       news.reset();
     });
   }
+  /* ------------------------------------------------------------------------
+     VÍDEO INSTITUCIONAL — capa com play. Sem JS, o <video> mostra os
+     controles nativos. Com data-youtube preenchido, carrega o player do
+     YouTube (domínio sem cookies) só no clique.
+     ------------------------------------------------------------------------ */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-video]"), function (bloco) {
+    var video = bloco.querySelector("video");
+    var capa = bloco.querySelector("[data-video-play]");
+    var estado = bloco.querySelector("[data-video-estado]");
+    if (!capa) return;
+    if (video) video.removeAttribute("controls");
+
+    var indisponivel = function () {
+      bloco.setAttribute("data-tocando", "false");
+      bloco.setAttribute("data-indisponivel", "true");
+      if (video) video.removeAttribute("controls");
+      if (estado) estado.textContent = "Vídeo em breve";
+      capa.setAttribute("aria-label", "O vídeo de apresentação será publicado em breve");
+    };
+
+    capa.addEventListener("click", function () {
+      var yt = (bloco.getAttribute("data-youtube") || "").trim();
+      if (yt) {
+        var f = document.createElement("iframe");
+        f.className = "video__midia";
+        f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(yt) + "?autoplay=1&rel=0";
+        f.title = "Vídeo de apresentação do Instituto Isabelle Arrivabene";
+        f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+        f.setAttribute("allowfullscreen", "");
+        bloco.querySelector(".video__quadro").appendChild(f);
+        bloco.setAttribute("data-tocando", "true");
+        return;
+      }
+      if (!video) return;
+      video.setAttribute("controls", "");
+      bloco.setAttribute("data-tocando", "true");
+      var tocar = video.play();
+      if (tocar && tocar.catch) tocar.catch(indisponivel);
+      video.focus();
+    });
+  });
 })();

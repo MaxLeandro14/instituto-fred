@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-labelledby="t d">
+  <title id="t">Vídeo institucional — capa provisória</title>
+  <desc id="d">Capa autoral provisória. Substituir por um quadro do vídeo real do Instituto (fachada, recepção ou aula prática), 1600x900.</desc>
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2B8083"/>
+      <stop offset="0.55" stop-color="#226D70"/>
+      <stop offset="1" stop-color="#174A4C"/>
+    </linearGradient>
+    <radialGradient id="luz" cx="0.5" cy="0.46" r="0.55">
+      <stop offset="0" stop-color="#E2CDB0" stop-opacity="0.22"/>
+      <stop offset="0.6" stop-color="#E2CDB0" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#E2CDB0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#fundo)"/>
+  <rect width="1600" height="900" fill="url(#luz)"/>
+  <g transform="translate(366.48 148.54) scale(0.73107)" fill="none" stroke="#E2CDB0" stroke-opacity="0.78" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path id="a" d="M210 114 C226 114 240 115 252 117 C264 128 272 150 274 180 C276 225 272 295 280 335 C288 378 318 405 345 421 C372 436 400 438 418 430 C428 425 444 427 444 432 C444 437 424 437 410 439 C360 447 319 497 322 555 C325 620 380 655 440 656 C500 657 560 628 593 603 C603 595 613 585 612 571 C611 560 604 553 604 545 C607 532 622 530 626 521 C628 516 621 516 622 512 C623 508 630 509 628 504 C627 501 623 502 624 499 C625 496 632 496 629 491 C627 487 622 488 624 484 C627 480 639 479 636 473 C633 466 618 462 614 456 C625 445 648 430 660 417 C645 398 618 375 593 340 C500 210 360 130 252 117"/><use href="#a" transform="translate(1186 0) scale(-1 1)"/>
+  </g>
+</svg>

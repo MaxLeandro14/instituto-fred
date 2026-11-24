@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Instituto Isabelle Arrivabene</title>
+  <rect width="64" height="64" rx="14" fill="#28797C"/>
+  <g transform="translate(-9.030 5.362) scale(0.06919)" fill="none" stroke="#E2CDB0" stroke-width="34" stroke-linecap="round" stroke-linejoin="round">
+    <path id="a" d="M210 114 C226 114 240 115 252 117 C264 128 272 150 274 180 C276 225 272 295 280 335 C288 378 318 405 345 421 C372 436 400 438 418 430 C428 425 444 427 444 432 C444 437 424 437 410 439 C360 447 319 497 322 555 C325 620 380 655 440 656 C500 657 560 628 593 603 C603 595 613 585 612 571 C611 560 604 553 604 545 C612 528 636 500 614 456 C625 445 648 430 660 417 C645 398 618 375 593 340 C500 210 360 130 252 117"/><use href="#a" transform="translate(1186 0) scale(-1 1)"/>
+  </g>
+</svg>

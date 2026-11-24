@@ -1,120 +1,106 @@
 <!-- WP: Banner -->
-<section class="banner campo-queima" aria-labelledby="banner-titulo">
-  <figure class="banner__fundo" aria-hidden="true">
-    <img src="assets/img/banner-professores.svg" alt="" width="2000" height="700" fetchpriority="high" decoding="async">
-  </figure>
+<section class="banner campo-teal" aria-labelledby="banner-titulo">
+  <div class="env banner__grade">
+    <div class="banner__texto">
+      <h1 class="banner__titulo" id="banner-titulo">Aprenda com quem vive a <em>prática clínica</em>.</h1>
 
-  <div class="env">
-    <nav class="trilha" aria-label="Trilha de navegação">
-      <ol>
-        <li><a href="index.html">Home</a></li>
-        <li><span aria-current="page">Professores</span></li>
-      </ol>
-    </nav>
+      <p class="banner__linha">
+        Critério único na seleção do corpo docente: quem ensina o protocolo precisa
+        executá-lo na própria semana.
+      </p>
+    </div>
 
-    <h1 class="banner__titulo" id="banner-titulo">Aprenda com quem vive a <em>prática clínica</em>.</h1>
+    <figure class="banner__figura moldura" aria-hidden="true">
+      <div class="moldura__foto"><img src="assets/img/estrutura-auditorio.svg" alt="" width="1200" height="675" fetchpriority="high" decoding="async"></div>
+    </figure>
+  </div>
 
-    <p class="banner__linha">
-      Critério único na seleção do corpo docente: quem ensina o protocolo precisa
-      executá-lo na própria semana.
-    </p>
+  <div class="faixa-contorno" aria-hidden="true">
+    <div class="faixa-contorno__trilha"><span>Corpo docente · Prática clínica ·</span><span>Corpo docente · Prática clínica ·</span><span>Corpo docente · Prática clínica ·</span><span>Corpo docente · Prática clínica ·</span><span>Corpo docente · Prática clínica ·</span><span>Corpo docente · Prática clínica ·</span></div>
   </div>
 </section>
 
 <!-- ==========================================================================
-     BUSCA + GRADE — WP: Docentes Loop (CPT 'professor')
+     GRADE — WP: Docentes Loop (CPT 'professor')
      ========================================================================== -->
 <section class="secao" id="corpo-docente" aria-labelledby="doc-titulo">
   <div class="env">
 
     <div class="cabeca cabeca--larga" data-revelar>
-      <hr class="regua">
       <h2 id="doc-titulo">Corpo docente</h2>
-      <p>Busque por nome ou por especialidade. Clique em qualquer professor para ver o currículo e os cursos que ministra.</p>
     </div>
 
-    <p class="nota-provisoria" style="margin-bottom:var(--s7)" data-revelar>
-      <svg class="ico" aria-hidden="true"><use href="#i-alerta"></use></svg>
-      <span><b>Conteúdo de exemplo.</b> Os seis perfis abaixo são exemplos de
-      preenchimento em alta fidelidade. Nomes, especialidades e currículos não
-      correspondem a professores reais do Instituto. Substituir pelo corpo docente
-      verdadeiro, com fotografia própria, antes de publicar.</span>
-    </p>
+    <!-- SUBSTITUIR: os seis perfis abaixo são exemplos de preenchimento — nomes,
+         especialidades e currículos não são de professores reais. Trocar pelo
+         corpo docente verdadeiro, com fotografia própria, antes de publicar. -->
+    <ul class="docentes" style="margin-top:var(--s7)" data-revelar data-atraso="1">
 
-    <div class="busca" data-revelar data-atraso="1">
-      <svg class="ico" aria-hidden="true"><use href="#i-busca"></use></svg>
-      <label class="vis-oculto" for="busca-doc">Buscar professor por nome ou especialidade</label>
-      <input id="busca-doc" type="search" data-busca placeholder="Buscar por nome ou especialidade…" autocomplete="off">
-    </div>
-
-    <ul class="docentes" style="margin-top:var(--s7)" data-revelar data-atraso="2">
-
-      <li data-busca-item="professor um harmonizacao orofacial protocolos faciais anatomia">
+      <li>
         <button class="docente" type="button" data-modal-abrir="ficha-1" aria-haspopup="dialog">
           <figure class="docente__figura"><img src="assets/img/docente-1.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
           <div class="docente__corpo">
-            <span class="docente__area">Harmonização Orofacial</span>
             <h3 class="docente__nome">Professor Um</h3>
+            <span class="docente__area">Harmonização Orofacial</span>
             <p class="docente__bio">Coordena o programa de Harmonização Orofacial e os módulos de anatomia facial aplicada.</p>
             <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
           </div>
         </button>
       </li>
 
-      <li data-busca-item="professor dois ortodontia ortopedia facial cefalometria documentacao">
+      <li>
         <button class="docente" type="button" data-modal-abrir="ficha-2" aria-haspopup="dialog">
           <figure class="docente__figura"><img src="assets/img/docente-2.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
           <div class="docente__corpo">
-            <span class="docente__area">Ortodontia</span>
             <h3 class="docente__nome">Professor Dois</h3>
+            <span class="docente__area">Ortodontia</span>
             <p class="docente__bio">Atua em diagnóstico e planejamento ortodôntico, com ênfase em documentação e mecânica.</p>
             <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
           </div>
         </button>
       </li>
 
-      <li data-busca-item="professor tres implantodontia cirurgia guiada reabilitacao enxerto">
+      <li>
         <button class="docente" type="button" data-modal-abrir="ficha-3" aria-haspopup="dialog">
           <figure class="docente__figura"><img src="assets/img/docente-3.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
           <div class="docente__corpo">
-            <span class="docente__area">Implantodontia</span>
             <h3 class="docente__nome">Professor Três</h3>
+            <span class="docente__area">Implantodontia</span>
             <p class="docente__bio">Cirurgia guiada e reabilitação. Conduz as sessões de planejamento caso a caso.</p>
             <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
           </div>
         </button>
       </li>
 
-      <li data-busca-item="professor quatro protese dentaria dentistica ceramica cor estratificacao">
+      <li>
         <button class="docente" type="button" data-modal-abrir="ficha-4" aria-haspopup="dialog">
           <figure class="docente__figura"><img src="assets/img/docente-4.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
           <div class="docente__corpo">
-            <span class="docente__area">Prótese e Dentística</span>
             <h3 class="docente__nome">Professor Quatro</h3>
+            <span class="docente__area">Prótese e Dentística</span>
             <p class="docente__bio">Trabalha cor, forma e estratificação, do laboratório à prova clínica.</p>
             <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
           </div>
         </button>
       </li>
 
-      <li data-busca-item="professor cinco intercorrencias complicacoes urgencia manejo harmonizacao">
+      <li>
         <button class="docente" type="button" data-modal-abrir="ficha-5" aria-haspopup="dialog">
           <figure class="docente__figura"><img src="assets/img/docente-5.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
           <div class="docente__corpo">
-            <span class="docente__area">Intercorrências</span>
             <h3 class="docente__nome">Professor Cinco</h3>
+            <span class="docente__area">Intercorrências</span>
             <p class="docente__bio">Responsável pelos módulos de complicações, conduta imediata e protocolo de resgate.</p>
             <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
           </div>
         </button>
       </li>
 
-      <li data-busca-item="professor seis etica gestao documentacao clinica prontuario legislacao">
+      <li>
         <button class="docente" type="button" data-modal-abrir="ficha-6" aria-haspopup="dialog">
           <figure class="docente__figura"><img src="assets/img/docente-6.svg" alt="" width="800" height="1000" loading="lazy" decoding="async"></figure>
           <div class="docente__corpo">
-            <span class="docente__area">Ética e Gestão</span>
             <h3 class="docente__nome">Professor Seis</h3>
+            <span class="docente__area">Ética e Gestão</span>
             <p class="docente__bio">Trata limites de atuação, prontuário, consentimento e apresentação do serviço na clínica.</p>
             <p class="docente__mais">Conhecer <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
           </div>
@@ -122,14 +108,6 @@
       </li>
 
     </ul>
-
-    <div class="vazio" data-busca-vazio data-visivel="false" style="margin-top:var(--s7)">
-      <svg class="ico ico--g" aria-hidden="true"><use href="#i-busca"></use></svg>
-      <div>
-        <h3 style="margin-bottom:var(--s2)">Nenhum professor encontrado para “<span data-busca-termo></span>”.</h3>
-        <p style="margin:0">Tente buscar pela especialidade (<em>harmonização</em>, <em>ortodontia</em>, <em>implantodontia</em>, <em>prótese</em>) ou limpe o campo para ver o corpo docente completo.</p>
-      </div>
-    </div>
 
   </div>
 </section>
@@ -262,22 +240,3 @@
     <div data-modal-conteudo></div>
   </div>
 </div>
-
-<!-- WP: CTA -->
-<section class="cta-final campo-champanhe" aria-labelledby="cta-titulo">
-  <div class="env cta-final__interior">
-    <div class="cta-final__texto">
-      <h2 id="cta-titulo" class="cta-final__titulo" data-revelar>Estude com quem está na cadeira.</h2>
-      <p class="cta-final__linha" data-revelar data-atraso="1">
-        Escolha o programa e fale com um consultor sobre a próxima entrada.
-      </p>
-    </div>
-    <div class="cta-final__acoes" data-revelar data-atraso="2">
-      <a class="btn btn--escura btn--g" href="cursos.html">
-        Ver os cursos
-        <svg class="ico ico--seta" aria-hidden="true"><use href="#i-seta"></use></svg>
-      </a>
-      <a class="btn btn--contorno btn--g" href="contato.html#inscricao">Falar com um consultor</a>
-    </div>
-  </div>
-</section>

@@ -30,99 +30,38 @@
 }
 
 /* --------------------------------------------------------------------------
-   MARCA — o lockup oficial: símbolo da borboleta + wordmark empilhado.
-
-   O símbolo (borboleta formada por dois perfis faciais espelhados) é o ativo
-   mais forte da identidade e NÃO foi redesenhado aqui: o slot abaixo espera
-   assets/img/logo-borboleta.svg. Até o vetor chegar, o lockup roda apenas
-   tipográfico — fiel na hierarquia e no tracking, sem símbolo aproximado.
+   MARCA — a logo oficial redesenhada em vetor (assets/img/logo-instituto*.svg):
+   borboleta de traço único formada por dois perfis + nome. Sobre teal usa a
+   versão em areia; em fundo claro, a dourada.
    -------------------------------------------------------------------------- */
 .marca {
   display: inline-flex;
   align-items: center;
-  gap: var(--s4);
+  flex: none;
   text-decoration: none;
-  color: var(--txt);
 }
 
-.marca__glifo {
-  width: 2.75rem;
-  height: 2.75rem;
-  flex: none;
-  object-fit: contain;
+.marca__logo {
+  display: block;
+  width: auto;
+  height: 4rem;
   background: none;
 }
 
-/* Sem o vetor, o slot não deixa buraco nem desenha um símbolo falso. */
-.marca__glifo:not([src]),
-.marca__glifo[src=""] {
-  display: none;
+.menu-movel .marca__logo {
+  height: 3rem;
 }
 
-.marca__nome {
-  display: flex;
-  flex-direction: column;
-  gap: 0.16em;
-  color: var(--ouro-marca);
-}
-
-/* Sobre campo escuro o ouro da logo precisa subir para manter leitura. */
-.campo-escuro .marca__nome,
-.campo-queima .marca__nome,
-.header:not(.header--fixo):not(.header--claro) .marca__nome,
-.header--fixo .marca__nome,
-.menu-movel .marca__nome {
-  color: var(--ouro-2);
-}
-
-.marca__instituto {
-  font-size: 0.5625rem;
-  font-weight: 500;
-  letter-spacing: var(--tr-caps-larga);
-  text-transform: uppercase;
-  line-height: 1;
-  padding-left: 0.12em;
-}
-
-.marca__nome b {
-  font-family: var(--fonte-display);
-  font-weight: 400;
-  font-size: 1.0625rem;
-  line-height: 0.98;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  font-variation-settings: "opsz" 24;
-}
-
-.marca--g .marca__glifo {
-  width: 5.5rem;
-  height: 5.5rem;
-}
-
-.marca--g .marca__instituto {
-  font-size: 0.75rem;
-}
-
-.marca--g .marca__nome b {
-  font-size: 1.875rem;
-}
-
-/* Empilhado e centrado — usado no rodapé e no menu móvel. */
-.marca--pilha {
-  flex-direction: column;
-  gap: var(--s4);
-  text-align: center;
-}
-
-.marca--pilha .marca__nome {
-  align-items: center;
+.rodape .marca__logo {
+  height: 4.5rem;
 }
 
 /* --------------------------------------------------------------------------
-   Botões — .btn--acesa é a única coisa da página que tem permissão de acender
+   BOTÕES — caixa alta em Manrope extra-negrito, tracking aberto.
+   A cor sai do papel do campo: areia sobre teal, teal sobre claro.
    -------------------------------------------------------------------------- */
 .btn {
-  --btn-alt: 3.25rem;
+  --btn-alt: 3rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -131,11 +70,14 @@
   padding: 0 var(--s6);
   border: 1px solid transparent;
   border-radius: var(--r2);
-  font-family: var(--fonte-texto);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: 0.005em;
+  /* Como na referência: a letra dos títulos, em peso leve, caixa alta. */
+  font-family: var(--fonte-display);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
   background: none;
   transition: background-color var(--t-rapido) var(--ease-suave),
@@ -146,8 +88,8 @@
 }
 
 .btn .ico {
-  width: 1.125rem;
-  height: 1.125rem;
+  width: 1rem;
+  height: 1rem;
   transition: transform var(--t-medio) var(--ease);
 }
 
@@ -159,52 +101,52 @@
   transform: translateY(1px);
 }
 
-/* Acesa: luz transmitida. Fundo champanhe, texto em espresso. */
-.btn--acesa {
-  background-color: var(--ouro);
-  color: var(--campo);
-  box-shadow: 0 1px 2px rgba(32, 26, 20, 0.14),
-    0 10px 26px -8px rgba(178, 154, 110, 0.55);
+/* Acesa: a ação principal do campo. */
+.btn--acesa,
+.btn--escura {
+  background-color: var(--acao-bg);
+  color: var(--acao-txt);
 }
 
-.btn--acesa:hover {
-  background-color: var(--ouro-2);
-  box-shadow: 0 2px 4px rgba(32, 26, 20, 0.16),
-    0 16px 38px -10px rgba(178, 154, 110, 0.7);
+.btn--acesa:hover,
+.btn--escura:hover {
+  background-color: var(--acao-hover);
+  color: var(--acao-hover-txt);
 }
 
-/* Contorno: assenta sobre qualquer campo, herda a linha do campo. */
+/* Contorno: linha do campo, preenche no hover. */
 .btn--contorno {
   border-color: var(--linha-forte);
   color: var(--txt);
 }
 
 .btn--contorno:hover {
-  border-color: var(--txt);
-  background-color: color-mix(in srgb, var(--txt) 6%, transparent);
+  border-color: var(--acao-bg);
+  background-color: var(--acao-bg);
+  color: var(--acao-txt);
 }
 
-/* Sólida: espresso sobre campo claro. */
+/* Sólida: o inverso do campo. */
 .btn--solida {
-  background-color: var(--sombra);
-  color: var(--perola);
+  background-color: var(--titulo);
+  color: var(--sup);
 }
 
 .btn--solida:hover {
-  background-color: var(--sombra-2);
-  box-shadow: var(--sh2);
+  background-color: var(--acao-bg);
+  color: var(--acao-txt);
 }
 
 .btn--g {
-  --btn-alt: 3.75rem;
+  --btn-alt: 3.25rem;
   padding: 0 var(--s7);
-  font-size: var(--fs-corpo);
+  font-size: 1rem;
 }
 
 .btn--p {
   --btn-alt: 2.625rem;
   padding: 0 var(--s5);
-  font-size: var(--fs-xs);
+  font-size: 0.8125rem;
 }
 
 .btn--bloco {
@@ -215,8 +157,70 @@
 .btn[aria-disabled="true"] {
   opacity: 0.45;
   cursor: not-allowed;
-  box-shadow: none;
   pointer-events: none;
+}
+
+/* Botão-círculo: o disco de areia se estende por baixo do rótulo no hover. */
+.btn-circulo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 3.125rem;
+  padding-right: var(--s5);
+  text-decoration: none;
+  color: var(--txt);
+  isolation: isolate;
+  white-space: nowrap;
+}
+
+.btn-circulo::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 3.125rem;
+  background-color: var(--acao-bg);
+  transform: translateY(-50%);
+  /* Recorte em vez de largura: anima sem relayout e mantém as pontas redondas. */
+  clip-path: inset(0 calc(100% - 3.125rem) 0 0 round 99px);
+  transition: clip-path 420ms var(--ease);
+}
+
+.btn-circulo:hover::before,
+.btn-circulo:focus-visible::before {
+  clip-path: inset(0 0 0 0 round 99px);
+}
+
+.btn-circulo__disco {
+  display: grid;
+  place-items: center;
+  width: 3.125rem;
+  height: 3.125rem;
+  flex: none;
+  color: var(--acao-txt);
+}
+
+.btn-circulo__disco .ico {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.btn-circulo__rotulo {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  transition: color var(--t-medio) var(--ease-suave),
+    transform var(--t-medio) var(--ease);
+}
+
+.btn-circulo:hover .btn-circulo__rotulo,
+.btn-circulo:focus-visible .btn-circulo__rotulo {
+  color: var(--acao-txt);
+  transform: translateX(-2px);
 }
 
 /* Elo de texto com seta */
@@ -225,9 +229,9 @@
   align-items: center;
   gap: var(--s2);
   font-size: var(--fs-sm);
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
-  color: var(--txt);
+  color: var(--titulo);
   border-bottom: 1px solid var(--linha-forte);
   padding-bottom: 2px;
   transition: border-color var(--t-rapido) var(--ease-suave),
@@ -248,22 +252,94 @@
   transform: translateX(3px);
 }
 
+/* Elo em caixa alta sublinhado — "ver todos os cursos". */
+.elo-caps {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+  color: var(--rotulo);
+  text-decoration: underline;
+  text-decoration-color: var(--icone);
+  text-underline-offset: 0.45em;
+  text-decoration-thickness: 1px;
+}
+
+.elo-caps:hover {
+  color: var(--txt);
+  text-decoration-color: currentColor;
+}
+
 /* --------------------------------------------------------------------------
-   Selo de estado — a leitura de matrícula.
-   Champanhe sólido = últimas vagas. Halo em véu = matrículas abertas.
+   PÍLULAS — rótulo de nível e etiquetas de curso.
+   -------------------------------------------------------------------------- */
+.pilula {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--linha-forte);
+  border-radius: 99px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: var(--tr-pilula);
+  text-transform: uppercase;
+  color: var(--rotulo);
+  white-space: nowrap;
+}
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.etiquetas li {
+  margin: 0;
+}
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.25rem 0.875rem;
+  border: 1px solid var(--linha-forte);
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--rotulo);
+  text-decoration: none;
+  transition: background-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave),
+    border-color var(--t-rapido) var(--ease-suave);
+}
+
+a.etiqueta:hover {
+  background-color: var(--acao-bg);
+  border-color: var(--acao-bg);
+  color: var(--acao-txt);
+}
+
+/* --------------------------------------------------------------------------
+   SELO DE ESTADO — a leitura de matrícula.
+   Cheio = últimas vagas (o ponto pulsa). Contorno = matrículas abertas.
    -------------------------------------------------------------------------- */
 .selo {
   display: inline-flex;
   align-items: center;
   gap: var(--s2);
-  padding: 0.3rem var(--s3) 0.3rem var(--s2);
+  padding: 0.5rem 1.125rem;
+  border: 1px solid transparent;
   border-radius: 99px;
   font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
+  font-weight: 800;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  line-height: 1.2;
   white-space: nowrap;
-  border: 1px solid transparent;
 }
 
 .selo__ponto {
@@ -272,130 +348,123 @@
   border-radius: 50%;
   flex: none;
   background: currentColor;
-  margin-left: var(--s1);
 }
 
 .selo--ultimas {
-  background-color: var(--ouro);
-  color: var(--campo);
+  background-color: var(--acao-bg);
+  color: var(--acao-txt);
 }
 
 .selo--ultimas .selo__ponto {
-  animation: pulso-brasa 2.6s var(--ease-suave) infinite;
+  animation: pulso 2.4s var(--ease-suave) infinite;
 }
 
-@keyframes pulso-brasa {
+@keyframes pulso {
   0%,
   100% {
-    opacity: 1;
-    box-shadow: 0 0 0 0 rgba(32, 26, 20, 0.5);
+    box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 55%, transparent);
   }
-  50% {
-    opacity: 0.55;
-    box-shadow: 0 0 0 4px rgba(32, 26, 20, 0);
+  60% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 0%, transparent);
   }
 }
 
-.selo--abertas {
-  background-color: var(--halo-veu);
-  color: var(--halo-forte);
-  border-color: rgba(203, 189, 166, 0.4);
-}
-
-/* Em campo claro o selo frio precisa de contraste próprio. */
+.selo--abertas,
 .selo--abertas-claro {
-  background-color: color-mix(in srgb, var(--sombra) 10%, transparent);
-  color: var(--sombra);
-  border-color: color-mix(in srgb, var(--sombra) 30%, transparent);
+  border-color: var(--linha-forte);
+  color: var(--rotulo);
+}
+
+/* Sobre imagem, o selo precisa de chão próprio. */
+.ficha__selo .selo,
+.curso__selo .selo {
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(14, 31, 31, 0.22);
+}
+
+.ficha__selo .selo--ultimas,
+.curso__selo .selo--ultimas {
+  background-color: var(--areia);
+  color: var(--teal-profundo);
+}
+
+.ficha__selo .selo--abertas,
+.curso__selo .selo--abertas {
+  background-color: var(--creme);
+  color: var(--teal-profundo);
 }
 
 /* --------------------------------------------------------------------------
-   HEADER — transparente no topo, campo de queima ao rolar
+   HEADER — teal sólido, sempre. Menu com dropdown creme.
    -------------------------------------------------------------------------- */
 .header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: var(--z-header);
-  transition: background-color var(--t-medio) var(--ease-suave),
-    box-shadow var(--t-medio) var(--ease-suave),
-    border-color var(--t-medio) var(--ease-suave);
-  border-bottom: 1px solid transparent;
-}
-
-/* Sobre o hero escuro, o header nasce transparente e claro. */
-.header:not(.header--fixo) {
-  --txt: var(--perola);
-  --txt-2: var(--halo);
-  --linha: rgba(203, 189, 166, 0.2);
-  --linha-forte: rgba(203, 189, 166, 0.42);
-  color: var(--perola);
+  background-color: var(--teal);
+  color: #fff;
+  --foco: var(--areia);
+  transition: box-shadow var(--t-medio) var(--ease-suave);
 }
 
 .header--fixo {
-  background-color: rgba(32, 26, 20, 0.92);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  backdrop-filter: blur(16px) saturate(1.2);
-  border-bottom-color: rgba(203, 189, 166, 0.16);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 32px rgba(0, 0, 0, 0.28);
-}
-
-/* Páginas que abrem em campo claro pedem header claro desde o topo. */
-.header--claro:not(.header--fixo) {
-  --txt: var(--tinta);
-  --txt-2: var(--cinza-quente);
-  --linha: rgba(107, 100, 92, 0.22);
-  --linha-forte: rgba(107, 100, 92, 0.38);
-  color: var(--tinta);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 32px rgba(14, 31, 31, 0.22);
 }
 
 .header__barra {
   display: flex;
   align-items: center;
   gap: var(--s5);
-  min-height: 5rem;
+  min-height: var(--header-h);
 }
 
-
 .header__nav {
-  margin-left: auto;
+  margin-inline: auto;
 }
 
 .header__lista {
   display: flex;
   align-items: center;
-  gap: clamp(var(--s4), 2vw, var(--s6));
+  gap: clamp(1.25rem, 2vw, 2rem);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.header__lista li {
+.header__lista > li {
   margin: 0;
 }
 
 .header__elo {
   position: relative;
-  display: block;
-  padding: var(--s2) 0;
-  font-size: var(--fs-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
   font-weight: 500;
   text-decoration: none;
-  color: var(--txt);
+  color: #fff;
   white-space: nowrap;
 }
 
-/* O sublinhado ativo é a aresta incisal em miniatura. */
+/* O sublinhado de areia marca a página atual e o hover. */
 .header__elo::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 1.5px;
-  background: var(--ouro-2);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--areia);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--t-medio) var(--ease);
+}
+
+.header__elo:hover {
+  color: var(--creme-texto);
 }
 
 .header__elo:hover::after,
@@ -403,121 +472,322 @@
   transform: scaleX(1);
 }
 
+.header__elo[aria-current="page"] {
+  color: var(--creme-texto);
+}
+
+.header__seta {
+  width: 0.75rem;
+  height: 0.75rem;
+  stroke-width: 2;
+  transition: transform var(--t-medio) var(--ease);
+}
+
+/* Dropdown */
+.header__item--sub {
+  position: relative;
+}
+
+.header__sub {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  padding-top: 1.25rem; /* ponte de hover entre o gatilho e o painel */
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 0.5rem);
+  transition: opacity var(--t-rapido) var(--ease-suave),
+    transform var(--t-medio) var(--ease), visibility var(--t-rapido);
+}
+
+.header__sublista {
+  min-width: 17rem;
+  margin: 0;
+  padding: var(--s2);
+  list-style: none;
+  border-radius: var(--r3);
+  background-color: var(--creme);
+  box-shadow: var(--sh3);
+}
+
+.header__sublista li {
+  margin: 0;
+}
+
+.header__sublista a {
+  display: block;
+  padding: 0.625rem 1rem;
+  border-radius: var(--r2);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--teal-profundo);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--t-rapido) var(--ease-suave);
+}
+
+.header__sublista a:hover,
+.header__sublista a:focus-visible {
+  background-color: var(--areia);
+  outline: none;
+}
+
+.header__item--sub[data-aberto="true"] .header__sub,
+html:not(.js) .header__item--sub:hover .header__sub,
+html:not(.js) .header__item--sub:focus-within .header__sub {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.header__item--sub[data-aberto="true"] .header__seta {
+  transform: rotate(180deg);
+}
+
 .header__acoes {
   display: flex;
   align-items: center;
   gap: var(--s3);
+  margin-left: auto;
 }
 
-/* Botão de menu móvel — três camadas que colapsam em duas */
+@media (min-width: 80rem) {
+  .header__nav + .header__acoes {
+    margin-left: 0;
+  }
+}
+
+.header__acoes .btn {
+  --btn-alt: 2.625rem;
+  padding: 0 1.25rem;
+  font-size: 0.9375rem;
+  letter-spacing: 0.1em;
+}
+
+.btn--header-linha {
+  border-color: var(--areia);
+  color: var(--creme-texto);
+}
+
+.btn--header-linha:hover {
+  background-color: var(--areia);
+  color: var(--teal-profundo);
+}
+
+.btn--header-cheio {
+  background-color: var(--areia);
+  color: var(--teal-profundo);
+}
+
+.btn--header-cheio:hover {
+  background-color: #fff;
+}
+
+/* Botão de menu — caixa com três traços, como o resto do header. */
 .menu-btn {
-  display: none;
+  display: inline-flex;
   flex-direction: column;
-  width: 2.875rem;
-  height: 2.875rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--linha-forte);
+  gap: 5px;
+  width: 2.625rem;
+  height: 2.625rem;
+  flex: none;
+  border: 1px solid rgba(226, 205, 176, 0.8);
   border-radius: var(--r2);
   background: none;
   cursor: pointer;
-  color: var(--txt);
+  color: var(--areia);
+  transition: background-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave);
+}
+
+.menu-btn:hover {
+  background-color: var(--areia);
+  color: var(--teal-profundo);
 }
 
 .menu-btn__traco {
   display: block;
-  width: 20px;
+  width: 18px;
   height: 1.5px;
   background: currentColor;
   border-radius: 2px;
-  transition: transform var(--t-medio) var(--ease),
-    opacity var(--t-rapido) var(--ease-suave);
-}
-
-.menu-btn__traco + .menu-btn__traco {
-  margin-top: 5px;
-}
-
-.menu-btn[aria-expanded="true"] .menu-btn__traco:nth-child(1) {
-  transform: translateY(6.5px) rotate(45deg);
-}
-.menu-btn[aria-expanded="true"] .menu-btn__traco:nth-child(2) {
-  opacity: 0;
-}
-.menu-btn[aria-expanded="true"] .menu-btn__traco:nth-child(3) {
-  transform: translateY(-6.5px) rotate(-45deg);
 }
 
 /* --------------------------------------------------------------------------
-   MENU MÓVEL — a camada que desce sobre o campo
+   MENU — gaveta lateral sobre véu, em todos os tamanhos de tela.
    -------------------------------------------------------------------------- */
 .menu-movel {
   position: fixed;
   inset: 0;
   z-index: var(--z-menu);
-  background-color: var(--campo);
-  color: var(--perola);
-  display: flex;
-  flex-direction: column;
-  padding: 6rem var(--gutter) var(--s7);
-  opacity: 0;
   visibility: hidden;
-  transform: translateY(-1.5rem);
-  transition: opacity var(--t-medio) var(--ease-suave),
-    transform var(--t-medio) var(--ease), visibility var(--t-medio);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  transition: visibility 0s linear var(--t-lento);
 }
 
 .menu-movel[data-aberto="true"] {
-  opacity: 1;
   visibility: visible;
+  transition-delay: 0s;
+}
+
+.menu-movel__veu {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(14, 31, 31, 0.45);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity var(--t-medio) var(--ease-suave);
+}
+
+.menu-movel[data-aberto="true"] .menu-movel__veu {
+  opacity: 1;
+}
+
+.menu-movel__painel {
+  --sup: var(--teal);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(27rem, 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(1.25rem, 5vw, 2.5rem) var(--s7);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--teal);
+  box-shadow: -24px 0 60px rgba(14, 31, 31, 0.3);
+  transform: translateX(100%);
+  transition: transform var(--t-lento) var(--ease);
+}
+
+.menu-movel[data-aberto="true"] .menu-movel__painel {
   transform: none;
+}
+
+.menu-movel__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  min-height: var(--header-h);
+  margin-bottom: var(--s3);
+}
+
+.menu-movel__fechar {
+  display: grid;
+  place-items: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  flex: none;
+  border: 1px solid rgba(226, 205, 176, 0.8);
+  border-radius: var(--r2);
+  background: none;
+  color: var(--areia);
+  cursor: pointer;
+}
+
+.menu-movel__fechar:hover {
+  background-color: var(--areia);
+  color: var(--teal-profundo);
 }
 
 .menu-movel__lista {
   list-style: none;
-  margin: 0 0 auto;
+  margin: 0;
   padding: 0;
-  border-top: 1px solid rgba(203, 189, 166, 0.18);
+  border-top: 1px solid var(--linha);
 }
 
 .menu-movel__lista li {
   margin: 0;
-  border-bottom: 1px solid rgba(203, 189, 166, 0.18);
+  border-bottom: 1px solid var(--linha);
 }
 
 .menu-movel__elo {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--s5) 0;
+  padding: 0.95rem 0;
   font-family: var(--fonte-display);
-  font-size: 1.75rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   text-decoration: none;
-  color: var(--perola);
+  color: #fff;
 }
 
 .menu-movel__elo .ico {
-  color: var(--halo);
-  width: 1.25rem;
-  height: 1.25rem;
+  color: var(--areia);
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--t-medio) var(--ease);
+}
+
+.menu-movel__elo:hover .ico {
+  transform: translateX(4px);
 }
 
 .menu-movel__elo[aria-current="page"] {
-  color: var(--ouro-2);
+  color: var(--creme-texto);
+  font-weight: 700;
+}
+
+.menu-movel__grupo {
+  padding-top: var(--s6);
+}
+
+.menu-movel__grupo h2 {
+  font-family: var(--fonte-texto);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: var(--tr-pilula);
+  color: var(--creme-texto);
+  margin-bottom: var(--s3);
+}
+
+.menu-movel__grupo ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s1);
+}
+
+.menu-movel__grupo li {
+  margin: 0;
+}
+
+.menu-movel__grupo a {
+  display: block;
+  padding: 0.3rem 0;
+  font-size: 0.9375rem;
+  color: var(--gelo);
+  text-decoration: none;
+}
+
+.menu-movel__grupo a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: var(--areia);
 }
 
 .menu-movel__pe {
   display: grid;
   gap: var(--s3);
+  margin-top: auto;
   padding-top: var(--s7);
 }
 
+.menu-movel__pe .apoio-sm {
+  margin: var(--s2) 0 0;
+}
+
 /* --------------------------------------------------------------------------
-   FICHA DE CURSO — o sistema de estado por luz transmitida
+   FICHA DE CURSO — imagem em cima, corpo em areia.
    -------------------------------------------------------------------------- */
 .ficha {
   position: relative;
@@ -525,121 +795,39 @@
   flex-direction: column;
   border-radius: var(--r3);
   overflow: hidden;
-  background-color: var(--sup-3);
-  border: 1px solid var(--linha);
-  isolation: isolate;
+  background-color: var(--cartao);
   transition: transform var(--t-medio) var(--ease),
-    border-color var(--t-medio) var(--ease-suave),
     box-shadow var(--t-medio) var(--ease-suave);
-}
-
-/* A brasa: a luz que sobe por dentro da ficha. Estado, não decoração. */
-.ficha::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 62%;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    120% 100% at 50% 100%,
-    var(--ouro-brasa),
-    transparent 68%
-  );
-  opacity: 0;
-  transition: opacity var(--t-lento) var(--ease-suave);
 }
 
 .ficha:hover,
 .ficha:focus-within {
   transform: translateY(-4px);
-  border-color: rgba(203, 189, 166, 0.42);
-  box-shadow: var(--sh-escuro);
+  box-shadow: var(--sh2);
 }
 
-.ficha:hover::after,
-.ficha:focus-within::after {
-  opacity: 1;
-}
-
-/* A aresta incisal da ficha */
 .ficha__aresta {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 2px;
-  z-index: 3;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--halo-forte) 20%,
-    var(--halo-forte) 80%,
-    transparent
-  );
-  opacity: 0.32;
-  transition: opacity var(--t-medio) var(--ease-suave),
-    background var(--t-medio) var(--ease-suave);
-}
-
-.ficha:hover .ficha__aresta,
-.ficha:focus-within .ficha__aresta {
-  opacity: 0.85;
-}
-
-/* Últimas vagas: o halo já vem aceso, e sobe mais no hover. */
-.ficha[data-estado="ultimas"] .ficha__aresta {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--ouro-2) 18%,
-    var(--ouro-3) 50%,
-    var(--ouro-2) 82%,
-    transparent
-  );
-  opacity: 0.8;
-}
-
-.ficha[data-estado="ultimas"]::after {
-  opacity: 0.55;
-}
-
-.ficha[data-estado="ultimas"]:hover::after,
-.ficha[data-estado="ultimas"]:focus-within::after {
-  opacity: 1;
+  display: none;
 }
 
 .ficha__figura {
   position: relative;
   margin: 0;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  background-color: var(--campo-2);
+  background-color: var(--teal);
 }
 
 .ficha__figura img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 900ms var(--ease), filter var(--t-lento) var(--ease-suave);
-  filter: saturate(0.85) contrast(1.02);
+  transition: transform 900ms var(--ease);
 }
 
 .ficha:hover .ficha__figura img,
 .ficha:focus-within .ficha__figura img {
   transform: scale(1.045);
-  filter: saturate(1) contrast(1.05);
-}
-
-/* Véu de dentina sobre a foto: a imagem assenta no campo, não flutua nele. */
-.ficha__figura::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    var(--sup-3) 2%,
-    rgba(44, 36, 25, 0.35) 45%,
-    rgba(44, 36, 25, 0.08)
-  );
 }
 
 .ficha__selo {
@@ -660,19 +848,17 @@
 }
 
 .ficha__nivel {
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: var(--tr-caps);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--txt-2);
+  color: var(--rotulo);
 }
 
 .ficha__titulo {
-  font-family: var(--fonte-display);
-  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  font-size: clamp(1.25rem, 1.1rem + 0.4vw, 1.4375rem);
+  line-height: 1.2;
+  color: var(--titulo);
 }
 
 .ficha__titulo a {
@@ -690,6 +876,7 @@
 .ficha__resumo {
   color: var(--txt-2);
   font-size: var(--fs-sm);
+  line-height: 1.65;
   margin: 0;
   max-width: none;
 }
@@ -697,18 +884,19 @@
 .ficha__pe {
   display: flex;
   align-items: center;
-  gap: var(--s3);
+  gap: var(--s2);
   margin-top: auto;
-  padding-top: var(--s4);
-  color: var(--txt);
-  font-size: var(--fs-sm);
-  font-weight: 600;
+  padding-top: var(--s3);
+  color: var(--titulo);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
 }
 
 .ficha__pe .ico {
   width: 1rem;
   height: 1rem;
-  color: var(--ouro-2);
   transition: transform var(--t-medio) var(--ease);
 }
 
@@ -717,49 +905,50 @@
 }
 
 /* --------------------------------------------------------------------------
-   FILTRO — os botões de recorte do catálogo
+   FILTRO — recorte do catálogo
    -------------------------------------------------------------------------- */
 .filtro {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s2);
-  padding: var(--s2);
-  border: 1px solid var(--linha);
+  gap: var(--s1);
+  padding: var(--s1);
+  border: 1px solid var(--linha-forte);
   border-radius: 99px;
-  background-color: color-mix(in srgb, var(--txt) 4%, transparent);
 }
 
 .filtro__btn {
-  padding: var(--s3) var(--s5);
+  padding: 0.625rem 1.25rem;
   border: 0;
   border-radius: 99px;
   background: none;
   cursor: pointer;
-  font-size: var(--fs-sm);
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--txt-2);
   transition: background-color var(--t-rapido) var(--ease-suave),
     color var(--t-rapido) var(--ease-suave);
 }
 
 .filtro__btn:hover {
-  color: var(--txt);
+  color: var(--titulo);
 }
 
 .filtro__btn[aria-pressed="true"] {
-  background-color: var(--ouro);
-  color: var(--campo);
+  background-color: var(--acao-bg);
+  color: var(--acao-txt);
 }
 
 /* --------------------------------------------------------------------------
    ACORDEÃO — FAQ e grade curricular
    -------------------------------------------------------------------------- */
 .acordeao {
-  border-top: 1px solid var(--linha);
+  border-top: 1px solid var(--linha-forte);
 }
 
 .acordeao__item {
-  border-bottom: 1px solid var(--linha);
+  border-bottom: 1px solid var(--linha-forte);
 }
 
 .acordeao__gatilho {
@@ -772,28 +961,24 @@
   background: none;
   cursor: pointer;
   text-align: left;
-  font-family: var(--fonte-texto);
-  font-size: var(--fs-corpo-g);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--txt);
+  font-family: var(--fonte-display);
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--titulo);
   transition: color var(--t-rapido) var(--ease-suave);
 }
 
 .acordeao__gatilho:hover {
-  color: var(--ouro);
-}
-
-.campo-escuro .acordeao__gatilho:hover,
-.campo-queima .acordeao__gatilho:hover {
-  color: var(--ouro-2);
+  color: var(--destaque);
 }
 
 .acordeao__sinal {
   position: relative;
   flex: none;
-  width: 1.375rem;
-  height: 1.375rem;
+  width: 1.25rem;
+  height: 1.25rem;
   margin-left: auto;
   margin-top: 0.2rem;
 }
@@ -838,7 +1023,6 @@
   color: var(--txt-2);
 }
 
-/* Sem JS, todo painel fica aberto — o conteúdo nunca depende de script. */
 html:not(.js) .acordeao__painel {
   grid-template-rows: 1fr;
 }
@@ -859,6 +1043,7 @@ html:not(.js) .acordeao__painel {
   padding-bottom: var(--s5);
   margin-inline: calc(var(--gutter) * -1);
   padding-inline: var(--gutter);
+  scroll-padding-inline: var(--gutter);
   scrollbar-width: none;
 }
 
@@ -867,7 +1052,7 @@ html:not(.js) .acordeao__painel {
 }
 
 .carrossel__item {
-  flex: 0 0 min(30rem, 84vw);
+  flex: 0 0 min(28rem, 84vw);
   scroll-snap-align: start;
 }
 
@@ -875,7 +1060,7 @@ html:not(.js) .acordeao__painel {
   display: flex;
   align-items: center;
   gap: var(--s3);
-  margin-top: var(--s5);
+  margin-top: var(--s4);
 }
 
 .carrossel__btn {
@@ -890,23 +1075,31 @@ html:not(.js) .acordeao__painel {
   color: var(--txt);
   transition: border-color var(--t-rapido) var(--ease-suave),
     background-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave),
     opacity var(--t-rapido) var(--ease-suave);
 }
 
+.carrossel__btn .ico {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
 .carrossel__btn:hover:not([disabled]) {
-  border-color: var(--txt);
-  background-color: color-mix(in srgb, var(--txt) 8%, transparent);
+  border-color: var(--acao-bg);
+  background-color: var(--acao-bg);
+  color: var(--acao-txt);
 }
 
 .carrossel__btn[disabled] {
-  opacity: 0.32;
+  opacity: 0.35;
   cursor: default;
 }
 
 .carrossel__progresso {
   margin-left: auto;
   font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   color: var(--txt-2);
   font-variant-numeric: tabular-nums;
 }
@@ -916,30 +1109,40 @@ html:not(.js) .acordeao__painel {
   flex-direction: column;
   gap: var(--s4);
   height: 100%;
-  padding: var(--s6);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
   border-radius: var(--r3);
-  border: 1px solid var(--linha);
-  background-color: color-mix(in srgb, var(--txt) 3%, transparent);
+  background-color: var(--cartao);
+}
+
+.depoimento::before {
+  content: "";
+  width: 2.25rem;
+  height: 1.875rem;
+  background-color: var(--icone);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 30'%3E%3Cpath d='M1 29V18.4C1 8.6 6.4 2.8 14.6 1l1.8 4.2C11.7 6.9 9.5 10 9.4 14.4h6.2V29zm19.4 0V18.4c0-9.8 5.4-15.6 13.6-17.4l1.8 4.2c-4.7 1.7-6.9 4.8-7 9.2H35V29z'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 30'%3E%3Cpath d='M1 29V18.4C1 8.6 6.4 2.8 14.6 1l1.8 4.2C11.7 6.9 9.5 10 9.4 14.4h6.2V29zm19.4 0V18.4c0-9.8 5.4-15.6 13.6-17.4l1.8 4.2c-4.7 1.7-6.9 4.8-7 9.2H35V29z'/%3E%3C/svg%3E") no-repeat center / contain;
 }
 
 .depoimento__estrelas {
   display: flex;
   gap: 2px;
-  color: var(--ouro);
+  margin: 0;
+  color: var(--icone);
 }
 
 .depoimento__estrelas .ico {
-  width: 1rem;
-  height: 1rem;
+  width: 0.9375rem;
+  height: 0.9375rem;
 }
 
 .depoimento__texto {
   font-family: var(--fonte-display);
-  font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
-  line-height: 1.5;
-  font-weight: 500;
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.55;
+  font-weight: 400;
   margin: 0;
   max-width: none;
+  color: var(--txt);
 }
 
 .depoimento__quem {
@@ -962,6 +1165,7 @@ html:not(.js) .acordeao__painel {
 .depoimento__quem b {
   display: block;
   font-size: var(--fs-sm);
+  color: var(--txt);
 }
 
 .depoimento__quem span {
@@ -970,19 +1174,23 @@ html:not(.js) .acordeao__painel {
   color: var(--txt-2);
 }
 
+.depoimento__quem b + span {
+  color: var(--rotulo);
+}
+
 /* Rótulo obrigatório: este conteúdo é exemplo, não depoimento verificado. */
 .rotulo-exemplo {
   display: inline-flex;
   align-items: center;
   gap: var(--s2);
-  font-size: 0.6875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--txt-2);
+  padding: 0.3rem 0.75rem;
   border: 1px dashed var(--linha-forte);
-  border-radius: var(--r1);
-  padding: 0.2rem var(--s2);
+  border-radius: 99px;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rotulo);
 }
 
 /* --------------------------------------------------------------------------
@@ -996,12 +1204,12 @@ html:not(.js) .acordeao__painel {
 
 .campo > label {
   font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: -0.005em;
+  font-weight: 700;
+  color: var(--txt);
 }
 
 .campo > label .req {
-  color: var(--ouro);
+  color: var(--destaque);
   margin-left: 2px;
 }
 
@@ -1014,7 +1222,7 @@ html:not(.js) .acordeao__painel {
   font-family: var(--fonte-texto);
   font-size: var(--fs-corpo);
   color: var(--txt);
-  background-color: color-mix(in srgb, var(--txt) 4%, transparent);
+  background-color: var(--creme-2);
   border: 1px solid var(--linha-forte);
   border-radius: var(--r2);
   transition: border-color var(--t-rapido) var(--ease-suave),
@@ -1047,16 +1255,16 @@ html:not(.js) .acordeao__painel {
 .campo input:hover,
 .campo select:hover,
 .campo textarea:hover {
-  border-color: var(--txt-2);
+  border-color: var(--teal);
 }
 
 .campo input:focus,
 .campo select:focus,
 .campo textarea:focus {
   outline: none;
-  border-color: var(--ouro);
-  background-color: color-mix(in srgb, var(--txt) 2%, transparent);
-  box-shadow: 0 0 0 3px var(--ouro-brasa);
+  border-color: var(--teal);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(40, 121, 124, 0.22);
 }
 
 .campo__erro {
@@ -1064,8 +1272,8 @@ html:not(.js) .acordeao__painel {
   align-items: center;
   gap: var(--s2);
   font-size: var(--fs-xs);
-  font-weight: 500;
-  color: var(--ouro);
+  font-weight: 600;
+  color: var(--erro);
 }
 
 .campo[data-invalido="true"] .campo__erro {
@@ -1075,7 +1283,7 @@ html:not(.js) .acordeao__painel {
 .campo[data-invalido="true"] input,
 .campo[data-invalido="true"] select,
 .campo[data-invalido="true"] textarea {
-  border-color: var(--ouro);
+  border-color: var(--erro);
 }
 
 .form__grade {
@@ -1101,6 +1309,7 @@ html:not(.js) .acordeao__painel {
   height: 1rem;
   margin-top: 2px;
   flex: none;
+  color: var(--icone);
 }
 
 .form__estado {
@@ -1110,7 +1319,7 @@ html:not(.js) .acordeao__painel {
   padding: var(--s4) var(--s5);
   border-radius: var(--r2);
   border: 1px solid var(--linha-forte);
-  background-color: color-mix(in srgb, var(--ouro) 12%, transparent);
+  background-color: rgba(40, 121, 124, 0.08);
   font-size: var(--fs-sm);
 }
 
@@ -1119,7 +1328,7 @@ html:not(.js) .acordeao__painel {
 }
 
 .form__estado .ico {
-  color: var(--ouro);
+  color: var(--icone);
   flex: none;
 }
 
@@ -1141,29 +1350,52 @@ html:not(.js) .acordeao__painel {
   display: inline-flex;
   align-items: center;
   gap: var(--s3);
-  height: 3.5rem;
+  height: 3.25rem;
   padding: 0 var(--s5);
+  border: 1px solid rgba(226, 205, 176, 0.55);
   border-radius: 99px;
-  background-color: var(--ouro);
-  color: var(--campo);
-  font-size: var(--fs-sm);
-  font-weight: 600;
+  background-color: var(--teal-profundo);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 2px 6px rgba(32, 26, 20, 0.2),
-    0 14px 34px -10px rgba(178, 154, 110, 0.6);
+  box-shadow: 0 2px 6px rgba(14, 31, 31, 0.2), 0 14px 34px rgba(14, 31, 31, 0.28);
   transition: background-color var(--t-rapido) var(--ease-suave),
-    box-shadow var(--t-medio) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave),
     transform var(--t-rapido) var(--ease-suave);
 }
 
+html.js .flutuante__zap[data-visivel="false"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+}
+
+.flutuante__zap {
+  transition: background-color var(--t-rapido) var(--ease-suave),
+    color var(--t-rapido) var(--ease-suave),
+    opacity var(--t-medio) var(--ease-suave),
+    visibility var(--t-medio),
+    transform var(--t-medio) var(--ease);
+}
+
 .flutuante__zap:hover {
-  background-color: var(--ouro-2);
+  background-color: var(--areia);
+  color: var(--teal-profundo);
   transform: translateY(-2px);
 }
 
 .flutuante__zap .ico {
-  width: 1.375rem;
-  height: 1.375rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--areia);
+  transition: color var(--t-rapido) var(--ease-suave);
+}
+
+.flutuante__zap:hover .ico {
+  color: var(--teal-profundo);
 }
 
 .ao-topo {
@@ -1172,18 +1404,17 @@ html:not(.js) .acordeao__painel {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  border: 1px solid rgba(203, 189, 166, 0.34);
-  background-color: rgba(32, 26, 20, 0.86);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  color: var(--perola);
+  border: 1px solid rgba(226, 205, 176, 0.55);
+  background-color: var(--teal-profundo);
+  color: var(--areia);
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
   transform: translateY(8px);
+  box-shadow: var(--sh2);
   transition: opacity var(--t-medio) var(--ease-suave),
     transform var(--t-medio) var(--ease), visibility var(--t-medio),
-    border-color var(--t-rapido) var(--ease-suave);
+    background-color var(--t-rapido) var(--ease-suave);
 }
 
 .ao-topo[data-visivel="true"] {
@@ -1193,34 +1424,38 @@ html:not(.js) .acordeao__painel {
 }
 
 .ao-topo:hover {
-  border-color: var(--ouro-2);
+  background-color: var(--areia);
+  color: var(--teal-profundo);
 }
 
 .ao-topo .ico {
+  width: 1.125rem;
+  height: 1.125rem;
   transform: rotate(-90deg);
 }
 
 /* --------------------------------------------------------------------------
-   FOOTER
+   RODAPÉ — continua o campo teal do CTA, separado por um filete.
    -------------------------------------------------------------------------- */
 .rodape {
-  padding-block: var(--s10) var(--s6);
+  padding-block: var(--s9) var(--s6);
 }
 
 .rodape__grade {
   display: grid;
   gap: var(--s8);
-  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.35fr) repeat(3, minmax(0, 1fr));
   padding-bottom: var(--s8);
   border-bottom: 1px solid var(--linha);
 }
 
 .rodape h4 {
-  font-size: var(--fs-xs);
-  letter-spacing: var(--tr-caps);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: var(--tr-pilula);
   text-transform: uppercase;
-  color: var(--txt-2);
-  margin-bottom: var(--s4);
+  color: var(--rotulo);
+  margin-bottom: var(--s5);
 }
 
 .rodape__lista {
@@ -1236,13 +1471,15 @@ html:not(.js) .acordeao__painel {
 }
 
 .rodape__lista a {
-  font-size: var(--fs-sm);
+  font-size: 0.9375rem;
   text-decoration: none;
-  color: var(--txt);
+  color: var(--txt-2);
 }
 
 .rodape__lista a:hover {
-  color: var(--ouro-2);
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: var(--areia);
 }
 
 .rodape__contato {
@@ -1257,15 +1494,16 @@ html:not(.js) .acordeao__painel {
   display: flex;
   gap: var(--s3);
   margin: 0;
-  font-size: var(--fs-sm);
+  font-size: 0.9375rem;
   line-height: 1.5;
+  color: var(--txt-2);
 }
 
 .rodape__contato .ico {
   width: 1.125rem;
   height: 1.125rem;
-  color: var(--halo);
-  margin-top: 3px;
+  color: var(--icone);
+  margin-top: 2px;
   flex: none;
 }
 
@@ -1274,7 +1512,7 @@ html:not(.js) .acordeao__painel {
 }
 
 .rodape__contato a:hover {
-  color: var(--ouro-2);
+  color: #fff;
 }
 
 .rodape__sociais {
@@ -1284,31 +1522,37 @@ html:not(.js) .acordeao__painel {
 }
 
 .rodape__social {
-  width: 2.625rem;
-  height: 2.625rem;
+  width: 2.5rem;
+  height: 2.5rem;
   display: grid;
   place-items: center;
-  border: 1px solid var(--linha-forte);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 50%;
-  color: var(--txt);
+  color: var(--txt-2);
   transition: border-color var(--t-rapido) var(--ease-suave),
-    color var(--t-rapido) var(--ease-suave),
-    background-color var(--t-rapido) var(--ease-suave);
+    color var(--t-rapido) var(--ease-suave);
+}
+
+.rodape__social .ico {
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 .rodape__social:hover {
-  border-color: var(--ouro-2);
-  color: var(--ouro-2);
-  background-color: color-mix(in srgb, var(--ouro) 10%, transparent);
+  border-color: var(--areia);
+  color: var(--areia);
 }
 
+/* Mapa: faixa centralizada abaixo das colunas, quase monocromática até o hover. */
 .rodape__mapa {
-  margin-top: var(--s8);
+  width: 100%;
+  max-width: 44rem;
+  margin: var(--s8) auto 0;
   border-radius: var(--r3);
-  overflow: hidden;
   border: 1px solid var(--linha);
+  overflow: hidden;
   aspect-ratio: 21 / 8;
-  background-color: var(--campo-2);
+  background-color: var(--teal-cartao);
 }
 
 .rodape__mapa iframe {
@@ -1316,32 +1560,99 @@ html:not(.js) .acordeao__painel {
   height: 100%;
   border: 0;
   display: block;
-  filter: grayscale(0.4) contrast(1.05);
+  filter: grayscale(0.75) contrast(0.95);
+  opacity: 0.85;
+  transition: filter var(--t-medio) var(--ease-suave), opacity var(--t-medio) var(--ease-suave);
+}
+
+.rodape__mapa:hover iframe {
+  filter: grayscale(0.2);
+  opacity: 1;
 }
 
 .news {
   display: flex;
-  gap: var(--s3);
+  gap: var(--s2);
   margin-top: var(--s4);
   flex-wrap: wrap;
 }
 
 .news input {
-  flex: 1 1 12rem;
-  min-height: 3.25rem;
+  flex: 1 1 14rem;
+  min-height: 3rem;
   padding: 0 var(--s4);
   font-family: var(--fonte-texto);
-  font-size: var(--fs-sm);
-  color: var(--txt);
-  background-color: color-mix(in srgb, var(--txt) 6%, transparent);
+  font-size: var(--fs-corpo);
+  color: var(--tinta);
+  background-color: var(--creme-2);
   border: 1px solid var(--linha-forte);
   border-radius: var(--r2);
+  transition: border-color var(--t-rapido) var(--ease-suave), box-shadow var(--t-rapido) var(--ease-suave);
+}
+
+.news input::placeholder {
+  color: var(--tinta-2);
+  opacity: 1;
 }
 
 .news input:focus {
   outline: none;
-  border-color: var(--ouro);
-  box-shadow: 0 0 0 3px var(--ouro-brasa);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(40, 121, 124, 0.22);
+}
+
+/* --------------------------------------------------------------------------
+   NOVIDADES — faixa de areia entre o CTA e o rodapé: título discreto à
+   esquerda, e-mail e botão à direita.
+   -------------------------------------------------------------------------- */
+.novidades {
+  padding-block: 0 clamp(2.25rem, 4.5vw, 3.25rem);
+}
+
+/* Filete no topo: separa a faixa de uma seção areia logo acima. */
+.novidades__interior {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s5) var(--s8);
+  position: relative;
+  padding-top: clamp(2.25rem, 4.5vw, 3.25rem);
+}
+
+.novidades__interior::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  border-top: 1px solid var(--linha-forte);
+}
+
+/* O filete só aparece quando a última seção da página também é areia
+   (ex.: "Missão, visão e valores" em sobre.html); nos demais casos a troca
+   de cor já separa as faixas. */
+body:not(:has(main > .campo-areia:last-child)) .novidades__interior::before {
+  display: none;
+}
+
+.novidades__texto p {
+  margin: var(--s2) 0 0;
+  color: var(--txt-2);
+  font-size: var(--fs-sm);
+}
+
+.novidades__form {
+  flex: 0 1 30rem;
+  min-width: min(100%, 18rem);
+}
+
+.novidades__form .news {
+  margin-top: 0;
+}
+
+.novidades__form [data-news-estado] {
+  margin: var(--s2) 0 0;
 }
 
 .rodape__base {
@@ -1369,6 +1680,11 @@ html:not(.js) .acordeao__painel {
   text-decoration: none;
 }
 
+.rodape__base a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
 /* --------------------------------------------------------------------------
    MODAL — usado só onde foco protegido é real (ficha de professor)
    -------------------------------------------------------------------------- */
@@ -1379,9 +1695,9 @@ html:not(.js) .acordeao__painel {
   display: grid;
   place-items: center;
   padding: var(--s5);
-  background-color: rgba(32, 26, 20, 0.78);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background-color: rgba(14, 31, 31, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--t-medio) var(--ease-suave), visibility var(--t-medio);
@@ -1394,13 +1710,13 @@ html:not(.js) .acordeao__painel {
 
 .modal__caixa {
   position: relative;
-  width: min(44rem, 100%);
+  width: min(46rem, 100%);
   max-height: min(88vh, 46rem);
   overflow-y: auto;
   overscroll-behavior: contain;
-  background-color: var(--perola);
+  background-color: var(--creme);
   color: var(--tinta);
-  border-radius: var(--r3);
+  border-radius: var(--r4);
   box-shadow: var(--sh3);
   transform: translateY(14px) scale(0.985);
   transition: transform var(--t-medio) var(--ease);
@@ -1419,37 +1735,47 @@ html:not(.js) .acordeao__painel {
   height: 2.75rem;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(107, 100, 92, 0.3);
+  border: 1px solid var(--linha-forte);
   border-radius: 50%;
-  background-color: var(--perola);
+  background-color: var(--creme);
   cursor: pointer;
-  color: var(--tinta);
+  color: var(--teal-profundo);
 }
 
 .modal__fechar:hover {
-  background-color: var(--perola-2);
+  background-color: var(--areia);
 }
 
 /* --------------------------------------------------------------------------
    Respostas de tela
    -------------------------------------------------------------------------- */
+@media (max-width: 79.99rem) {
+  .header__nav {
+    display: none;
+  }
+}
+
 @media (max-width: 62rem) {
   .rodape__grade {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .rodape__grade > div:first-child {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 54rem) {
-  .header__nav,
-  .header__acoes .btn {
-    display: none;
-  }
-  .menu-btn {
-    display: flex;
-    margin-left: auto;
-  }
   .form__grade {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .marca__logo {
+    height: 3rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .header__acoes .btn {
+    display: none;
   }
 }
 
@@ -1463,8 +1789,9 @@ html:not(.js) .acordeao__painel {
     bottom: var(--s3);
   }
   .flutuante__zap {
-    height: 3.25rem;
-    padding: 0 var(--s4);
+    width: 3.25rem;
+    padding: 0;
+    justify-content: center;
   }
   .flutuante__zap span {
     display: none;
@@ -1479,35 +1806,37 @@ html:not(.js) .acordeao__painel {
 
 /* --------------------------------------------------------------------------
    SEM JAVASCRIPT — a navegação nunca depende de script.
-   No mobile, o menu em camada é substituído pela lista inline e o botão
-   hambúrguer desaparece: sem JS não haveria quem o abrisse.
+   O botão de menu some (não haveria quem abrisse a gaveta) e a lista do
+   header aparece inteira, quebrando linha onde precisar.
    -------------------------------------------------------------------------- */
-html:not(.js) .menu-btn {
-  display: none !important;
-}
-
+html:not(.js) .menu-btn,
 html:not(.js) .menu-movel {
   display: none !important;
 }
 
-@media (max-width: 54rem) {
+@media (max-width: 79.99rem) {
   html:not(.js) .header__nav {
     display: block;
+    order: 3;
     width: 100%;
-    margin-left: 0;
+    margin: 0;
+    padding-bottom: var(--s3);
   }
 
   html:not(.js) .header__barra {
     flex-wrap: wrap;
-    padding-block: var(--s4);
   }
 
   html:not(.js) .header__lista {
     flex-wrap: wrap;
-    gap: var(--s4) var(--s5);
+    gap: var(--s2) var(--s5);
   }
 
-  html:not(.js) .header__acoes .btn {
-    display: inline-flex;
+  html:not(.js) .header__sub {
+    display: none;
+  }
+
+  html:not(.js) .header {
+    position: static;
   }
 }

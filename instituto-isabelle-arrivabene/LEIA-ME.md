@@ -120,9 +120,22 @@ briefing do que a foto real deve mostrar:
 grep -h "<desc>" assets/img/*.svg
 ```
 
-Slots a fotografar: 5 cursos, 5 ambientes (auditório, clínica, sala,
-recepção, laboratório), fachada/recepção, 5 banners, 6 retratos de professor,
-4 retratos de aluno.
+Slots a fotografar: 5 ambientes (auditório, clínica, sala, recepção,
+laboratório), fachada/recepção, 5 banners, 6 retratos de professor, 4 retratos
+de aluno.
+
+- [x] **Fotos dos cursos (carrossel da home):** reais, tiradas de prints de
+      reels do Instituto (`assets/img/curso-foto-*.webp`, 768×768, exibidas em quadro 16:9;
+      recortadas sem os ícones e legendas do print). Distribuição:
+      Harmonização ← aula de análise facial (escolhida pelo cliente);
+      Ortodontia ← Isabelle orientando estudantes; Prótese ← mão com anel de
+      lábios; Implantodontia ← atendimento com avental cirúrgico; Dentística
+      ← atendimento supervisionado. Duas delas (aula e anel) são de
+      Harmonização: quando houver fotos de Ortodontia e Prótese, trocar o
+      `src` no card. Fica guardada, sem uso, `curso-foto-isabelle-marcacao-labios.webp`.
+      São prints (~520px): fotos originais em resolução maior deixariam os
+      cards mais nítidos. O banner de `curso-interno.html` ainda usa
+      `curso-harmonizacao.svg`.
 
 Ao subir as fotos reais, trocar a extensão nos `src` e **remover os blocos
 `.nota-provisoria`** que avisam sobre placeholder.

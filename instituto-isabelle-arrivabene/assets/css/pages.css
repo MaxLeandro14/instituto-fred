@@ -913,13 +913,15 @@ html.js .carrossel--cursos.revelado .carrossel__item::before {
   color: var(--creme);
 }
 
-/* Paralaxe: a foto é mais larga que o quadro e corre um pouco contra o
-   arrasto (--paralaxe vem do JS, por ficha). Usa a propriedade `translate`,
-   separada do `transform` do zoom de hover, que tem transição longa. */
+/* Paralaxe: a foto é um pouco mais larga que o quadro e corre um pouco
+   contra o arrasto (--paralaxe vem do JS, por ficha, até ±2,2% da largura
+   da foto). Sobra de só 5% (era 14%): o cliente achou as fotos com "zoom"
+   demais. Usa a propriedade `translate`, separada do `transform` do zoom
+   de hover, que tem transição longa. */
 .carrossel--cursos[data-embla] .ficha__figura img {
-  width: 114%;
+  width: 105%;
   max-width: none;
-  margin-left: -7%;
+  margin-left: -2.5%;
   translate: var(--paralaxe, 0%) 0;
 }
 

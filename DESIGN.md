@@ -191,7 +191,9 @@ primeira camada, como em `.seda`. Barras fixas de interface (o sumário do
 curso) ficam fora, e o **rodapé** também: a borda de cima dele é reta.
 Entre dois campos lisos (creme → areia) o degradê vira uma faixa uniforme e
 sem vida; ali a seção de areia ganha `seda seda--suave` (o cetim em marca
-d'água da faixa do vídeo), como a galeria da Estrutura na home.
+d'água da faixa do vídeo), como a galeria da Estrutura na home. Exceção: em
+`sobre.html`, O Instituto → Missão, visão e valores tem divisa reta, sem
+degradê (pedido do cliente, 24/11/2026).
 
 **Regra da curva.** Onde o **teal encontra um campo claro** (areia ou creme)
 não há degradê: a seção de baixo sobe numa curva larga e suave por cima da de
@@ -254,7 +256,12 @@ cor de destaque do campo (areia sobre teal, teal sobre claro). Uma por título.
   O CSS da cúpula (`.cta-final` em `pages.css`) ficou sem uso.
 - **Novidades:** faixa em areia logo acima do rodapé, presente em todas as
   páginas, **aberta, sem cartão** (ver Components). Quando a última seção da
-  página também é areia (Sobre, Curso), um filete de topo marca o início.
+  página tem a mesma cor da faixa (areia no Sobre), um filete de topo marca o
+  início.
+- **Página do curso:** abaixo do banner teal, todas as seções e a faixa de
+  novidades ficam em creme, sem alternar com areia (pedido do cliente,
+  24/11/2026). A faixa de novidades também é creme ali, com o mesmo filete
+  de topo.
 - **Rodapé:** coluna da marca só com logo e redes; o mapa fica numa faixa
   centralizada abaixo das colunas (até 44rem, 21:8), quase monocromático até
   o hover.

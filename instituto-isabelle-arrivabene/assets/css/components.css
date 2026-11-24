@@ -811,6 +811,10 @@ html:not(.js) .header__item--sub:focus-within .header__sub {
   display: none;
 }
 
+/* 16:9. Em 24/11/2026 passou por 4:3 e 1:1 para mostrar mais das fotos
+   (quadradas, de reels), mas as fichas ficaram altas demais e voltou ao
+   16:9. O que se perde de altura é compensado pelo enquadramento por foto
+   (--foco-alto, abaixo) e pela sobra menor da paralaxe (pages.css). */
 .ficha__figura {
   position: relative;
   margin: 0;
@@ -824,6 +828,12 @@ html:not(.js) .header__item--sub:focus-within .header__sub {
   height: 100%;
   object-fit: cover;
   transition: transform 900ms var(--ease);
+}
+
+/* Fotos com os rostos no alto do quadro: o recorte 16:9 sobe em vez de
+   ficar no meio, para não cortar cabeças. */
+.ficha__figura--foco-alto img {
+  object-position: 50% 20%;
 }
 
 .ficha:hover .ficha__figura img,
@@ -1899,13 +1909,16 @@ html.js .flutuante__zap[data-visivel="false"] {
   padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
-/* Quando a última seção da página também é areia (Sobre, Curso), um filete
-   na largura do conteúdo marca onde a faixa começa. */
-main:has(> .campo-areia:last-child) + .novidades {
+/* Quando a última seção da página tem a mesma cor da faixa (areia com
+   areia, no Sobre; creme com creme, no Curso, que é todo creme abaixo do
+   banner), um filete na largura do conteúdo marca onde a faixa começa. */
+main:has(> .campo-areia:last-child) + .novidades.campo-areia,
+main:has(> section:not(.campo-teal, .campo-areia):last-child) + .novidades:not(.campo-teal, .campo-areia) {
   padding-top: 0;
 }
 
-main:has(> .campo-areia:last-child) + .novidades .novidades__grade {
+main:has(> .campo-areia:last-child) + .novidades.campo-areia .novidades__grade,
+main:has(> section:not(.campo-teal, .campo-areia):last-child) + .novidades:not(.campo-teal, .campo-areia) .novidades__grade {
   padding-top: clamp(2.5rem, 5vw, 4rem);
   border-top: 1px solid var(--linha);
 }
@@ -2488,6 +2501,16 @@ html:not(.js) .menu-movel {
   main > .campo-teal + section:not(.campo-teal),
   main > section:not(.campo-teal) + .campo-teal,
   main:has(> .campo-teal:last-child) + .novidades:not(.campo-teal) {
+    --emenda-cima: 0px;
+  }
+
+  /* Sobre: O Instituto (creme) → Missão, visão e valores (areia) com divisa
+     reta, sem degradê (pedido do cliente, 24/11/2026). */
+  #instituicao:has(+ #pilares) {
+    --emenda-baixo: 0px;
+  }
+
+  #instituicao + #pilares {
     --emenda-cima: 0px;
   }
 

@@ -339,7 +339,8 @@
     };
 
     /* Paralaxe dos cursos: a foto corre contra o arrasto, na medida da
-       distância da ficha ao centro da janela. */
+       distância da ficha ao centro da janela. ±2,2% cabe na sobra de 5% da
+       foto (pages.css); mudar os dois juntos. */
     var paralaxe = function () {
       if (reduzido) return;
       var caixa = janela.getBoundingClientRect();
@@ -350,7 +351,7 @@
         return (r.left + r.width / 2 - centro) / caixa.width;
       });
       desvios.forEach(function (d, i) {
-        slides[i].style.setProperty("--paralaxe", (limita(d, -1, 1) * -6).toFixed(2) + "%");
+        slides[i].style.setProperty("--paralaxe", (limita(d, -1, 1) * -2.2).toFixed(2) + "%");
       });
     };
 

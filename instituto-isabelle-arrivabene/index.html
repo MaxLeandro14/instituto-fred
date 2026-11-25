@@ -363,119 +363,158 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 </section>
 
 <!-- ==========================================================================
-     3. CURSOS EM DESTAQUE — o estado de matrícula é lido pela luz transmitida.
+     3. CURSOS — a vitrine: um curso por vez, com o índice dos cinco à vista.
      WP: Cursos Loop (CPT 'curso', campos: nivel, status, resumo, imagem)
      ========================================================================== -->
-<section class="secao" id="cursos" aria-label="Cursos">
+<section class="secao campo-branco" id="cursos" aria-label="Cursos">
   <div class="env">
 
-    <!-- WP: Cursos Loop
-         Carrossel: Embla Carousel (assets/js/vendor). Sem a lib, a janela rola
-         com scroll-snap nativo. Estrutura exigida: janela > trilha > itens. -->
-    <div class="carrossel carrossel--cursos" data-carrossel="cursos" data-revelar>
-      <div class="carrossel__janela" data-carrossel-janela tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Cursos">
-      <ul class="carrossel__trilha" data-carrossel-trilha>
+    <!-- WP: Cursos Loop. Um <li class="vitrine__slide"> por curso; o índice
+         numerado, as setas e o contador são montados pelo JS a partir do
+         título de cada curso (data-vitrine-nome), então o loop é um só.
+         data-estado / selo: "abertas" = selo de contorno; "ultimas" = troque
+         por <span class="selo selo--ultimas"> (cheio, ponto pulsando).
 
-        <li class="carrossel__item">
-          <article class="ficha" data-estado="abertas">
-            <figure class="ficha__figura">
-              <img src="assets/img/curso-foto-aula-analise-facial.webp" alt="Em aula, a análise das proporções do rosto projetada no slide, apontada por quem apresenta" width="768" height="768" loading="lazy" decoding="async">
-            </figure>
-            <span class="ficha__selo">
-              <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
-            </span>
-            <div class="ficha__corpo">
-              <h3 class="ficha__titulo"><a href="curso-interno.html?curso=harmonizacao-orofacial">Harmonização Orofacial</a></h3>
-              <span class="ficha__nivel">Pós-graduação</span>
-              <p class="ficha__resumo">O programa mais procurado do Instituto. Protocolos faciais com prática supervisionada desde os primeiros módulos.</p>
-              <p class="ficha__pe">Saiba mais <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
-            </div>
-          </article>
-        </li>
+         Movimento: Embla Carousel (assets/js/vendor), com o deslize da
+         trilha desligado: a cada passo a foto nova corre por cima da antiga
+         como uma cortina e o texto troca em fusão, na medida do arrasto.
+         Sem a lib, o índice e as setas trocam por transição de CSS. Sem JS,
+         os cursos rolam lado a lado com scroll-snap nativo.
+         Estrutura exigida: palco > janela > trilha > slides. -->
+    <div class="vitrine" data-vitrine data-revelar>
+      <div class="vitrine__palco">
+        <!-- Eco: o filete dourado deslocado atrás da foto (gesto da borboleta). -->
+        <span class="vitrine__eco" aria-hidden="true"></span>
 
-        <li class="carrossel__item">
-          <article class="ficha" data-estado="abertas">
-            <figure class="ficha__figura ficha__figura--foco-alto">
-              <img src="assets/img/curso-foto-aula-isabelle-alunas.webp" alt="Isabelle Arrivabene orienta estudantes durante uma aula prática" width="768" height="768" loading="lazy" decoding="async">
-            </figure>
-            <span class="ficha__selo">
-              <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
-            </span>
-            <div class="ficha__corpo">
-              <h3 class="ficha__titulo"><a href="curso-interno.html?curso=ortodontia">Ortodontia e Ortopedia Facial</a></h3>
-              <span class="ficha__nivel">Pós-graduação</span>
-              <p class="ficha__resumo">Diagnóstico, planejamento e mecânica, com documentação ortodôntica trabalhada caso a caso.</p>
-              <p class="ficha__pe">Saiba mais <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
-            </div>
-          </article>
-        </li>
-
-        <li class="carrossel__item">
-          <article class="ficha" data-estado="abertas">
-            <figure class="ficha__figura ficha__figura--foco-alto">
-              <img src="assets/img/curso-foto-anel-labios-seringa.webp" alt="Mão com anel dourado em forma de lábios sobre a ficha de estudo de um caso" width="768" height="768" loading="lazy" decoding="async">
-            </figure>
-            <span class="ficha__selo">
-              <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
-            </span>
-            <div class="ficha__corpo">
-              <h3 class="ficha__titulo"><a href="curso-interno.html?curso=protese">Prótese Dentária</a></h3>
-              <span class="ficha__nivel">Pós-graduação</span>
-              <p class="ficha__resumo">Da seleção de material à estratificação cerâmica, com bancada e laboratório à disposição.</p>
-              <p class="ficha__pe">Saiba mais <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
-            </div>
-          </article>
-        </li>
-
-        <li class="carrossel__item">
-          <article class="ficha" data-estado="abertas">
-            <figure class="ficha__figura">
-              <img src="assets/img/curso-foto-aluno-clinica.webp" alt="Atendimento com avental cirúrgico na clínica do Instituto, com as cadeiras ao fundo" width="768" height="768" loading="lazy" decoding="async">
-            </figure>
-            <span class="ficha__selo">
-              <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
-            </span>
-            <div class="ficha__corpo">
-              <h3 class="ficha__titulo"><a href="curso-interno.html?curso=implantodontia">Implantodontia</a></h3>
-              <span class="ficha__nivel">Pós-graduação</span>
-              <p class="ficha__resumo">Cirurgia guiada, reabilitação e manejo de complicações, com prática desde o planejamento.</p>
-              <p class="ficha__pe">Saiba mais <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
-            </div>
-          </article>
-        </li>
-
-        <li class="carrossel__item">
-          <article class="ficha" data-estado="abertas">
-            <figure class="ficha__figura ficha__figura--foco-alto">
-              <img src="assets/img/curso-foto-aluno-supervisao.webp" alt="Atendimento clínico acompanhado de perto por docente do Instituto" width="768" height="768" loading="lazy" decoding="async">
-            </figure>
-            <span class="ficha__selo">
-              <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
-            </span>
-            <div class="ficha__corpo">
-              <h3 class="ficha__titulo"><a href="curso-interno.html?curso=dentistica">Dentística Restauradora</a></h3>
-              <span class="ficha__nivel">Aperfeiçoamento</span>
-              <p class="ficha__resumo">Estratificação, cor e forma. O aperfeiçoamento para quem quer elevar o acabamento do dia a dia.</p>
-              <p class="ficha__pe">Saiba mais <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></p>
-            </div>
-          </article>
-        </li>
-      </ul>
-      </div>
-
-      <div class="carrossel__controles">
-        <button class="carrossel__btn" type="button" data-carrossel-ant aria-label="Curso anterior">
+        <!-- Setas nas laterais do slide, na altura do meio da foto. No
+             celular e no tablet, pousam sobre as bordas da foto. -->
+        <button class="carrossel__btn vitrine__seta vitrine__seta--ant" type="button" data-vitrine-ant aria-label="Curso anterior">
           <svg class="ico" aria-hidden="true"><use href="#i-seta-esq"></use></svg>
         </button>
-        <button class="carrossel__btn" type="button" data-carrossel-prox aria-label="Próximo curso">
+
+        <div class="vitrine__janela" data-vitrine-janela tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Cursos">
+          <ul class="vitrine__trilha" data-vitrine-trilha>
+        <li class="vitrine__slide" id="vitrine-implantodontia">
+          <article class="vitrine__curso" data-estado="abertas">
+            <figure class="vitrine__foto" data-vitrine-foto>
+              <img src="assets/img/curso-foto-aluno-clinica.webp" alt="Atendimento com avental cirúrgico na clínica do Instituto, com as cadeiras ao fundo" width="768" height="768" loading="lazy" decoding="async" draggable="false">
+            </figure>
+            <div class="vitrine__texto">
+              <h3 class="vitrine__titulo" data-vitrine-nome>Implantodontia</h3>
+              <p class="vitrine__meta">
+                <span class="vitrine__nivel">Pós-graduação</span>
+                <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
+              </p>
+              <p class="vitrine__resumo">Cirurgia guiada, reabilitação e manejo de complicações, com prática desde o planejamento.</p>
+              <a class="btn-circulo vitrine__acao" href="curso-interno.html?curso=implantodontia">
+                <span class="btn-circulo__disco"><svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></span>
+                <span class="btn-circulo__rotulo">Conheça o curso<span class="vis-oculto">: Implantodontia</span></span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li class="vitrine__slide" id="vitrine-dentistica">
+          <article class="vitrine__curso" data-estado="abertas">
+            <figure class="vitrine__foto vitrine__foto--foco-alto" data-vitrine-foto>
+              <img src="assets/img/curso-foto-aluno-supervisao.webp" alt="Atendimento clínico acompanhado de perto por docente do Instituto" width="768" height="768" loading="lazy" decoding="async" draggable="false">
+            </figure>
+            <div class="vitrine__texto">
+              <h3 class="vitrine__titulo" data-vitrine-nome>Dentística Restauradora</h3>
+              <p class="vitrine__meta">
+                <span class="vitrine__nivel">Aperfeiçoamento</span>
+                <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
+              </p>
+              <p class="vitrine__resumo">Estratificação, cor e forma. O aperfeiçoamento para quem quer elevar o acabamento do dia a dia.</p>
+              <a class="btn-circulo vitrine__acao" href="curso-interno.html?curso=dentistica">
+                <span class="btn-circulo__disco"><svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></span>
+                <span class="btn-circulo__rotulo">Conheça o curso<span class="vis-oculto">: Dentística Restauradora</span></span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li class="vitrine__slide" id="vitrine-harmonizacao-orofacial">
+          <article class="vitrine__curso" data-estado="abertas">
+            <figure class="vitrine__foto" data-vitrine-foto>
+              <img src="assets/img/curso-foto-aula-analise-facial.webp" alt="Em aula, a análise das proporções do rosto projetada no slide, apontada por quem apresenta" width="768" height="768" loading="lazy" decoding="async" draggable="false">
+            </figure>
+            <div class="vitrine__texto">
+              <h3 class="vitrine__titulo" data-vitrine-nome>Harmonização Orofacial</h3>
+              <p class="vitrine__meta">
+                <span class="vitrine__nivel">Pós-graduação</span>
+                <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
+              </p>
+              <p class="vitrine__resumo">O programa mais procurado do Instituto. Protocolos faciais com prática supervisionada desde os primeiros módulos.</p>
+              <a class="btn-circulo vitrine__acao" href="curso-interno.html?curso=harmonizacao-orofacial">
+                <span class="btn-circulo__disco"><svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></span>
+                <span class="btn-circulo__rotulo">Conheça o curso<span class="vis-oculto">: Harmonização Orofacial</span></span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li class="vitrine__slide" id="vitrine-ortodontia">
+          <article class="vitrine__curso" data-estado="abertas">
+            <figure class="vitrine__foto vitrine__foto--foco-alto" data-vitrine-foto>
+              <img src="assets/img/curso-foto-aula-isabelle-alunas.webp" alt="Isabelle Arrivabene orienta estudantes durante uma aula prática" width="768" height="768" loading="lazy" decoding="async" draggable="false">
+            </figure>
+            <div class="vitrine__texto">
+              <h3 class="vitrine__titulo" data-vitrine-nome>Ortodontia e Ortopedia Facial</h3>
+              <p class="vitrine__meta">
+                <span class="vitrine__nivel">Pós-graduação</span>
+                <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
+              </p>
+              <p class="vitrine__resumo">Diagnóstico, planejamento e mecânica, com documentação ortodôntica trabalhada caso a caso.</p>
+              <a class="btn-circulo vitrine__acao" href="curso-interno.html?curso=ortodontia">
+                <span class="btn-circulo__disco"><svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></span>
+                <span class="btn-circulo__rotulo">Conheça o curso<span class="vis-oculto">: Ortodontia e Ortopedia Facial</span></span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li class="vitrine__slide" id="vitrine-protese">
+          <article class="vitrine__curso" data-estado="abertas">
+            <figure class="vitrine__foto vitrine__foto--foco-alto" data-vitrine-foto>
+              <img src="assets/img/curso-foto-anel-labios-seringa.webp" alt="Mão com anel dourado em forma de lábios sobre a ficha de estudo de um caso" width="768" height="768" loading="lazy" decoding="async" draggable="false">
+            </figure>
+            <div class="vitrine__texto">
+              <h3 class="vitrine__titulo" data-vitrine-nome>Prótese Dentária</h3>
+              <p class="vitrine__meta">
+                <span class="vitrine__nivel">Pós-graduação</span>
+                <span class="selo selo--abertas"><span class="selo__ponto" aria-hidden="true"></span>Matrículas abertas</span>
+              </p>
+              <p class="vitrine__resumo">Da seleção de material à estratificação cerâmica, com bancada e laboratório à disposição.</p>
+              <a class="btn-circulo vitrine__acao" href="curso-interno.html?curso=protese">
+                <span class="btn-circulo__disco"><svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg></span>
+                <span class="btn-circulo__rotulo">Conheça o curso<span class="vis-oculto">: Prótese Dentária</span></span>
+              </a>
+            </div>
+          </article>
+        </li>
+          </ul>
+        </div>
+
+        <!-- Vidro: o passe-partout creme fica parado; as fotos passam por baixo. -->
+        <span class="vitrine__vidro" aria-hidden="true"></span>
+
+        <button class="carrossel__btn vitrine__seta vitrine__seta--prox" type="button" data-vitrine-prox aria-label="Próximo curso">
           <svg class="ico" aria-hidden="true"><use href="#i-seta"></use></svg>
         </button>
-        <!-- Régua: o trecho aceso é a parte da trilha que está à vista. -->
-        <div class="carrossel__regua" aria-hidden="true"><span class="carrossel__regua-trecho" data-carrossel-regua></span></div>
-        <p class="carrossel__progresso" data-carrossel-progresso aria-live="polite">1 / 3</p>
+      </div>
+
+      <div class="vitrine__barra">
+        <div class="vitrine__indice" data-vitrine-indice role="group" aria-label="Escolher curso" hidden></div>
+        <div class="vitrine__controles">
+          <button class="carrossel__pausa" type="button" data-vitrine-pausa aria-label="Pausar a passagem automática" hidden>
+            <svg class="ico carrossel__pausa-pausar" aria-hidden="true"><use href="#i-pausa"></use></svg>
+            <svg class="ico carrossel__pausa-tocar" aria-hidden="true"><use href="#i-play"></use></svg>
+          </button>
+        </div>
+        <p class="vis-oculto" data-vitrine-contador aria-live="polite"></p>
       </div>
     </div>
-
 
   </div>
 </section>
@@ -602,7 +641,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
      ========================================================================== -->
 <!-- WP: Footer -->
 <!-- WP: Newsletter (faixa acima do rodapé) — e-mail ou WhatsApp -->
-<aside class="novidades campo-areia" aria-labelledby="novidades-titulo">
+<aside class="novidades campo-branco" aria-labelledby="novidades-titulo">
   <div class="env novidades__grade">
     <div class="novidades__texto">
       <svg class="novidades__borboleta" aria-hidden="true"><use href="#i-borboleta"></use></svg>
@@ -715,7 +754,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <!-- SUBSTITUIR: número real de WhatsApp -->
   <a class="flutuante__zap" data-zap data-visivel="false" href="https://wa.me/5598000000000?text=Ol%C3%A1%21%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20os%20cursos." target="_blank" rel="noopener">
     <svg class="ico" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
-    <span>Fale com um consultor</span>
+    <span class="vis-oculto">Fale com um consultor pelo WhatsApp</span>
   </a>
 </div>
 

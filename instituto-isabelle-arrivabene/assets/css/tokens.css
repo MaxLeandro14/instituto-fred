@@ -30,6 +30,7 @@
   --creme: #f8eddb;
   --creme-2: #fbf4e8;
   --creme-texto: #faf1e3; /* o "areia" mais quente que passa 4,5:1 sobre teal */
+  --branco-quente: #fffbf5; /* .campo-branco: vitrine e novidades da home; Curso, Sobre e Professores */
 
   /* --- Texto ------------------------------------------------------------ */
   --tinta: #2b2d2a;
@@ -212,4 +213,15 @@
 .campo-creme {
   --sup: var(--creme);
   background-color: var(--creme);
+}
+
+/* Branco quente (#fffbf5): na home, a vitrine de cursos e a faixa de
+   novidades; no Curso, no Sobre e em Professores, tudo abaixo do banner
+   (padronizados em 25/11/2026). Para o conteúdo saltar (pedido do cliente, 25/11/2026: o creme
+   da vitrine ficava "muito bege"; testados #fff e #fff7ed antes deste).
+   Os papéis são os do creme; texto e títulos ganham contraste. */
+.campo-branco {
+  --sup: var(--branco-quente);
+  --cartao: var(--creme);
+  background-color: var(--branco-quente);
 }

@@ -11,6 +11,7 @@ colors:
   creme: "#f8eddb"
   creme-2: "#fbf4e8"
   creme-texto: "#faf1e3"
+  branco-quente: "#fffbf5"
   tinta: "#2b2d2a"
   tinta-2: "#4f4e48"
   gelo: "#ecf5f4"
@@ -173,27 +174,45 @@ revezam nas regiões de leitura.
 ### Neutral
 - **Creme** (`creme`): o campo claro padrão; painel do dropdown; cartões
   sobre areia.
+- **Branco quente** (`branco-quente`, #fffbf5, via `.campo-branco`): na
+  home, a vitrine de cursos e a faixa de novidades; nas páginas internas
+  (Curso, Sobre, Professores e Contato), todas as seções abaixo do banner e
+  a faixa de novidades (padronizadas com o Curso em 25/11/2026). No lugar do creme e da
+  areia, para o conteúdo se destacar (pedido do cliente, 25/11/2026). Conta
+  como campo claro: entra nas ondas com a areia e na curva com o teal.
 - **Tinta** (`tinta`) e **tinta-2**: texto principal e secundário em campo claro.
 - **Gelo** (`gelo`): texto secundário sobre teal.
 - **Creme-texto** (`creme-texto`): rótulos pequenos sobre teal.
 
 ### Named Rules
 
-**Regra da emenda.** Nenhuma divisa reta entre seções (pedido do cliente,
-24/11/2026). Cada bloco (seções do `<main>`, novidades, rodapé) pinta no topo
-e na base um degradê até o ponto médio, em oklab, entre a sua cor e a do
-vizinho; cada lado ocupa `--emenda` (44–88px) numa curva S, e os fios da
-seda se dissolvem na mesma faixa. É estático, sem animação. Vive em
-`components.css` (EMENDAS, no fim), dentro de `@supports (color-mix)`. Seção
-nova: basta usar o campo (`.campo-teal` / `.campo-areia` / creme); se ela
-tiver `background-image` próprio, ponha `var(--emenda-camadas, none)` como
-primeira camada, como em `.seda`. Barras fixas de interface (o sumário do
-curso) ficam fora, e o **rodapé** também: a borda de cima dele é reta.
-Entre dois campos lisos (creme → areia) o degradê vira uma faixa uniforme e
-sem vida; ali a seção de areia ganha `seda seda--suave` (o cetim em marca
-d'água da faixa do vídeo), como a galeria da Estrutura na home. Exceção: em
-`sobre.html`, O Instituto → Missão, visão e valores tem divisa reta, sem
-degradê (pedido do cliente, 24/11/2026).
+**Regra da onda.** Onde a **areia encontra o creme**, a seção de baixo sobe
+sobre a de cima com a **borda em onda**, desenhada a partir das divisórias
+onduladas da clínica do Instituto (referência do cliente, 25/11/2026), no
+lugar do degradê entre seções claras, que o cliente recusou. Na borda corre
+o **fio de luz**: filete dourado (`dourado-logo`) com um halo claro por
+dentro do painel, como a fita de LED das divisórias; logo abaixo, o **eco**,
+um segundo fio mais fraco e defasado (o painel de trás). Altura `--onda-h`
+(44–88px); creme → areia usa a mesma onda espelhada, para as divisas
+alternarem. Estática, sem animação. Vive em `components.css` (ONDAS, no
+fim): máscara no topo da seção + borda transparente (o conteúdo não se
+move), e o fio como camada de fundo `--onda-camada` (em `.seda`, a primeira
+camada). As imagens são geradas por `.build/ondas.py` (forma, amplitude,
+eco) e ficam uma vez só no `:root` do bloco (`--onda-a-*` = onda,
+`--onda-b-*` = espelhada); cada divisa escolhe o par. A faixa de novidades vale como seção seguinte à última `<section>` do
+`<main>`. Seção nova: basta usar o campo (`.campo-areia` / creme); se tiver
+`background-image` próprio, ponha `var(--onda-camada, none)` como primeira
+camada. Ficam fora: campos iguais (creme → creme, areia → areia), as
+barras fixas de interface e o **rodapé** (borda reta). Exceção — **onda no
+mesmo campo**: nas páginas internas (Curso, Sobre, Professores e Contato, um
+só campo branco quente abaixo do banner) a onda corre também entre uma seção
+e a seguinte e antes da faixa de novidades, sem troca de cor, só o fio e o
+eco (pedido do cliente, 25/11/2026: as páginas estavam "muito quadradas").
+Fica no meio do vão: a seção de cima ganha meia onda de respiro embaixo e a
+de baixo perde meia onda em cima, então a distância entre os conteúdos não
+muda; alterna o lado descendo a página. Inclui O Instituto → Missão, visão e
+valores no Sobre, que antes era reta. Os fios
+da seda se dissolvem no topo e na base da seção (`--seda-esmaece`).
 
 **Regra da curva.** Onde o **teal encontra um campo claro** (areia ou creme)
 não há degradê: a seção de baixo sobe numa curva larga e suave por cima da de
@@ -205,7 +224,11 @@ da própria seção preenche a curva (máscara no topo + borda transparente para
 o conteúdo não se mover), sem costura. O cliente achou "grosseiro" o
 degradê largo entre teal e areia e recusou a linha esfumada curta
 (24/11/2026); entre os tons claros o degradê fica. O rodapé não entra: borda
-reta. Fica em `components.css`, CURVAS (seletores espelhados na EMENDA).
+reta. No Curso o banner é seguido pelo sumário (barra fixa, não recortável
+sem perder a sombra): a curva é um `::before` na cor do sumário pousado
+sobre o pé do banner; quando a barra gruda sob o header, a curva fica
+escondida atrás dele. Fica em `components.css`, CURVAS (desenhos no `:root`:
+`--curva-desenho` e `--curva-desenho-espelho`).
 
 **Regra da areia grande.** Areia sobre teal mede 3,3:1. Ela só carrega texto
 **grande** (≥ 24px, como a palavra de destaque do h1), bordas, ícones e fundos
@@ -254,14 +277,21 @@ cor de destaque do campo (areia sobre teal, teal sobre claro). Uma por título.
   os fatos Formação/Prática/Turmas (retirados a pedido do cliente, 24/11/2026).
 - **CTA final:** retirado de todas as páginas a pedido do cliente (24/11/2026).
   O CSS da cúpula (`.cta-final` em `pages.css`) ficou sem uso.
-- **Novidades:** faixa em areia logo acima do rodapé, presente em todas as
-  páginas, **aberta, sem cartão** (ver Components). Quando a última seção da
-  página tem a mesma cor da faixa (areia no Sobre), um filete de topo marca o
-  início.
+- **Novidades:** faixa logo acima do rodapé, presente em todas as páginas,
+  em branco quente, **aberta, sem cartão** (ver Components). Nas páginas
+  internas ela abre com a **onda dupla** (fio dourado + eco), sem troca de
+  cor (ver Regra da onda). Na home ela vem depois dos Depoimentos, com a
+  curva. (O `parts.json` ainda traz a faixa em areia; o `montar.py` troca o
+  campo por página.)
 - **Página do curso:** abaixo do banner teal, todas as seções e a faixa de
-  novidades ficam em creme, sem alternar com areia (pedido do cliente,
-  24/11/2026). A faixa de novidades também é creme ali, com o mesmo filete
-  de topo.
+  novidades ficam num só campo claro, sem alternar com areia (pedido do
+  cliente, 24/11/2026): era creme, virou branco quente em 25/11/2026. A faixa
+  de novidades acompanha. Banner → sumário com a curva; seções e novidades
+  separadas pela onda dupla.
+- **Sobre, Professores e Contato:** o mesmo esquema do Curso (25/11/2026):
+  abaixo do banner teal (curva), tudo em branco quente, seções e novidades
+  separadas pela onda dupla. Os pilares do Sobre ficam em cartão creme; as
+  fichas dos docentes e os canais do Contato mantêm a areia.
 - **Rodapé:** coluna da marca só com logo e redes; o mapa fica numa faixa
   centralizada abaixo das colunas (até 44rem, 21:8), quase monocromático até
   o hover.
@@ -341,7 +371,7 @@ asas de cima e as mãos acima do entalhe de baixo). O cliente alterna entre as
 duas para comparar. Até 36rem de largura.
 
 Entrada (o momento autoral da página, uma vez): o traço se desenha das pontas
-para o centro em 2s, as asas acendem por dentro dele — mostrando os dois
+para o centro em 3,2s, num ritmo uniforme (mais lento a pedido, 25/11/2026), as asas acendem por dentro dele — mostrando os dois
 perfis da logo — e a foto assenta na frente.
 Com movimento reduzido, tudo aparece pronto.
 
@@ -371,28 +401,45 @@ lista rola na horizontal. As âncoras descontam header + sumário
 (`scroll-padding-top`). Sem JS: fixa e funcional, só sem o traço.
 
 ### Carrossel
-Um só componente sobre a **Embla Carousel** (`assets/js/vendor`, só na home),
+Dois componentes sobre a **Embla Carousel** (`assets/js/vendor`, só na home):
+a **Vitrine** dos cursos (abaixo) e o carrossel dos depoimentos, de
 estrutura `.carrossel > .carrossel__janela > .carrossel__trilha > itens`. A
 janela sangra até a borda da tela; o recuo do gutter fica no padding da
 trilha e na margem do último item. Sem a lib, a janela rola com scroll-snap
 nativo; com ela, recebe `[data-embla]`, corta e a trilha é arrastada com
 física suave (cursor de mão, sem seleção de texto durante o arrasto).
 
-- **Cursos** (`data-carrossel="cursos"`): paradas alinhadas ao texto da
-  página, para nas pontas. Cada ficha tem ~23,5rem — três inteiras e a ponta
-  da quarta à vista no desktop, uma e a ponta da seguinte no celular. Abaixo:
-  setas, **régua** (linha de 2px; o trecho aceso é a parte da trilha à vista,
-  na posição em que está) e contador "1 / N". A foto de cada ficha é 14% mais
-  larga que o quadro e corre contra o arrasto (**paralaxe** de até 6%, pela
-  propriedade `translate`, separada do zoom de hover).
-  **Traços de acabamento** (só nas fichas do carrossel, cantos de 14px): um
-  filete dourado de 1px (`dourado-logo`) deslocado 14px para baixo e à
-  direita atrás de cada ficha, que sai de trás dela em cascata quando o
-  carrossel aparece e vai a 20px no hover; um passe-partout creme a 42% por
-  dentro da foto (12px de recuo; o selo pousa sobre ele); filete acima do
-  pé; e a seta num círculo de contorno de 36px que se preenche de teal
-  profundo no hover. O nível ("Pós-graduação") fica sem traço antes, a
-  pedido do cliente.
+- **Cursos — a Vitrine** (`data-vitrine`, escolhida pelo cliente em
+  25/11/2026 no lugar da fileira de fichas): **um curso por vez**, aberto
+  sobre o branco quente, sem cartão. Foto à esquerda (5/12 do slide, 4:3, cantos
+  de 14px; reduzida três vezes a pedido do cliente) e texto à direita
+  (7/12): título Raleway em caixa alta, nível + selo de contorno logo
+  abaixo, resumo e o botão-círculo "Conheça o curso". Abaixo de 64rem
+  empilha (foto 2:1; 4:3 no celular).
+  **Setas nas laterais do slide** (pedido do cliente): o slide e o índice
+  recuam uma faixa de cada lado (`--vit-lado`: clamp(5rem, 8vw, 8rem) no
+  desktop, 72px no tablet) e as setas ficam no meio dela, na altura do meio
+  da foto (`--vit-foto-alt`, medida em `cqw` no palco). No celular, sem
+  faixa, pousam sobre as bordas da foto em disco creme, e a seta sem
+  destino some. Parados sobre a foto: o **eco**
+  (filete dourado de 1px deslocado 14px, 20px no hover, sai de trás dela
+  quando a vitrine aparece) e o **vidro** (passe-partout creme a 50%, 12px
+  de recuo); as fotos passam por baixo do vidro.
+  **Movimento:** a Embla cuida do arrasto e das paradas, mas o deslize da
+  trilha é desligado (`translate.toggleActive(false)`) e os cursos ficam
+  empilhados. O JS escreve `--t` em cada um (0 em foco, +1 o próximo, −1 o
+  anterior) e o CSS tira tudo dela, na medida do arrasto: a foto nova corre
+  por cima como **cortina** (recorte pela esquerda, fio creme na borda, a
+  imagem assentando 22% por dentro), a antiga recua 8%, escurece 30% e
+  recebe a sombra da cortina; o texto troca em fusão deslizando 3rem.
+  Com o mouse arrasta-se pela foto; no toque, pelo curso inteiro.
+  **Índice:** um marco por curso ("01" + nome; só o número abaixo de 56rem),
+  cada um com um trecho de régua de 2px em cima. O trecho do curso em foco
+  fica mais forte e **enche como cronômetro** da passagem automática (8s,
+  mesmas regras de pausa dos depoimentos). O botão de pausa fica na mesma
+  linha, à direita do índice.
+  Sem a lib, as mesmas regras animam por transição de CSS (texto que sai em
+  280ms, o que chega espera 240ms). Sem JS, os cursos rolam lado a lado.
 - **Depoimentos** (`data-carrossel="depoimentos"`): **laço centrado**; o cartão
   em foco fica nítido e os vizinhos recuam (escala 0,9, opacidade 0,32) na
   medida da distância ao centro (`--perto`, escrito pelo JS a cada quadro).

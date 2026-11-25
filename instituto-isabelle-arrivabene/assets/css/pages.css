@@ -276,6 +276,8 @@
 }
 
 .borboleta {
+  /* Curva do desenho do traço e do eco (ver a Entrada, abaixo). */
+  --ease-traco: cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   margin: 0;
 }
@@ -314,16 +316,18 @@
 
 /* Entrada, uma vez: o traço da logo se desenha das pontas das asas para o
    centro, as asas acendem por dentro dele e os clínicos assentam na frente.
-   1790 é o comprimento da asa em unidades do símbolo. */
+   1790 é o comprimento da asa em unidades do símbolo.
+   O traço tem curva própria, mais uniforme que --ease (que desenhava quase
+   tudo no primeiro terço): o cliente pediu o desenho mais lento (25/11/2026). */
 @media (prefers-reduced-motion: no-preference) {
   .borboleta__traco use {
     stroke-dasharray: 1790;
-    animation: bb-traco 2s var(--ease) 0.1s both;
+    animation: bb-traco 3.2s var(--ease-traco) 0.1s both;
   }
   .borboleta__eco path,
   .borboleta__eco use {
     stroke-dasharray: 1790;
-    animation: bb-traco 2.4s var(--ease) 0.55s both;
+    animation: bb-traco 3.6s var(--ease-traco) 0.6s both;
   }
   .borboleta__asas {
     transform-box: fill-box;
@@ -806,123 +810,533 @@ html:not(.js) .video__capa {
   width: 100%;
 }
 
-/* Carrossel de cursos: três fichas e a ponta da quarta à vista, para
-   sinalizar que há mais. Mesmo componente dos depoimentos. */
-.carrossel--cursos .carrossel__item {
-  display: flex;
-  flex: 0 0 min(23.5rem, 82vw);
-}
-
-.carrossel--cursos .carrossel__item > .ficha {
-  width: 100%;
-}
-
-/* --------------------------------------------------------------------------
-   FICHA DO CARROSSEL — traços de acabamento.
-   O mesmo gesto do eco da borboleta: um filete dourado deslocado atrás de
-   cada ficha. Ele sai de trás da ficha quando o carrossel aparece (em
-   cascata) e se afasta mais um pouco no hover, dando profundidade. Dentro
-   da foto, um passe-partout; no corpo, filete acima do pé e a seta num
-   círculo de contorno.
-   -------------------------------------------------------------------------- */
-.carrossel--cursos .carrossel__item {
-  position: relative;
-  isolation: isolate;
+/* ==========================================================================
+   VITRINE DE CURSOS — um curso por vez (home).
+   Foto grande à esquerda, texto aberto à direita, sem cartão; embaixo, o
+   índice dos cursos. A Embla (components.js) cuida do arrasto, da física e
+   das paradas, mas o deslize da trilha fica desligado: os cursos ficam
+   empilhados no mesmo lugar e o JS escreve em cada um a variável --t
+     0 = em foco  ·  +1 = o próximo (à direita)  ·  −1 = o anterior.
+   Tudo o que se move sai de --t, na medida exata do arrasto:
+   - a foto que chega corre por cima como cortina, recortada pela esquerda,
+     com um fio creme na borda; a imagem assenta por dentro dela;
+   - a que sai recua um pouco, escurece e recebe a sombra da cortina;
+   - o texto troca em fusão, deslizando 3rem.
+   Sem a lib, as mesmas regras animam por transição de CSS
+   ([data-vitrine-nativa]). Sem JS, os cursos rolam lado a lado.
+   ========================================================================== */
+/* --vit-foto-alt: a altura da foto, medida na largura do palco (100cqw),
+   para as setas pousarem no meio dela. Muda junto com --vit-razao. */
+.vitrine {
+  --vit-cols: minmax(0, 1fr);
+  --vit-vao: var(--s6);
+  --vit-razao: 4 / 3;
+  --vit-foto-alt: calc(100cqw * 3 / 4);
+  --vit-lado: 0px;
   --eco: 0.875rem;
+  position: relative;
 }
 
-.carrossel--cursos .carrossel__item:nth-child(2) { --ordem: 1; }
-.carrossel--cursos .carrossel__item:nth-child(3) { --ordem: 2; }
-.carrossel--cursos .carrossel__item:nth-child(4) { --ordem: 3; }
-.carrossel--cursos .carrossel__item:nth-child(5) { --ordem: 4; }
+@media (min-width: 40rem) {
+  .vitrine {
+    --vit-razao: 2 / 1;
+    --vit-foto-alt: calc(100cqw / 2);
+  }
 
-.carrossel--cursos .carrossel__item::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border: 1px solid var(--dourado-logo);
-  border-radius: var(--r4);
-  transform: translate3d(var(--eco), var(--eco), 0);
-  transition: transform var(--t-lento) var(--ease);
-  pointer-events: none;
-}
-
-.carrossel--cursos .carrossel__item:hover,
-.carrossel--cursos .carrossel__item:focus-within {
-  --eco: 1.25rem;
-}
-
-/* Entrada: o filete começa escondido atrás da ficha e desliza para fora,
-   uma ficha depois da outra. Só o `from`: no fim vale o estado normal. */
-html.js .carrossel--cursos.revelado .carrossel__item::before {
-  animation: ficha-eco 1.1s var(--ease) calc(var(--ordem, 0) * 110ms + 300ms) backwards;
-}
-
-@keyframes ficha-eco {
-  from {
-    opacity: 0;
-    transform: none;
+  /* Faixa de cada lado do slide para as setas. */
+  html.js .vitrine {
+    --vit-lado: calc(3rem + var(--s5));
   }
 }
 
-.carrossel--cursos .ficha {
-  border-radius: var(--r4);
+@media (min-width: 64rem) {
+  .vitrine {
+    /* Foto em 5/12, 4:3. Em 25/11/2026 o cliente achou a imagem grande e
+       pediu para diminuir três vezes: 7/12 em 6:5 → metade em 4:3 → 5/12
+       → 5/12 de um slide mais estreito, com faixas laterais largas. */
+    --vit-cols: minmax(0, 5fr) minmax(0, 7fr);
+    --vit-vao: clamp(2.5rem, 5vw, 5.5rem);
+    --vit-razao: 4 / 3;
+    --vit-foto-alt: calc((100cqw - var(--vit-vao)) * 5 / 12 * 3 / 4);
+  }
+
+  /* Faixas laterais largas: o slide encolhe e as setas ficam no meio
+     delas (~115px de cada lado em 1440px). */
+  html.js .vitrine {
+    --vit-lado: clamp(5rem, 8vw, 8rem);
+  }
 }
 
-/* Passe-partout: linha creme por dentro da foto; o selo pousa sobre ela. */
-.carrossel--cursos .ficha__figura::after {
+/* Palco: a janela da Embla ocupa a largura toda. O eco e o vidro ficam
+   parados na coluna da foto, com a mesma proporção dela. */
+.vitrine__palco {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--vit-cols);
+  column-gap: var(--vit-vao);
+  padding-inline: var(--vit-lado);
+  container-type: inline-size;
+}
+
+/* Setas nas laterais do slide, no meio da faixa lateral e na altura do
+   meio da foto (pedido do cliente, 25/11/2026: "ao lado do slide"). */
+.vitrine__seta {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--vit-foto-alt) / 2);
+  translate: 0 -50%;
+}
+
+.vitrine__seta--ant {
+  left: calc((var(--vit-lado) - 3rem) / 2);
+}
+
+.vitrine__seta--prox {
+  right: calc((var(--vit-lado) - 3rem) / 2);
+}
+
+html:not(.js) .vitrine__seta {
+  display: none;
+}
+
+/* Celular: sem faixa lateral, as setas pousam sobre as bordas da foto, em
+   disco creme; a que não tem para onde ir some. */
+@media (max-width: 39.99rem) {
+  .vitrine__seta {
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 0;
+    background-color: rgba(248, 237, 219, 0.92);
+    color: var(--teal-profundo);
+    box-shadow: 0 2px 10px rgba(14, 31, 31, 0.2);
+  }
+
+  .vitrine__seta--ant {
+    left: var(--s4);
+  }
+
+  .vitrine__seta--prox {
+    right: var(--s4);
+  }
+
+  .vitrine__seta[disabled] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.vitrine__eco,
+.vitrine__vidro {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  aspect-ratio: var(--vit-razao);
+  border-radius: var(--r4);
+  pointer-events: none;
+}
+
+/* Eco: o filete dourado deslocado atrás da foto, o mesmo gesto do eco da
+   borboleta. Sai de trás dela quando a vitrine aparece e se afasta mais um
+   pouco com o mouse em cima. */
+.vitrine__eco {
+  border: 1px solid var(--dourado-logo);
+  translate: var(--eco) var(--eco);
+  transition: translate var(--t-lento) var(--ease);
+}
+
+.vitrine__palco:hover .vitrine__eco {
+  --eco: 1.25rem;
+}
+
+html.js .vitrine.revelado .vitrine__eco {
+  animation: vitrine-eco 1.1s var(--ease) 300ms backwards;
+}
+
+@keyframes vitrine-eco {
+  from {
+    opacity: 0;
+    translate: 0 0;
+  }
+}
+
+/* Vidro: o passe-partout creme fica parado sobre a foto; as fotos é que
+   passam por baixo dele. */
+.vitrine__vidro {
+  position: relative;
+  z-index: 2;
+}
+
+.vitrine__vidro::after {
+  content: "";
+  position: absolute;
+  inset: var(--s3);
+  border: 1px solid rgba(248, 237, 219, 0.5);
+  border-radius: var(--r3);
+}
+
+.vitrine__janela {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  position: relative;
+  z-index: 1;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.vitrine__janela::-webkit-scrollbar {
+  display: none;
+}
+
+.vitrine__janela:focus-visible {
+  outline-offset: 4px;
+}
+
+.vitrine__trilha {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vitrine__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+/* align-content: start — as linhas não esticam quando outro curso é mais
+   alto, então a foto fica sempre embaixo do vidro e do eco. */
+.vitrine__curso {
+  display: grid;
+  grid-template-columns: var(--vit-cols);
+  gap: var(--s6) var(--vit-vao);
+  align-content: start;
+  align-items: center;
+  height: 100%;
+}
+
+.vitrine__foto {
+  position: relative;
+  margin: 0;
+  align-self: start;
+  aspect-ratio: var(--vit-razao);
+  overflow: hidden;
+  border-radius: var(--r4);
+  background-color: var(--teal);
+}
+
+.vitrine__foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Rostos no alto do quadro: o recorte sobe para não cortar cabeças. */
+.vitrine__foto--foco-alto img {
+  object-position: 50% 22%;
+}
+
+/* Texto aberto sobre o creme: título, nível logo abaixo, resumo, ação. */
+.vitrine__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.vitrine__titulo {
+  max-width: 14em;
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.vitrine__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3) var(--s4);
+  margin: var(--s4) 0 0;
+}
+
+.vitrine__nivel {
+  font-size: var(--fs-rotulo);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rotulo);
+}
+
+.vitrine__meta .selo {
+  padding: 0.375rem 0.875rem;
+}
+
+.vitrine__resumo {
+  margin: var(--s5) 0 0;
+  max-width: 40ch;
+  color: var(--txt-2);
+  font-size: var(--fs-corpo-g);
+  line-height: 1.7;
+}
+
+.vitrine__acao {
+  margin-top: var(--s6);
+}
+
+/* --- Com o JS: empilhados, e o movimento sai de --t ---------------------- */
+.vitrine[data-pronta] .vitrine__janela {
+  overflow: hidden;
+  scroll-snap-type: none;
+}
+
+.vitrine[data-pronta] .vitrine__trilha {
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Cada curso volta para o começo da trilha (--i é a posição, do JS). A
+   Embla mede pelo offsetLeft, que ignora o translate: as paradas continuam
+   certas. */
+.vitrine[data-pronta] .vitrine__slide {
+  translate: calc(var(--i, 0) * -100%) 0;
+}
+
+.vitrine[data-pronta] .vitrine__foto {
+  clip-path: inset(0 0 0 calc(max(var(--t, 0), 0) * 100%) round var(--r4));
+}
+
+.vitrine[data-pronta] .vitrine__foto img {
+  translate: calc(max(var(--t, 0), 0) * 22% + min(var(--t, 0), 0) * 8%) 0;
+  scale: calc(1 + max(-1 * var(--t, 0), 0) * 0.05);
+  filter: brightness(calc(1 - max(-1 * var(--t, 0), 0) * 0.3));
+}
+
+/* Sombra da cortina sobre a foto que sai: encostada na borda da que chega. */
+.vitrine[data-pronta] .vitrine__foto::before {
   content: "";
   position: absolute;
   z-index: 1;
-  inset: var(--s3);
-  border: 1px solid rgba(248, 237, 219, 0.42);
-  border-radius: var(--r3);
+  top: 0;
+  bottom: 0;
+  left: calc((1 + min(var(--t, 0), 0)) * 100% - 4rem);
+  width: 4rem;
+  background: linear-gradient(to right, rgba(23, 74, 76, 0), rgba(23, 74, 76, 0.38));
+  opacity: clamp(0, -6 * var(--t, 0), 1);
   pointer-events: none;
-  transition: border-color var(--t-medio) var(--ease-suave);
 }
 
-.carrossel--cursos .ficha:hover .ficha__figura::after,
-.carrossel--cursos .ficha:focus-within .ficha__figura::after {
-  border-color: rgba(248, 237, 219, 0.78);
+/* Fio creme na borda da cortina. */
+.vitrine[data-pronta] .vitrine__foto::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: calc(max(var(--t, 0), 0) * 100%);
+  width: 1px;
+  background-color: rgba(248, 237, 219, 0.75);
+  opacity: clamp(0, 8 * var(--t, 0), 1);
+  pointer-events: none;
 }
 
-.carrossel--cursos .ficha__pe {
-  justify-content: space-between;
-  padding-top: var(--s4);
-  border-top: 1px solid var(--linha);
+.vitrine[data-pronta] .vitrine__texto {
+  opacity: clamp(0, 1 - max(var(--t, 0), -1 * var(--t, 0)) * 1.8, 1);
+  translate: calc(var(--t, 0) * 3rem) 0;
 }
 
-.carrossel--cursos .ficha__pe .ico {
-  box-sizing: border-box;
-  width: 2.25rem;
-  height: 2.25rem;
-  padding: 0.5625rem;
-  border: 1px solid var(--linha-forte);
-  border-radius: 50%;
-  transition: background-color var(--t-medio) var(--ease-suave),
-    border-color var(--t-medio) var(--ease-suave),
-    color var(--t-medio) var(--ease-suave);
+/* Arrasto (só com a Embla): mão sobre a foto, sem seleção pelo caminho. */
+.vitrine[data-pronta]:not([data-vitrine-nativa]) .vitrine__foto {
+  cursor: grab;
 }
 
-.carrossel--cursos .ficha:hover .ficha__pe .ico,
-.carrossel--cursos .ficha:focus-within .ficha__pe .ico {
+.vitrine[data-arrastando] .vitrine__foto {
+  cursor: grabbing;
+}
+
+.vitrine[data-arrastando] .vitrine__trilha {
+  user-select: none;
+}
+
+/* Sem a lib: as mesmas regras, animadas por transição a cada troca. */
+.vitrine[data-vitrine-nativa] .vitrine__foto,
+.vitrine[data-vitrine-nativa] .vitrine__foto img,
+.vitrine[data-vitrine-nativa] .vitrine__foto::before,
+.vitrine[data-vitrine-nativa] .vitrine__foto::after,
+.vitrine[data-vitrine-nativa] .vitrine__texto {
+  transition-property: clip-path, translate, scale, filter, opacity, left;
+  transition-duration: 900ms;
+  transition-timing-function: var(--ease);
+}
+
+/* Sem arrasto não há meio-termo: o texto que sai some depressa e o que
+   chega espera a saída, para os dois nunca se sobreporem. */
+.vitrine[data-vitrine-nativa] .vitrine__slide[inert] .vitrine__texto {
+  transition-duration: 280ms;
+  transition-timing-function: var(--ease-suave);
+}
+
+.vitrine[data-vitrine-nativa] .vitrine__slide:not([inert]) .vitrine__texto {
+  transition-delay: 240ms;
+}
+
+/* --- Barra: índice dos cursos e controles ------------------------------ */
+/* Índice e pausa na mesma linha, alinhados ao slide (mesmas faixas
+   laterais das setas). */
+.vitrine__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  margin-top: clamp(2.75rem, 4.5vw, 4rem);
+  padding-inline: var(--vit-lado);
+}
+
+html:not(.js) .vitrine__barra {
+  display: none;
+}
+
+/* Índice: um marco por curso. A linha de cima de cada marco é um trecho
+   da régua; a do curso em foco acende e, com a passagem automática
+   correndo, enche como cronômetro (--tempo vem do JS). */
+.vitrine__indice {
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 0.375rem;
+}
+
+.vitrine__marco {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--s2);
+  min-height: 2.75rem;
+  padding: var(--s4) 0 var(--s1);
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--txt-2);
+  cursor: pointer;
+}
+
+.vitrine__marco-linha {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--linha);
+  overflow: hidden;
+  transition: background-color var(--t-rapido) var(--ease-suave);
+}
+
+/* O trecho do curso em foco fica mais forte mesmo com o cronômetro parado
+   no começo (passagem pausada ou movimento reduzido). */
+.vitrine__marco:hover .vitrine__marco-linha,
+.vitrine__marco[aria-current="true"] .vitrine__marco-linha {
+  background-color: var(--linha-forte);
+}
+
+.vitrine__marco-tempo {
+  position: absolute;
+  inset: 0;
+  background-color: var(--acao-bg);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.vitrine__marco[aria-current="true"] .vitrine__marco-tempo {
   transform: none;
-  border-color: var(--titulo);
-  background-color: var(--titulo);
-  color: var(--creme);
 }
 
-/* Paralaxe: a foto é um pouco mais larga que o quadro e corre um pouco
-   contra o arrasto (--paralaxe vem do JS, por ficha, até ±2,2% da largura
-   da foto). Sobra de só 5% (era 14%): o cliente achou as fotos com "zoom"
-   demais. Usa a propriedade `translate`, separada do `transform` do zoom
-   de hover, que tem transição longa. */
-.carrossel--cursos[data-embla] .ficha__figura img {
-  width: 105%;
-  max-width: none;
-  margin-left: -2.5%;
-  translate: var(--paralaxe, 0%) 0;
+.vitrine[data-tempo] .vitrine__marco[aria-current="true"] .vitrine__marco-tempo {
+  animation: carrossel-tempo var(--tempo, 8s) linear both;
+}
+
+.vitrine[data-tempo="pausa"] .vitrine__marco[aria-current="true"] .vitrine__marco-tempo {
+  animation-play-state: paused;
+}
+
+.vitrine__marco-num {
+  font-size: var(--fs-rotulo);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--t-rapido) var(--ease-suave);
+}
+
+.vitrine__marco-nome {
+  font-family: var(--fonte-display);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+  transition: color var(--t-rapido) var(--ease-suave);
+}
+
+.vitrine__marco:hover,
+.vitrine__marco[aria-current="true"] {
+  color: var(--titulo);
+}
+
+.vitrine__marco:focus-visible {
+  outline: 2px solid var(--foco);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.vitrine__controles {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--s2);
+}
+
+/* Até 56rem o índice mostra só os números; o nome continua sendo o nome
+   acessível do botão. */
+@media (max-width: 55.99rem) {
+  .vitrine__marco-nome {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 56rem) {
+  .vitrine__barra {
+    gap: var(--s6);
+  }
+
+  .vitrine__indice {
+    gap: var(--s4);
+  }
+
+  .vitrine__controles {
+    gap: var(--s3);
+  }
+
+  .vitrine__controles .carrossel__pausa {
+    margin-left: var(--s2);
+  }
+}
+
+@media (min-width: 64rem) {
+  .vitrine__barra {
+    gap: var(--s7);
+  }
+
+  .vitrine__indice {
+    gap: var(--s5);
+  }
 }
 
 /* ==========================================================================
@@ -1376,6 +1790,12 @@ html.js .carrossel--cursos.revelado .carrossel__item::before {
   margin: 0;
 }
 
+/* Sobre o branco quente o cartão padrão do campo é creme; a ficha do
+   docente mantém o corpo em areia, que é o que a destaca do fundo. */
+.campo-branco .docentes {
+  --cartao: var(--areia);
+}
+
 .docente {
   position: relative;
   display: flex;
@@ -1793,6 +2213,12 @@ html.js .carrossel--cursos.revelado .carrossel__item::before {
 
 .canais li {
   margin: 0;
+}
+
+/* Sobre o branco quente o cartão padrão do campo é creme; os canais mantêm
+   a areia, como as fichas dos docentes. */
+.campo-branco .canais {
+  --cartao: var(--areia);
 }
 
 .canal {

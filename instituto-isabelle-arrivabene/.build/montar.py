@@ -81,11 +81,15 @@ GABARITO = """<!DOCTYPE html>
 """
 
 # ---------------------------------------------------------------------------
-# Cada página: qual item do menu fica ativo, e se o header abre claro ou
-# sobre campo escuro.
+# Cada página: qual item do menu fica ativo e o campo da faixa de novidades
+# (areia por padrão, como vem do parts.json; branco quente onde a página toda
+# abaixo do banner é branco quente — hoje, todas as internas).
 # ---------------------------------------------------------------------------
+NOVIDADES_PADRAO = 'campo-areia'
+
 PAGINAS = {
     'curso-interno.html': dict(
+        novidades='campo-branco',
         ativo='index.html#cursos',
         titulo='Harmonização Orofacial — Pós-graduação | Instituto Isabelle Arrivabene',
         og_titulo='Pós-graduação em Harmonização Orofacial — Instituto Isabelle Arrivabene',
@@ -94,6 +98,7 @@ PAGINAS = {
         viewport='Banner teal com o nome do curso em caixa alta com "Orofacial" em areia, CTA de areia e âncora para o conteúdo programático; moldura à direita.',
     ),
     'sobre.html': dict(
+        novidades='campo-branco',
         ativo='sobre.html',
         titulo='Sobre o Instituto — Excelência acadêmica e prática clínica | Instituto Isabelle Arrivabene',
         og_titulo='Sobre o Instituto Isabelle Arrivabene',
@@ -102,20 +107,22 @@ PAGINAS = {
         viewport='Banner teal com a frase institucional em caixa alta e "consultório" em areia; à direita, a recepção emoldurada sobre cartão de areia girado; faixa de texto vazado.',
     ),
     'professores.html': dict(
+        novidades='campo-branco',
         ativo='professores.html',
         titulo='Professores — Corpo docente em atividade clínica | Instituto Isabelle Arrivabene',
         og_titulo='Corpo docente — Instituto Isabelle Arrivabene',
         descricao='Conheça o corpo docente do Instituto Isabelle Arrivabene: profissionais em atividade clínica que ensinam os protocolos que executam.',
         og_img='banner-professores',
-        viewport='Banner teal com o título; abaixo, em creme, a grade de retratos com corpo em areia, cada um virando ficha completa no clique.',
+        viewport='Banner teal com o título; abaixo, em branco quente, a grade de retratos com corpo em areia, cada um virando ficha completa no clique.',
     ),
     'contato.html': dict(
+        novidades='campo-branco',
         ativo='contato.html',
         titulo='Contato e Inscrição — Champs Mall, Península, São Luís/MA | Instituto Isabelle Arrivabene',
         og_titulo='Fale com um consultor — Instituto Isabelle Arrivabene',
         descricao='Fale com um consultor do Instituto Isabelle Arrivabene. Champs Mall, Península, São Luís – MA. WhatsApp, telefone e formulário de inscrição.',
         og_img='banner-contato',
-        viewport='Banner teal compacto com o título; abaixo, em creme, os canais em cartões de areia à esquerda e a caixa de formulário elevada à direita.',
+        viewport='Banner teal compacto com o título; abaixo, em branco quente, os canais em cartões de areia à esquerda e a caixa de formulário elevada à direita.',
     ),
 }
 
@@ -129,6 +136,14 @@ def marca_ativo(header_html, arquivo):
     h = h.replace('class="menu-movel__elo" href="%s"' % arquivo,
                   'class="menu-movel__elo" href="%s" aria-current="page"' % arquivo)
     return h
+
+
+def campo_novidades(footer_html, campo):
+    """Troca o campo da faixa de novidades (que vem em areia do parts.json)."""
+    marca = '<aside class="novidades %s"' % NOVIDADES_PADRAO
+    if marca not in footer_html:
+        sys.exit('faixa de novidades não encontrada no footer do parts.json')
+    return footer_html.replace(marca, '<aside class="novidades %s"' % campo, 1)
 
 
 def main():
@@ -153,7 +168,7 @@ def main():
             contrato=CONTRATO.format(viewport=cfg['viewport']),
             icons=PARTS['icons'],
             header=marca_ativo(PARTS['header'], cfg['ativo']),
-            footer=PARTS['footer'],
+            footer=campo_novidades(PARTS['footer'], cfg.get('novidades', NOVIDADES_PADRAO)),
             conteudo=conteudo,
         )
         open(arquivo, 'w', encoding='utf-8').write(html)

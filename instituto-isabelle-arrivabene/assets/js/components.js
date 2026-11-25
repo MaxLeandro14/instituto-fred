@@ -93,15 +93,16 @@
   }
 
   /* ========================================================================
-     CARROSSEL — cursos e depoimentos, sobre a Embla Carousel.
+     CARROSSEL — depoimentos, sobre a Embla Carousel.
      A lib vem de assets/js/vendor/embla-carousel.umd.js (carregada só na
      home). Sem ela, a janela continua rolando com scroll-snap nativo e as
      setas usam o modo de reserva logo abaixo: nada depende da lib existir.
 
-     data-carrossel="cursos"       alinhado ao texto, para nas pontas, régua
-                                   de posição e paralaxe nas fotos.
      data-carrossel="depoimentos"  laço centrado, vizinhos recuam, pontos e
                                    passagem automática com pausa.
+     Outro valor                   alinhado ao texto e para nas pontas.
+
+     Os cursos usam a VITRINE (mais abaixo), sobre a mesma lib.
      ======================================================================== */
   var limita = function (v, min, max) {
     return Math.min(max, Math.max(min, v));
@@ -167,12 +168,12 @@
     atualiza();
   };
 
-  /* Passagem automática dos depoimentos. Escrita aqui (e não com o plugin
-     de autoplay) para que a pausa do botão vença hover, foco e arrasto, e o
-     cronômetro do ponto congele e retome exatamente de onde parou.
-     Nunca liga com movimento reduzido. */
-  var passagemAutomatica = function (carrossel, api, pausa, progresso) {
-    var DURACAO = 7000;
+  /* Passagem automática dos depoimentos e da vitrine de cursos. Escrita aqui
+     (e não com o plugin de autoplay) para que a pausa do botão vença hover,
+     foco e arrasto, e o cronômetro do ponto congele e retome exatamente de
+     onde parou. Nunca liga com movimento reduzido. */
+  var passagemAutomatica = function (carrossel, api, pausa, progresso, duracao) {
+    var DURACAO = duracao || 7000;
     var timer = 0;
     var inicio = 0;
     var restante = DURACAO;
@@ -290,15 +291,14 @@
   var carrosselEmbla = function (carrossel, janela, trilha, anterior, proximo, progresso) {
     var depoimentos = carrossel.getAttribute("data-carrossel") === "depoimentos";
     var slides = Array.prototype.slice.call(trilha.children);
-    var regua = carrossel.querySelector("[data-carrossel-regua]");
 
     /* O CSS do modo Embla entra antes da medição: corte, sem snap, e nos
        depoimentos a trilha perde o recuo inicial (o laço é centrado). */
     carrossel.setAttribute("data-embla", "");
     janela.scrollLeft = 0;
 
-    /* Cursos: cada parada alinha a ficha ao gutter da página, que é o
-       recuo da trilha. Recalculado a cada reInit (resize). */
+    /* Fora dos depoimentos, cada parada alinha o item ao gutter da página,
+       que é o recuo da trilha. Recalculado a cada reInit (resize). */
     var folga = function () {
       return parseFloat(window.getComputedStyle(trilha).paddingLeft) || 0;
     };
@@ -322,37 +322,6 @@
           String(api.selectedScrollSnap() + 1) + " / " +
           String(api.scrollSnapList().length);
       }
-    };
-
-    /* Régua dos cursos: largura = parte visível da trilha; posição = progresso. */
-    var atualizaRegua = function () {
-      if (!regua) return;
-      var vista = janela.clientWidth;
-      var percurso = api.internalEngine().limit.length;
-      var porcao = percurso > 1 ? vista / (vista + percurso) : 1;
-      var p = limita(api.scrollProgress(), 0, 1);
-      regua.style.setProperty("--porcao", (porcao * 100).toFixed(2) + "%");
-      regua.style.setProperty(
-        "--deslize",
-        (p * (1 / porcao - 1) * 100).toFixed(2) + "%"
-      );
-    };
-
-    /* Paralaxe dos cursos: a foto corre contra o arrasto, na medida da
-       distância da ficha ao centro da janela. ±2,2% cabe na sobra de 5% da
-       foto (pages.css); mudar os dois juntos. */
-    var paralaxe = function () {
-      if (reduzido) return;
-      var caixa = janela.getBoundingClientRect();
-      if (!caixa.width) return;
-      var centro = caixa.left + caixa.width / 2;
-      var desvios = slides.map(function (slide) {
-        var r = slide.getBoundingClientRect();
-        return (r.left + r.width / 2 - centro) / caixa.width;
-      });
-      desvios.forEach(function (d, i) {
-        slides[i].style.setProperty("--paralaxe", (limita(d, -1, 1) * -2.2).toFixed(2) + "%");
-      });
     };
 
     /* Depoimentos: --perto em cada cartão (1 no centro, 0 a um passo),
@@ -449,11 +418,6 @@
           progresso
         );
       }
-    } else {
-      api.on("scroll", atualizaRegua).on("reInit", atualizaRegua);
-      api.on("scroll", paralaxe).on("reInit", paralaxe);
-      atualizaRegua();
-      paralaxe();
     }
 
     atualizaControles();
@@ -473,6 +437,218 @@
         carrosselEmbla(carrossel, janela, trilha, anterior, proximo, progresso);
       } else {
         carrosselNativo(janela, trilha, anterior, proximo, progresso);
+      }
+    }
+  );
+
+  /* ========================================================================
+     VITRINE DE CURSOS — um curso por vez, sobre a mesma Embla.
+     A Embla cuida do arrasto, da física e das paradas; o deslize da trilha
+     é desligado e os cursos ficam empilhados (pages.css, VITRINE). A cada
+     quadro o JS escreve em cada curso --t: 0 em foco, +1 o próximo, −1 o
+     anterior; a cortina da foto e a fusão do texto saem dessa variável.
+
+     Sem a lib, uma reserva com a mesma interface troca por transição de
+     CSS (índice, setas, teclado e passagem automática iguais, sem arrasto).
+     Sem JS, os cursos rolam lado a lado com scroll-snap nativo.
+     ======================================================================== */
+  var DURACAO_VITRINE = 8000;
+
+  var doisDigitos = function (n) {
+    return (n < 10 ? "0" : "") + n;
+  };
+
+  /* Reserva sem a Embla: só a parte da interface que a vitrine usa. */
+  var vitrineNativa = function (total) {
+    var atual = 0;
+    var ouvintes = {};
+    var api = {
+      on: function (evento, fn) {
+        (ouvintes[evento] = ouvintes[evento] || []).push(fn);
+        return api;
+      },
+      scrollTo: function (i) {
+        i = limita(i, 0, total - 1);
+        if (i === atual) return;
+        atual = i;
+        (ouvintes.select || []).forEach(function (fn) { fn(); });
+      },
+      scrollNext: function () { api.scrollTo(atual + 1); },
+      scrollPrev: function () { api.scrollTo(atual - 1); },
+      canScrollNext: function () { return atual < total - 1; },
+      canScrollPrev: function () { return atual > 0; },
+      selectedScrollSnap: function () { return atual; }
+    };
+    return api;
+  };
+
+  Array.prototype.forEach.call(
+    document.querySelectorAll("[data-vitrine]"),
+    function (vitrine) {
+      var janela = vitrine.querySelector("[data-vitrine-janela]");
+      var trilha = vitrine.querySelector("[data-vitrine-trilha]");
+      if (!janela || !trilha) return;
+
+      var slides = Array.prototype.slice.call(trilha.children);
+      var total = slides.length;
+      if (total < 2) return;
+
+      var anterior = vitrine.querySelector("[data-vitrine-ant]");
+      var proximo = vitrine.querySelector("[data-vitrine-prox]");
+      var contador = vitrine.querySelector("[data-vitrine-contador]");
+      var indice = vitrine.querySelector("[data-vitrine-indice]");
+      var comEmbla = typeof window.EmblaCarousel === "function";
+
+      var nomes = slides.map(function (slide) {
+        var nome = slide.querySelector("[data-vitrine-nome]");
+        return nome ? nome.textContent.trim() : "";
+      });
+
+      /* Empilha antes de medir: cada curso volta ao começo da trilha. */
+      slides.forEach(function (slide, i) {
+        slide.style.setProperty("--i", String(i));
+        if (!slide.id) slide.id = "vitrine-curso-" + (i + 1);
+      });
+      vitrine.setAttribute("data-pronta", "");
+      if (!comEmbla) vitrine.setAttribute("data-vitrine-nativa", "");
+      janela.scrollLeft = 0;
+
+      var api = comEmbla
+        ? window.EmblaCarousel(janela, {
+            align: "start",
+            duration: 38,
+            /* Com o mouse, arrasta-se pela foto e o texto continua
+               selecionável; no toque, o curso inteiro arrasta. */
+            watchDrag: function (_, evento) {
+              if (evento.type !== "mousedown") return true;
+              return !!(evento.target.closest && evento.target.closest("[data-vitrine-foto]"));
+            }
+          })
+        : vitrineNativa(total);
+
+      /* --t de um curso: posição relativa ao foco, presa em [−1, 1].
+         Quem chega (t > 0) passa por cima; longe do foco, some. */
+      var pinta = function (slide, t, visivel) {
+        slide.style.setProperty("--t", t.toFixed(4));
+        slide.style.zIndex = t > 0 ? "2" : "1";
+        slide.style.visibility = visivel ? "" : "hidden";
+      };
+
+      var desenha;
+
+      if (comEmbla) {
+        /* A Embla segue calculando a posição, mas não move mais a trilha. */
+        var desligaTrilha = function () {
+          var motor = api.internalEngine();
+          motor.translate.toggleActive(false);
+          motor.translate.clear();
+        };
+
+        desenha = function () {
+          var snaps = api.scrollSnapList();
+          var passo = snaps.length > 1 ? snaps[1] - snaps[0] : 1;
+          var p = limita(api.scrollProgress(), 0, 1);
+          slides.forEach(function (slide, i) {
+            if (snaps[i] === undefined) return;
+            var t = limita((snaps[i] - p) / passo, -1, 1);
+            pinta(slide, t, Math.abs(t) < 0.999);
+          });
+        };
+
+        desligaTrilha();
+        api.on("reInit", desligaTrilha);
+        api.on("scroll", desenha).on("reInit", desenha);
+        api.on("pointerDown", function () { vitrine.setAttribute("data-arrastando", ""); });
+        api.on("pointerUp", function () { vitrine.removeAttribute("data-arrastando"); });
+      } else {
+        /* Sem arrasto, cada troca vai direto ao valor final e o CSS anima.
+           Quem saiu fica à vista até a cortina terminar. */
+        var saiu = -1;
+        var relogio = 0;
+        desenha = function () {
+          var atual = api.selectedScrollSnap();
+          slides.forEach(function (slide, i) {
+            pinta(slide, limita(i - atual, -1, 1), i === atual || i === saiu);
+          });
+          window.clearTimeout(relogio);
+          relogio = window.setTimeout(function () {
+            slides.forEach(function (slide, i) {
+              if (i !== api.selectedScrollSnap()) slide.style.visibility = "hidden";
+            });
+          }, 950);
+          saiu = atual;
+        };
+        api.on("select", desenha);
+      }
+
+      /* Índice: um marco por curso, montado a partir dos títulos. */
+      var marcos = [];
+      if (indice) {
+        marcos = nomes.map(function (nome, i) {
+          var marco = document.createElement("button");
+          marco.type = "button";
+          marco.className = "vitrine__marco";
+          marco.setAttribute("aria-controls", slides[i].id);
+          marco.innerHTML =
+            '<span class="vitrine__marco-linha" aria-hidden="true">' +
+            '<span class="vitrine__marco-tempo"></span></span>' +
+            '<span class="vitrine__marco-num" aria-hidden="true">' + doisDigitos(i + 1) + "</span>" +
+            '<span class="vitrine__marco-nome"></span>';
+          marco.querySelector(".vitrine__marco-nome").textContent = nome;
+          marco.addEventListener("click", function () { api.scrollTo(i, reduzido); });
+          indice.appendChild(marco);
+          return marco;
+        });
+        indice.hidden = false;
+      }
+
+      /* Só o curso em foco fica ao alcance do teclado e do leitor de tela. */
+      var marca = function () {
+        var atual = api.selectedScrollSnap();
+        slides.forEach(function (slide, i) {
+          if (i === atual) {
+            slide.removeAttribute("aria-hidden");
+            slide.removeAttribute("inert");
+          } else {
+            slide.setAttribute("aria-hidden", "true");
+            slide.setAttribute("inert", "");
+          }
+        });
+        marcos.forEach(function (marco, i) {
+          if (i === atual) marco.setAttribute("aria-current", "true");
+          else marco.removeAttribute("aria-current");
+        });
+        if (anterior) anterior.disabled = !api.canScrollPrev();
+        if (proximo) proximo.disabled = !api.canScrollNext();
+        if (contador) {
+          contador.textContent =
+            "Curso " + (atual + 1) + " de " + total + ": " + nomes[atual];
+        }
+      };
+
+      if (anterior) anterior.addEventListener("click", function () { api.scrollPrev(reduzido); });
+      if (proximo) proximo.addEventListener("click", function () { api.scrollNext(reduzido); });
+
+      janela.addEventListener("keydown", function (e) {
+        if (e.target !== janela) return;
+        if (e.key === "ArrowRight") { e.preventDefault(); api.scrollNext(reduzido); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); api.scrollPrev(reduzido); }
+      });
+
+      api.on("select", marca);
+      if (comEmbla) api.on("reInit", marca);
+
+      desenha();
+      marca();
+
+      if (!reduzido) {
+        passagemAutomatica(
+          vitrine,
+          api,
+          vitrine.querySelector("[data-vitrine-pausa]"),
+          contador,
+          DURACAO_VITRINE
+        );
       }
     }
   );

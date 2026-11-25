@@ -1133,7 +1133,9 @@ html:has(.sumario) {
 
    A janela sangra até a borda da tela; o recuo do gutter fica no padding da
    trilha (início) e na margem do último item (fim). A Embla lê os dois como
-   folga das pontas, então a primeira ficha alinha com o texto da página.
+   folga das pontas, então o primeiro item alinha com o texto da página.
+   Hoje só os depoimentos usam este componente; os cursos têm a VITRINE
+   (pages.css), sobre a mesma lib. Setas e pausa são compartilhadas.
    -------------------------------------------------------------------------- */
 .carrossel {
   position: relative;
@@ -1203,33 +1205,6 @@ html:has(.sumario) {
   display: flex;
   align-items: center;
   gap: var(--s3);
-}
-
-/* Régua: a linha inteira é a trilha; o trecho aceso é o que está à vista,
-   na posição em que está. Lê como uma barra de rolagem desenhada. */
-.carrossel__regua {
-  position: relative;
-  flex: 1 1 auto;
-  max-width: 22rem;
-  height: 2px;
-  margin-inline: var(--s4);
-  border-radius: 2px;
-  background-color: var(--linha);
-  overflow: hidden;
-}
-
-.carrossel__regua-trecho {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--porcao, 40%);
-  border-radius: inherit;
-  background-color: var(--acao-bg);
-  transform: translate3d(var(--deslize, 0%), 0, 0);
-  will-change: transform;
-}
-
-html:not(.js) .carrossel__regua {
-  display: none;
 }
 
 /* Pontos: um por item. O aceso se alonga e, com a passagem automática
@@ -1675,39 +1650,29 @@ html:not(.js) .carrossel__regua {
   gap: var(--s3);
 }
 
+/* Só o ícone, num círculo; o nome acessível vem do texto em .vis-oculto. */
 .flutuante__zap {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s3);
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
   height: 3.25rem;
-  padding: 0 var(--s5);
   border: 1px solid rgba(226, 205, 176, 0.55);
-  border-radius: 99px;
+  border-radius: 50%;
   background-color: var(--teal-profundo);
   color: #fff;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
   text-decoration: none;
   box-shadow: 0 2px 6px rgba(14, 31, 31, 0.2), 0 14px 34px rgba(14, 31, 31, 0.28);
   transition: background-color var(--t-rapido) var(--ease-suave),
     color var(--t-rapido) var(--ease-suave),
-    transform var(--t-rapido) var(--ease-suave);
+    opacity var(--t-medio) var(--ease-suave),
+    visibility var(--t-medio),
+    transform var(--t-medio) var(--ease);
 }
 
 html.js .flutuante__zap[data-visivel="false"] {
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-}
-
-.flutuante__zap {
-  transition: background-color var(--t-rapido) var(--ease-suave),
-    color var(--t-rapido) var(--ease-suave),
-    opacity var(--t-medio) var(--ease-suave),
-    visibility var(--t-medio),
-    transform var(--t-medio) var(--ease);
 }
 
 .flutuante__zap:hover {
@@ -1717,8 +1682,8 @@ html.js .flutuante__zap[data-visivel="false"] {
 }
 
 .flutuante__zap .ico {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--areia);
   transition: color var(--t-rapido) var(--ease-suave);
 }
@@ -1909,19 +1874,9 @@ html.js .flutuante__zap[data-visivel="false"] {
   padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
-/* Quando a última seção da página tem a mesma cor da faixa (areia com
-   areia, no Sobre; creme com creme, no Curso, que é todo creme abaixo do
-   banner), um filete na largura do conteúdo marca onde a faixa começa. */
-main:has(> .campo-areia:last-child) + .novidades.campo-areia,
-main:has(> section:not(.campo-teal, .campo-areia):last-child) + .novidades:not(.campo-teal, .campo-areia) {
-  padding-top: 0;
-}
-
-main:has(> .campo-areia:last-child) + .novidades.campo-areia .novidades__grade,
-main:has(> section:not(.campo-teal, .campo-areia):last-child) + .novidades:not(.campo-teal, .campo-areia) .novidades__grade {
-  padding-top: clamp(2.5rem, 5vw, 4rem);
-  border-top: 1px solid var(--linha);
-}
+/* Quando a última seção da página tem a mesma cor da faixa (branco quente
+   com branco quente, no Curso, no Sobre e em Professores), a faixa começa
+   na onda dupla, como no Contato (ver ONDAS, no fim). */
 
 .novidades__grade {
   display: grid;
@@ -2294,14 +2249,6 @@ main:has(> section:not(.campo-teal, .campo-areia):last-child) + .novidades:not(.
     right: var(--s3);
     bottom: var(--s3);
   }
-  .flutuante__zap {
-    width: 3.25rem;
-    padding: 0;
-    justify-content: center;
-  }
-  .flutuante__zap span {
-    display: none;
-  }
   .btn {
     width: 100%;
   }
@@ -2364,9 +2311,9 @@ html:not(.js) .menu-movel {
 .seda {
   position: relative;
   isolation: isolate;
-  /* 1ª camada: a emenda com as seções vizinhas (ver EMENDAS, no fim). */
+  /* 1ª camada: o fio de luz da onda, quando a seção sobe numa (ver ONDAS). */
   background-image:
-    var(--emenda-camadas, none),
+    var(--onda-camada, none),
     radial-gradient(ellipse 52% 80% at 20% 30%, var(--seda-brilho), transparent 72%),
     radial-gradient(ellipse 38% 60% at 72% 18%, var(--seda-brilho), transparent 70%),
     radial-gradient(ellipse 55% 75% at 100% 100%, var(--seda-sombra), transparent 72%),
@@ -2377,7 +2324,7 @@ html:not(.js) .menu-movel {
    o título, no alto à esquerda, ganha contraste em vez de perder. */
 .campo-teal.seda {
   background-image:
-    var(--emenda-camadas, none),
+    var(--onda-camada, none),
     radial-gradient(ellipse 58% 70% at var(--seda-foco, 58% 62%), var(--seda-brilho), transparent 72%),
     radial-gradient(ellipse 55% 80% at 0% 0%, var(--seda-sombra), transparent 70%),
     radial-gradient(ellipse 50% 75% at 100% 100%, var(--seda-sombra), transparent 72%);
@@ -2421,7 +2368,7 @@ html:not(.js) .menu-movel {
 }
 
 /* Seda suave: a mesma marca d'água da faixa do vídeo, para seções com
-   fotos grandes (a galeria da Estrutura). Dá à emenda com a seção de cima
+   fotos grandes (a galeria da Estrutura). Dá à onda com a seção de cima
    a mesma luz em diagonal da passagem vídeo → carrossel. */
 .seda--suave {
   --seda-fio: rgba(184, 138, 84, 0.26);
@@ -2467,120 +2414,143 @@ html:not(.js) .menu-movel {
 }
 
 /* ==========================================================================
-   EMENDAS ENTRE SEÇÕES — sem divisa reta entre um campo e outro (pedido do
-   cliente, 24/11/2026: "algo no fundo que passe de uma seção para outra de
-   forma mais suave", sem animação).
+   ONDAS ENTRE SEÇÕES CLARAS — onde a areia encontra o creme, a seção de
+   baixo sobe sobre a de cima com a borda em onda. Desenho tirado das
+   divisórias onduladas da clínica do Instituto, com o fio de luz correndo na
+   borda (referência do cliente, 25/11/2026). Substitui o degradê entre as
+   seções claras, que o cliente não aprovou. Estática, sem animação.
 
-   Cada bloco da página (as <section> do <main> e a faixa de novidades)
-   pinta no topo e na base um degradê que leva a sua cor até o
-   ponto médio entre ela e a do vizinho, misturado em oklab (teal → areia
-   passa por um verde-água claro, não por um cinza barrento). Os dois lados
-   chegam à mesma cor na divisa, então a linha some. Cada lado ocupa
-   --emenda; a curva é uma S suave (sem degrau onde o degradê começa).
-   A cor do vizinho vem dos seletores de irmão (+ e :has(+)). Entre dois
-   campos iguais a emenda é invisível. Os fios da .seda se dissolvem nas
-   mesmas faixas, em vez de serem cortados na divisa.
-   O RODAPÉ fica de fora: a borda de cima dele é reta, de propósito (pedido
-   do cliente, 24/11/2026), e o bloco logo acima não esmaece para ele.
-   Navegador sem color-mix: nada disso existe e a página fica como antes.
+   - A borda: o topo da seção de baixo é recortado por uma máscara com a
+     onda (a mesma técnica da CURVA, abaixo); o próprio fundo da seção
+     preenche a onda, então não há costura.
+   - O fio de luz: filete dourado (dourado-logo) correndo exatamente na
+     borda, com um halo claro por dentro do painel, como a fita de LED.
+   - O eco: um segundo fio, mais fraco, logo abaixo e defasado — o painel de
+     trás, o mesmo gesto do eco da borboleta.
+   A faixa de novidades vale como seção seguinte à última <section> do
+   <main> (:last-of-type: em professores o <main> termina com as fichas
+   ocultas dos docentes). Areia → creme usa a onda; creme → areia, a mesma onda espelhada, para as
+   divisas alternarem descendo a página.
+   Teal ↔ claro continua com a CURVA; o rodapé, reto. Nas páginas internas
+   (um só campo branco quente abaixo do banner), ver ONDA NO MESMO CAMPO.
+   Para trocar o desenho (forma, amplitude, eco): edite e rode .build/ondas.py.
    ========================================================================== */
-@supports (color: color-mix(in oklab, red, blue)) {
-  :root {
-    --emenda: clamp(2.75rem, 6vw, 5.5rem); /* meia transição, de cada lado */
-  }
+:root {
+  --onda-h: clamp(2.75rem, 5.5vw, 5.5rem);
+  /* Faixa em que os fios da seda se dissolvem no topo e na base. */
+  --seda-esmaece: clamp(2.75rem, 6vw, 5.5rem);
+  /* Os desenhos ficam aqui, uma vez só; as regras abaixo escolhem o par
+     (máscara + fio) de cada divisa. */
+  /* Gerado por .build/ondas.py (onda:mascara) */
+  --onda-a-mascara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59L1640 100L-200 100Z'/%3E%3C/svg%3E");
+  /* Gerado por .build/ondas.py (onda:fio) */
+  --onda-a-fio: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59' stroke='%23fff' stroke-opacity='.22' stroke-width='14' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59' stroke='%23fff' stroke-opacity='.5' stroke-width='6' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59' stroke='%23C29762' stroke-opacity='.95' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59' transform='translate(-20 13)' stroke='%23C29762' stroke-opacity='.42' stroke-width='1.1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/svg%3E");
+  /* Gerado por .build/ondas.py (onda:mascara-espelho) */
+  --onda-b-mascara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cg transform='matrix(-1 0 0 1 1440 0)'%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59L1640 100L-200 100Z'/%3E%3C/g%3E%3C/svg%3E");
+  /* Gerado por .build/ondas.py (onda:fio-espelho) */
+  --onda-b-fio: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cg transform='matrix(-1 0 0 1 1440 0)'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59' stroke='%23fff' stroke-opacity='.22' stroke-width='14' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59' stroke='%23fff' stroke-opacity='.5' stroke-width='6' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59' stroke='%23C29762' stroke-opacity='.95' stroke-width='2.5' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M-200 38.4C-90 36 -40 66 0 66C110 66 160 26.9 290 23.4C420 20 470 75.2 610 77.5C760 79.8 810 31.5 950 26.9C1070 23.4 1120 61.4 1230 63.6C1330 66 1385 43 1440 38.4C1500 33.8 1560 49.9 1640 59' transform='translate(-20 13)' stroke='%23C29762' stroke-opacity='.42' stroke-width='1.1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
 
-  /* Cada lado pode ter a sua altura (--emenda-cima / --emenda-baixo).
-     Onde o teal encontra um campo claro não há degradê: ali a divisa é a
-     CURVA (no fim do arquivo). Os seletores espelham os de lá. */
-  main > .campo-teal:has(+ section:not(.campo-teal)),
-  main > section:not(.campo-teal):has(+ .campo-teal),
-  main:has(+ .novidades:not(.campo-teal)) > .campo-teal:last-child {
-    --emenda-baixo: 0px;
-  }
+/* A camada do fio de luz. Seções com seda já a põem como 1ª camada. */
+:where(main > section, body > .novidades) {
+  background-image: var(--onda-camada, none);
+}
 
-  main > .campo-teal + section:not(.campo-teal),
-  main > section:not(.campo-teal) + .campo-teal,
-  main:has(> .campo-teal:last-child) + .novidades:not(.campo-teal) {
-    --emenda-cima: 0px;
-  }
+/* areia → creme */
+main > .campo-areia + section:not(.campo-teal, .campo-areia),
+main:has(> section.campo-areia:last-of-type) + .novidades:not(.campo-teal, .campo-areia),
+/* creme → areia */
+main > section:not(.campo-teal, .campo-areia) + .campo-areia,
+main:has(> section:not(.campo-teal, .campo-areia):last-of-type) + .novidades.campo-areia {
+  --onda-mascara: var(--onda-a-mascara);
+  --onda-camada: var(--onda-a-fio);
+  margin-top: calc(var(--onda-h) * -1);
+  border-top: var(--onda-h) solid transparent;
+  background-color: var(--sup);
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  /* O fio ocupa só a faixa da onda; as camadas da seda, a seção toda. */
+  background-size: 100% calc(var(--onda-h) + 1px), auto, auto, auto, auto;
+  -webkit-mask:
+    var(--onda-mascara) top / 100% calc(var(--onda-h) + 1px) no-repeat,
+    linear-gradient(#000 0 0) 0 var(--onda-h) / 100% 100% no-repeat;
+  mask:
+    var(--onda-mascara) top / 100% calc(var(--onda-h) + 1px) no-repeat,
+    linear-gradient(#000 0 0) 0 var(--onda-h) / 100% 100% no-repeat;
+}
 
-  /* Sobre: O Instituto (creme) → Missão, visão e valores (areia) com divisa
-     reta, sem degradê (pedido do cliente, 24/11/2026). */
-  #instituicao:has(+ #pilares) {
-    --emenda-baixo: 0px;
-  }
+/* Creme → areia: a mesma onda, espelhada. */
+main > section:not(.campo-teal, .campo-areia) + .campo-areia,
+main:has(> section:not(.campo-teal, .campo-areia):last-of-type) + .novidades.campo-areia {
+  --onda-mascara: var(--onda-b-mascara);
+  --onda-camada: var(--onda-b-fio);
+}
 
-  #instituicao + #pilares {
-    --emenda-cima: 0px;
-  }
+/* --------------------------------------------------------------------------
+   ONDA NO MESMO CAMPO — Curso, Sobre, Professores e Contato são branco
+   quente do banner até a faixa de novidades. Para a página não ler como uma
+   pilha de blocos retos (pedido do cliente, 25/11/2026: "muito quadradas"),
+   entre uma seção e a seguinte — e antes das novidades — corre a mesma onda,
+   só com o fio e o eco: não há troca de cor.
+   A onda fica no meio do vão: a seção de baixo sobe a onda inteira (como
+   nas outras divisas, para o recorte mostrar a seção de cima e não o fundo
+   da página); a de cima ganha meia onda de respiro embaixo e a de baixo
+   perde meia onda em cima, então a distância entre os conteúdos é a mesma
+   de antes. Descendo a página, as divisas alternam (seção par e faixa
+   depois de seção ímpar usam a espelhada).
+   -------------------------------------------------------------------------- */
+main > section.campo-branco + section.campo-branco,
+main:has(> section.campo-branco:last-of-type) + .novidades.campo-branco {
+  --onda-mascara: var(--onda-a-mascara);
+  --onda-camada: var(--onda-a-fio);
+  margin-top: calc(var(--onda-h) * -1);
+  border-top: var(--onda-h) solid transparent;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  background-size: 100% calc(var(--onda-h) + 1px);
+  -webkit-mask:
+    var(--onda-mascara) top / 100% calc(var(--onda-h) + 1px) no-repeat,
+    linear-gradient(#000 0 0) 0 var(--onda-h) / 100% 100% no-repeat;
+  mask:
+    var(--onda-mascara) top / 100% calc(var(--onda-h) + 1px) no-repeat,
+    linear-gradient(#000 0 0) 0 var(--onda-h) / 100% 100% no-repeat;
+}
 
-  /* --- Cor do bloco anterior (--antes) --------------------------------- */
-  main > .campo-teal + section,
-  main:has(> section.campo-teal:last-child) + .novidades {
-    --antes: var(--teal);
-  }
+main > section.campo-branco + section.campo-branco:nth-of-type(even),
+main:has(> section.campo-branco:last-of-type:nth-of-type(odd)) + .novidades.campo-branco {
+  --onda-mascara: var(--onda-b-mascara);
+  --onda-camada: var(--onda-b-fio);
+}
 
-  main > .campo-areia + section,
-  main:has(> section.campo-areia:last-child) + .novidades {
-    --antes: var(--areia);
-  }
+main > section.secao.campo-branco:has(+ section.campo-branco),
+main:has(+ .novidades.campo-branco) > section.secao.campo-branco:last-of-type {
+  padding-bottom: calc(var(--secao-y) + var(--onda-h) * 0.5);
+}
 
-  main > :not(.campo-teal, .campo-areia) + section,
-  main:has(> section:not(.campo-teal, .campo-areia):last-child) + .novidades {
-    --antes: var(--creme);
-  }
+main > section.campo-branco + section.secao.campo-branco {
+  padding-top: calc(var(--secao-y) - var(--onda-h) * 0.5);
+}
 
-  /* --- Cor do bloco seguinte (--depois); nunca o rodapé ---------------- */
-  main > section:has(+ .campo-teal),
-  main:has(+ .novidades.campo-teal) > section:last-child {
-    --depois: var(--teal);
-  }
+/* O cetim (luz e fios) também preenche a onda. */
+main > .campo-areia + section.seda:not(.campo-teal, .campo-areia)::before,
+main > .campo-areia + section.seda:not(.campo-teal, .campo-areia)::after,
+main > section:not(.campo-teal, .campo-areia) + .campo-areia.seda::before,
+main > section:not(.campo-teal, .campo-areia) + .campo-areia.seda::after {
+  top: calc(var(--onda-h) * -1);
+}
 
-  main > section:has(+ .campo-areia),
-  main:has(+ .novidades.campo-areia) > section:last-child {
-    --depois: var(--areia);
-  }
-
-  main > section:has(+ :not(.campo-teal, .campo-areia)),
-  main:has(+ .novidades:not(.campo-teal, .campo-areia)) > section:last-child {
-    --depois: var(--creme);
-  }
-
-  /* --- As duas camadas ------------------------------------------------- */
-  /* Opacidade do ponto médio a 0, ¼, ½, ¾ e 1 da faixa: metade de uma
-     curva S (3u² − 2u³) que atravessa as duas faixas, uma de cada lado. */
-  main > section,
-  body > .novidades {
-    --meio-antes: color-mix(in oklab, var(--antes, var(--sup)), var(--sup));
-    --meio-depois: color-mix(in oklab, var(--depois, var(--sup)), var(--sup));
-    --emenda-camadas:
-      linear-gradient(to bottom,
-        var(--meio-antes) 0,
-        color-mix(in srgb, var(--meio-antes) 63%, transparent) calc(var(--emenda-cima, var(--emenda)) * 0.25),
-        color-mix(in srgb, var(--meio-antes) 31%, transparent) calc(var(--emenda-cima, var(--emenda)) * 0.5),
-        color-mix(in srgb, var(--meio-antes) 9%, transparent) calc(var(--emenda-cima, var(--emenda)) * 0.75),
-        transparent var(--emenda-cima, var(--emenda))),
-      linear-gradient(to top,
-        var(--meio-depois) 0,
-        color-mix(in srgb, var(--meio-depois) 63%, transparent) calc(var(--emenda-baixo, var(--emenda)) * 0.25),
-        color-mix(in srgb, var(--meio-depois) 31%, transparent) calc(var(--emenda-baixo, var(--emenda)) * 0.5),
-        color-mix(in srgb, var(--meio-depois) 9%, transparent) calc(var(--emenda-baixo, var(--emenda)) * 0.75),
-        transparent var(--emenda-baixo, var(--emenda)));
-    background-image: var(--emenda-camadas);
-  }
-
-  /* Fios e luz da seda somem nas faixas de emenda em vez de cortar reto. */
-  .seda::before,
-  .seda::after {
-    -webkit-mask:
-      var(--seda-mascara) var(--seda-pos, center) / cover no-repeat,
-      linear-gradient(transparent, #000 var(--emenda), #000 calc(100% - var(--emenda)), transparent);
-    -webkit-mask-composite: source-in;
-    mask:
-      var(--seda-mascara) var(--seda-pos, center) / cover no-repeat,
-      linear-gradient(transparent, #000 var(--emenda), #000 calc(100% - var(--emenda)), transparent);
-    mask-composite: intersect;
-  }
+/* Fios e luz da seda se dissolvem no topo e na base da seção, em vez de
+   serem cortados reto pela divisa. */
+.seda::before,
+.seda::after {
+  -webkit-mask:
+    var(--seda-mascara) var(--seda-pos, center) / cover no-repeat,
+    linear-gradient(transparent, #000 var(--seda-esmaece), #000 calc(100% - var(--seda-esmaece)), transparent);
+  -webkit-mask-composite: source-in;
+  mask:
+    var(--seda-mascara) var(--seda-pos, center) / cover no-repeat,
+    linear-gradient(transparent, #000 var(--seda-esmaece), #000 calc(100% - var(--seda-esmaece)), transparent);
+  mask-composite: intersect;
 }
 
 /* ==========================================================================
@@ -2604,16 +2574,19 @@ html:not(.js) .menu-movel {
    ========================================================================== */
 :root {
   --curva-h: clamp(1.75rem, 4vw, 3.5rem);
+  /* Teal → claro (nasce rente à esquerda) e claro → teal (espelhada). */
+  --curva-desenho: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100C400 98 760 58 1060 30C1240 14 1360 8 1440 8V100Z'/%3E%3C/svg%3E");
+  --curva-desenho-espelho: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M1440 100C1040 98 680 58 380 30C200 14 80 8 0 8V100Z'/%3E%3C/svg%3E");
 }
 
-main > :is(.hero, .banner):has(+ section) {
+main > :is(.hero, .banner):has(+ section, + .sumario) {
   padding-bottom: calc(var(--curva-h) * 0.6);
 }
 
 main > .campo-teal + section:not(.campo-teal),
 main > section:not(.campo-teal) + .campo-teal,
 main:has(> .campo-teal:last-child) + .novidades:not(.campo-teal) {
-  --curva-mascara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100C400 98 760 58 1060 30C1240 14 1360 8 1440 8V100Z'/%3E%3C/svg%3E");
+  --curva-mascara: var(--curva-desenho);
   margin-top: calc(var(--curva-h) * -1);
   border-top: var(--curva-h) solid transparent;
   background-color: var(--sup);
@@ -2628,7 +2601,24 @@ main:has(> .campo-teal:last-child) + .novidades:not(.campo-teal) {
 
 /* Claro → teal: a mesma curva espelhada (sobe para a esquerda). */
 main > section:not(.campo-teal) + .campo-teal {
-  --curva-mascara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M1440 100C1040 98 680 58 380 30C200 14 80 8 0 8V100Z'/%3E%3C/svg%3E");
+  --curva-mascara: var(--curva-desenho-espelho);
+}
+
+/* Curso: entre o banner e o conteúdo vem o sumário, barra fixa que não pode
+   ser recortada (perderia a sombra). A curva é um pseudo-elemento na cor do
+   sumário, pousado sobre o pé do banner. Quando o sumário gruda sob o
+   header, a curva fica escondida atrás dele (o header é sólido e está por
+   cima). */
+main > .banner + .sumario::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 100% 0;
+  height: calc(var(--curva-h) + 1px);
+  margin-bottom: -1px;
+  background-color: inherit;
+  pointer-events: none;
+  -webkit-mask: var(--curva-desenho) top / 100% 100% no-repeat;
+  mask: var(--curva-desenho) top / 100% 100% no-repeat;
 }
 
 /* O cetim (luz e fios) também preenche a curva. */
